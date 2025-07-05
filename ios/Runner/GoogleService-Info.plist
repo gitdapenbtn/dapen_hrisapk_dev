@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>id.hadwork.dapenbtnhris</string>
+	<string>id.dpbtn.absen</string>
 	<key>PROJECT_ID</key>
 	<string>dapenbtn-hris</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:365194377447:ios:0ddbafada95b03fd9d4a42</string>
+	<string>1:365194377447:ios:03e1a2d434cfc53e9d4a42</string>
 </dict>
 </plist>

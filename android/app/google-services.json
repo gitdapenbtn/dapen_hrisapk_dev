@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "365194377447",
+    "project_id": "dapenbtn-hris",
+    "storage_bucket": "dapenbtn-hris.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:365194377447:android:9c2ce469909abb139d4a42",
+        "android_client_info": {
+          "package_name": "com.dapenbtn.hris"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsYdM7ukAY_A2H07Q8e7cMPtDBhbEaQiM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:365194377447:android:7c2a8f5ea7e1d0839d4a42",
+        "android_client_info": {
+          "package_name": "id.dpbtn.absen"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsYdM7ukAY_A2H07Q8e7cMPtDBhbEaQiM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:365194377447:android:f395be6d6b97bf419d4a42",
+        "android_client_info": {
+          "package_name": "id.hadwork.dapenbtnhris"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsYdM7ukAY_A2H07Q8e7cMPtDBhbEaQiM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

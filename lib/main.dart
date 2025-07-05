@@ -4,6 +4,7 @@ import 'package:dpbtn_absen/providers/article_provider.dart';
 import 'package:dpbtn_absen/providers/circular_letter_provider.dart';
 import 'package:dpbtn_absen/providers/employee_organization_provider.dart';
 import 'package:dpbtn_absen/providers/guideline_provider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -32,22 +33,20 @@ List<CameraDescription> cameras = [];
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Upgrader.clearSavedSettings();
-
+  await _firebaseMessagingService.init(_notificationService);
+  await _notificationService.init();
   cameras = await availableCameras();
 
-  await _notificationService.init();
-  await _firebaseMessagingService.init(_notificationService);
+  if(kDebugMode) {
+    await Upgrader.clearSavedSettings();
+  }
 
   await SentryFlutter.init(
-    (options) {
-      options.dsn =
-          'https://4ad9af76a1723d51ac90ac2ca2a47424@o4504302451294208.ingest.sentry.io/4505777323180032';
-      options.tracesSampleRate = 1.0;
-    },
-    appRunner: () => runApp(
-      MultiProvider(providers: providers, child: const MyApp()),
-    ),
+      (options) {
+        options.dsn = 'https://4ad9af76a1723d51ac90ac2ca2a47424@o4504302451294208.ingest.us.sentry.io/4505777323180032';
+        options.sendDefaultPii = true;
+      },
+      appRunner: () => runApp(MultiProvider(providers: providers, child: const MyApp())),
   );
 }
 

@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:dpbtn_absen/services/notification_service.dart';
 
@@ -13,6 +16,18 @@ class FirebaseMessagingService {
       badge: true,
       sound: true,
     );
+
+    if(Platform.isIOS) {
+      String? apnsToken;
+      while(apnsToken == null) {
+        apnsToken = await FirebaseMessaging.instance.getAPNSToken();
+        if(apnsToken != null) {
+          if(kDebugMode) {
+            print("APNS_TOKEN: $apnsToken");
+          }
+        }
+      }
+    }
 
     String? token = await FirebaseMessaging.instance.getToken();
     await _secureStorage.write(key: 'fcm_registration_id', value: token);

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:dpbtn_absen/screens/home/home_screen.dart';
 import 'package:dpbtn_absen/screens/login/login_screen.dart';
@@ -14,5 +13,5 @@ const String title = 'DPBTN ABSEN';
 
 /* API */
 const api = {
-  'url_default' : (kDebugMode) ? 'https://dev.hrisdapenbtn.com' : 'https://hrisdapenbtn.com',
+  'url_default' : 'https://hrisdapenbtn.com',
 };

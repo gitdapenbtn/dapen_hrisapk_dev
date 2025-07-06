@@ -24,7 +24,6 @@ class SettingScreen extends StatefulWidget {
 
 class _SettingScreenState extends State<SettingScreen> {  
   late AuthProvider _authProvider;
-  late ProfileProvider _profileProvider;
   bool _isLoading = false;
   String version = '1.0.0';
 
@@ -32,7 +31,6 @@ class _SettingScreenState extends State<SettingScreen> {
   void initState() {
     super.initState();
     _authProvider = Provider.of<AuthProvider>(context, listen: false);
-    _profileProvider = Provider.of<ProfileProvider>(context, listen: false);
     _getInformation();
   }
 
@@ -77,31 +75,33 @@ class _SettingScreenState extends State<SettingScreen> {
               vertical: 30,
             ),
             width: MediaQuery.of(context).size.width,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children:[
-                AvatarInitialName(
-                  name: _profileProvider.profile!.employee!.name,
-                  fontSize: 30,
-                  radius: 40,
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  _profileProvider.profile!.employee!.name,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    color: LayoutColor.textPrimary,
+            child: Consumer<ProfileProvider>(
+              builder: (context, value, child) =>  Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children:[
+                  AvatarInitialName(
+                    name: value.profile?.employee?.name ?? '-',
+                    fontSize: 30,
+                    radius: 40,
                   ),
-                ),
-                Text(
-                  _profileProvider.profile!.employee!.organization!.name,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: LayoutColor.textSecondary
+                  const SizedBox(height: 10),
+                  Text(
+                    value.profile?.employee?.name ?? '-',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: LayoutColor.textPrimary,
+                    ),
                   ),
-                )
-              ],
+                  Text(
+                    value.profile?.employee?.organization?.name ?? '-',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: LayoutColor.textSecondary
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),

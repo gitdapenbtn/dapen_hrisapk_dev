@@ -37,8 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _profileProvider = Provider.of<ProfileProvider>(context);
-    _attendanceProvider =
-        Provider.of<AttendanceProvider>(context, listen: false);
+    _attendanceProvider = Provider.of<AttendanceProvider>(context, listen: false);
     _articleProvider = Provider.of<ArticleProvider>(context, listen: false);
   }
 
@@ -116,9 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               Text(
-                                _profileProvider.profile != null
-                                    ? _profileProvider.profile!.name
-                                    : '',
+                                _profileProvider.profile?.name ?? '',
                                 style: const TextStyle(
                                     color: LayoutColor.textPrimary,
                                     fontWeight: FontWeight.bold,
@@ -141,10 +138,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           FeatureSection(
-            approvalAccess: _profileProvider.profile!.approvalAccess,
-            guidelineAccess: _profileProvider.profile!.guidelineAccess,
-            circularLetterAccess:
-                _profileProvider.profile!.circularLetterAccess,
+            approvalAccess: _profileProvider.profile?.approvalAccess ?? false,
+            guidelineAccess: _profileProvider.profile?.guidelineAccess ?? false,
+            circularLetterAccess: _profileProvider.profile?.circularLetterAccess ?? false,
           ),
           const ArticleSection(),
         ],

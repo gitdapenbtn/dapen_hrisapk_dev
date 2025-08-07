@@ -23,7 +23,6 @@ import 'package:dpbtn_absen/services/firebase_messaging_service.dart';
 import 'package:dpbtn_absen/services/notification_service.dart';
 import 'package:dpbtn_absen/configs/app.dart';
 import 'package:provider/single_child_widget.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:upgrader/upgrader.dart';
 
 final NotificationService _notificationService = NotificationService();
@@ -41,12 +40,11 @@ void main() async {
     await Upgrader.clearSavedSettings();
   }
 
-  await SentryFlutter.init(
-      (options) {
-        options.dsn = 'https://4ad9af76a1723d51ac90ac2ca2a47424@o4504302451294208.ingest.us.sentry.io/4505777323180032';
-        options.sendDefaultPii = true;
-      },
-      appRunner: () => runApp(MultiProvider(providers: providers, child: const MyApp())),
+  runApp(
+    MultiProvider(
+      providers: providers,
+      child: const MyApp()
+    )
   );
 }
 

@@ -38,8 +38,6 @@
 	<string>This app uses your location to verify and record attendance accurately when you submit your attendance.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app accesses your photo library so you can upload or attach photos when submitting attendance and related reports.</string>
-	<key>NSUserTrackingUsageDescription</key>
-	<string>This app uses your location to verify and record attendance accurately when you submit your attendance.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>

@@ -27,19 +27,19 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>This app requires access to the camera.</string>
+	<string>This app uses your camera to capture photos for attendance submission.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Always and when in use!</string>
+	<string>This app uses your location to verify and record attendance accurately when you submit your attendance.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Can I have location always?</string>
 	<key>NSLocationUsageDescription</key>
 	<string>Older devices need location.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Need location when in use</string>
+	<string>This app uses your location to verify and record attendance accurately when you submit your attendance.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app requires access to the photo library.</string>
+	<string>This app accesses your photo library so you can upload or attach photos when submitting attendance and related reports.</string>
 	<key>NSUserTrackingUsageDescription</key>
-	<string>appTrackingTransparency</string>
+	<string>This app uses your location to verify and record attendance accurately when you submit your attendance.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>

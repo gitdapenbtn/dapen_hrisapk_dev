@@ -1,7 +1,7 @@
 name: dpbtn_absen
 description: "Aplikasi absen untuk karyawan Dana Pensiun BTN."
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
-version: 1.1.0+11
+version: 1.1.0+12
 
 environment:
   sdk: ^3.8.1

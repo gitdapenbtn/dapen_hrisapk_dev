@@ -10,27 +10,35 @@ import 'package:unicons/unicons.dart';
 
 class SelfiePicker extends StatefulWidget {
   final ValueChanged<String> onTakePicture;
-  const SelfiePicker({
-    super.key,
-    required this.onTakePicture,
-  });
+  const SelfiePicker({super.key, required this.onTakePicture});
 
   @override
   State<SelfiePicker> createState() => _SelfiePickerState();
 }
 
 class _SelfiePickerState extends State<SelfiePicker> {
-  late CameraController _controller;
+  CameraController? _controller;
   late Future<void> _controllerFuture;
   late CameraLensDirection _direction = CameraLensDirection.front;
   XFile? _image;
   int _cameraIndex = -1;
 
+  bool isReady = false;
+
+  String? errorMsg;
+
   @override
   void initState() {
     super.initState();
-    _selectCamera();
-    _init();
+    if (cameras.isEmpty) {
+      setState(() {
+        errorMsg = 'Kamera tidak tersedia.';
+        isReady = true;
+      });
+    } else {
+      _selectCamera();
+      _init();
+    }
   }
 
   @override
@@ -41,36 +49,55 @@ class _SelfiePickerState extends State<SelfiePicker> {
 
   @override
   Widget build(BuildContext context) {
-    if(_controller.value.isInitialized == false) {
-      return Container();
+    if (!isReady) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (errorMsg != null) {
+      return SafeArea(
+        child: SizedBox(
+          width: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(errorMsg!),
+              SizedBox(height: 20),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                style: TextButton.styleFrom(
+                  backgroundColor: LayoutColor.primary,
+                ),
+                child: Text('Kembali', style: TextStyle(color: Colors.black)),
+              ),
+            ],
+          ),
+        ),
+      );
     }
 
     return FutureBuilder<void>(
       future: _controllerFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          if(_image == null) {
+          if (_image == null) {
             return _cameraBody();
           } else {
             return _previewBody();
           }
         } else {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const Center(child: CircularProgressIndicator());
         }
-      }
+      },
     );
   }
 
   _selectCamera() {
-    if (cameras.any(
-      (element) =>
-          element.lensDirection == _direction
-    )) {
+    if (cameras.any((element) => element.lensDirection == _direction)) {
       _cameraIndex = cameras.indexOf(
-        cameras.firstWhere((element) =>
-            element.lensDirection == _direction),
+        cameras.firstWhere((element) => element.lensDirection == _direction),
       );
     } else {
       for (var i = 0; i < cameras.length; i++) {
@@ -79,7 +106,7 @@ class _SelfiePickerState extends State<SelfiePicker> {
           break;
         }
       }
-    }    
+    }
   }
 
   Future _init() async {
@@ -90,32 +117,36 @@ class _SelfiePickerState extends State<SelfiePicker> {
       enableAudio: false,
     );
 
-    _controllerFuture = _controller.initialize().then((_) {
-      if(!mounted) {
+    _controllerFuture = _controller!.initialize().then((_) {
+      if (!mounted) {
         return;
       }
-      setState(() {});
+      setState(() {
+        isReady = true;
+      });
     });
   }
 
   Future _dispose() async {
-    await _controller.dispose();
+    await _controller?.dispose();
   }
-  
-  _switchCamera() async {
-    if(cameras.length > 1) {
-      _controller.dispose().then((value) => {
-        setState(() {
-          if(_direction == CameraLensDirection.front) {
-            _direction = CameraLensDirection.back;
-          } else {
-            _direction = CameraLensDirection.front;
-          }
 
-          _selectCamera();
-          _init();
-        })
-      });
+  _switchCamera() async {
+    if (cameras.length > 1) {
+      _controller?.dispose().then(
+        (value) => {
+          setState(() {
+            if (_direction == CameraLensDirection.front) {
+              _direction = CameraLensDirection.back;
+            } else {
+              _direction = CameraLensDirection.front;
+            }
+
+            _selectCamera();
+            _init();
+          }),
+        },
+      );
     }
   }
 
@@ -123,14 +154,13 @@ class _SelfiePickerState extends State<SelfiePicker> {
     try {
       await _controllerFuture;
 
-      final image = await _controller.takePicture();
+      final image = await _controller?.takePicture();
       setState(() {
         _image = image;
       });
 
-      if(!mounted) return;
-    }
-    catch(err) {
+      if (!mounted) return;
+    } catch (err) {
       // ignore: avoid_print
       print(err);
     }
@@ -147,10 +177,12 @@ class _SelfiePickerState extends State<SelfiePicker> {
   }
 
   Widget _cameraBody() {
-    final size = MediaQuery.of(context).size;
-    var scale = size.aspectRatio * _controller.value.aspectRatio;
+    if (_controller == null) return Container();
 
-    if(scale < 1) {
+    final size = MediaQuery.of(context).size;
+    var scale = size.aspectRatio * _controller!.value.aspectRatio;
+
+    if (scale < 1) {
       scale = 1 / scale;
     }
 
@@ -159,9 +191,7 @@ class _SelfiePickerState extends State<SelfiePicker> {
       children: [
         Transform.scale(
           scale: scale,
-          child: Center(
-            child: CameraPreview(_controller),
-          ),
+          child: Center(child: CameraPreview(_controller!)),
         ),
 
         Positioned(
@@ -181,10 +211,7 @@ class _SelfiePickerState extends State<SelfiePicker> {
                       foregroundColor: LayoutColor.textPrimary,
                       shape: const CircleBorder(),
                     ),
-                    child: const Icon(
-                      UniconsLine.refresh,
-                      size: 30,
-                    ),
+                    child: const Icon(UniconsLine.refresh, size: 30),
                   ),
                 ),
                 SizedBox(
@@ -196,18 +223,13 @@ class _SelfiePickerState extends State<SelfiePicker> {
                       foregroundColor: LayoutColor.textPrimary,
                       shape: const CircleBorder(),
                     ),
-                    child: const Icon(
-                      Icons.camera,
-                      size: 50,
-                    ),
+                    child: const Icon(Icons.camera, size: 50),
                   ),
                 ),
-                Container(
-                  width: size.width / 3,
-                ),
+                Container(width: size.width / 3),
               ],
             ),
-          )
+          ),
         ),
       ],
     );
@@ -215,12 +237,12 @@ class _SelfiePickerState extends State<SelfiePicker> {
 
   Widget _previewBody() {
     final size = MediaQuery.of(context).size;
-    var scale = size.aspectRatio * _controller.value.aspectRatio;
+    var scale = size.aspectRatio * _controller!.value.aspectRatio;
 
-    if(scale < 1) {
+    if (scale < 1) {
       scale = 1 / scale;
     }
-    
+
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -229,11 +251,7 @@ class _SelfiePickerState extends State<SelfiePicker> {
           transform: Matrix4.rotationY(math.pi),
           child: Transform.scale(
             scale: scale,
-            child: Center(
-              child: Image.file(
-                File(_image!.path),
-              ),
-            ),
+            child: Center(child: Image.file(File(_image!.path))),
           ),
         ),
 
@@ -259,14 +277,12 @@ class _SelfiePickerState extends State<SelfiePicker> {
                         Icon(Icons.restore),
                         SizedBox(width: 10),
                         Text('Foto Ulang'),
-                      ]
+                      ],
                     ),
                   ),
                 ),
 
-                const SizedBox(
-                  width: 20
-                ),
+                const SizedBox(width: 20),
 
                 Flexible(
                   child: TextButton(
@@ -281,13 +297,13 @@ class _SelfiePickerState extends State<SelfiePicker> {
                         Icon(Icons.check),
                         SizedBox(width: 10),
                         Text('Lanjutkan'),
-                      ]
+                      ],
                     ),
                   ),
                 ),
               ],
             ),
-          )
+          ),
         ),
       ],
     );

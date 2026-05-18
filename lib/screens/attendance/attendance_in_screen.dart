@@ -16,7 +16,7 @@ import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
 class AttendanceInScreen extends StatefulWidget {
-  const AttendanceInScreen({ super.key });
+  const AttendanceInScreen({super.key});
 
   @override
   State<AttendanceInScreen> createState() => _AttendanceInScreenState();
@@ -34,7 +34,10 @@ class _AttendanceInScreenState extends State<AttendanceInScreen> {
   @override
   void initState() {
     super.initState();
-    _attendanceProvider = Provider.of<AttendanceProvider>(context, listen: false);
+    _attendanceProvider = Provider.of<AttendanceProvider>(
+      context,
+      listen: false,
+    );
     _profileProvider = Provider.of<ProfileProvider>(context, listen: false);
   }
 
@@ -42,11 +45,11 @@ class _AttendanceInScreenState extends State<AttendanceInScreen> {
     // set up the buttons
     Widget cancelButton = TextButton(
       child: const Text("Batal"),
-      onPressed:  () {
+      onPressed: () {
         Navigator.pop(context);
       },
     );
-    
+
     Widget continueButton = TextButton(
       child: const Text("Pengaturan"),
       onPressed: () {
@@ -59,10 +62,7 @@ class _AttendanceInScreenState extends State<AttendanceInScreen> {
     AlertDialog alert = AlertDialog(
       title: const Text("Waktu tidak sesuai."),
       content: const Text("Aktifkan Mode Waktu Otomatis."),
-      actions: [
-        cancelButton,
-        continueButton,
-      ],
+      actions: [cancelButton, continueButton],
     );
 
     // show the dialog
@@ -82,7 +82,7 @@ class _AttendanceInScreenState extends State<AttendanceInScreen> {
     bool timeAuto = true;
     bool timezoneAuto = true;
 
-    if(Platform.isAndroid) {
+    if (Platform.isAndroid) {
       timeAuto = await DatetimeSetting.timeIsAuto();
       timezoneAuto = await DatetimeSetting.timeZoneIsAuto();
     }
@@ -93,42 +93,40 @@ class _AttendanceInScreenState extends State<AttendanceInScreen> {
       });
       _timeAutoSettingDialog();
     } else {
-      _attendanceProvider.postTimeIn(
-        photo: _image!,
-        latitude: _location!.latitude.toString(),
-        longitude: _location!.longitude.toString(),
-        time: TimeOfDay.now().format(context).toString(),
-        note: _noteController.text
-      )
-      .then((resp) async {
-        showSnackBarAnywhere('Berhasil absen masuk.');
-        // showSnackBarAnywhere('${resp.message}');
-        await _profileProvider.getAttendanceToday();
-      })
-      .catchError((err) {
-        setState(() {
-          _isLoading = false;
-        });
-        showSnackBarAnywhere(err.toString());
-      })
-      .whenComplete(() {
-        Navigator.pop(context);
-      });
+      _attendanceProvider
+          .postTimeIn(
+            photo: _image!,
+            latitude: _location!.latitude.toString(),
+            longitude: _location!.longitude.toString(),
+            time: TimeOfDay.now().format(context).toString(),
+            note: _noteController.text,
+          )
+          .then((resp) async {
+            showSnackBarAnywhere('Berhasil absen masuk.');
+            // showSnackBarAnywhere('${resp.message}');
+            await _profileProvider.getAttendanceToday();
+          })
+          .catchError((err) {
+            setState(() {
+              _isLoading = false;
+            });
+            showSnackBarAnywhere(err.toString());
+          })
+          .whenComplete(() {
+            Navigator.pop(context);
+          });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _body(),
-      bottomSheet: _bottomSheet(),
-    );
+    return Scaffold(body: _body(), bottomSheet: _bottomSheet());
   }
 
   Widget _body() {
     Widget body;
 
-    if(_image == null) {
+    if (_image == null) {
       body = SelfiePicker(
         onTakePicture: (image) {
           setState(() {
@@ -152,29 +150,25 @@ class _AttendanceInScreenState extends State<AttendanceInScreen> {
   Widget? _bottomSheet() {
     Widget? bottomSheet;
 
-    if(_image != null) {
+    if (_image != null) {
       bottomSheet = LayoutBottomSheet(
         title: 'Absen Masuk',
         children: [
           TextFormField(
             controller: _noteController,
-            decoration: CustomInputDecoration(
-              labelText: 'Catatan',
-            ),
+            decoration: CustomInputDecoration(labelText: 'Catatan'),
           ),
           const SizedBox(height: 20),
           PrimaryButton(
-            onPressed: _isLoading 
-              ? null 
-              : _submitHandler,
-            child: const Text('Kirim')
+            onPressed: _isLoading ? null : _submitHandler,
+            child: const Text('Kirim'),
           ),
         ],
       );
     } else {
       bottomSheet = null;
     }
-    
+
     return bottomSheet;
   }
 }

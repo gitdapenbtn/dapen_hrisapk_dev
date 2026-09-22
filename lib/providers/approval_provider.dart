@@ -5,27 +5,26 @@ import 'package:dpbtn_absen/libraries/http/http_model.dart';
 
 class ApprovalProvider with ChangeNotifier {
   final Http http = Http();
-  
+
   ApprovalModel? _approval;
   ApprovalModel? get approval => _approval;
 
   List<ApprovalModel> _approvals = [];
   List<ApprovalModel> get approvals => _approvals;
-  
-  Future<HttpModel> getApprovals({ Map<String, dynamic>? params }) async {
+
+  Future<HttpModel> getApprovals({Map<String, dynamic>? params}) async {
     try {
       HttpModel response = await http.get('approvals', params);
 
       List<ApprovalModel> newApprovals = [];
-      for(var x in response.data) {
+      for (var x in response.data) {
         newApprovals.add(ApprovalModel.fromJson(x));
       }
       _approvals = newApprovals;
-      
+
       notifyListeners();
       return response;
-    }
-    catch(err) {
+    } catch (err) {
       _approvals = [];
 
       notifyListeners();
@@ -34,7 +33,9 @@ class ApprovalProvider with ChangeNotifier {
   }
 
   Future<HttpModel> findApprovalById(ApprovalModel approvalModel) async {
-    HttpModel response = await http.get('approvals/${approvalModel.type}/${approvalModel.id}');
+    HttpModel response = await http.get(
+      'approvals/${approvalModel.type}/${approvalModel.id}',
+    );
     _approval = ApprovalModel.fromJson(response.data);
 
     notifyListeners();

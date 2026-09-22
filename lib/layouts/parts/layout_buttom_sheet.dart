@@ -4,11 +4,7 @@ class LayoutBottomSheet extends StatelessWidget {
   final String? title;
   final List<Widget>? children;
 
-  const LayoutBottomSheet({
-    super.key,
-    this.title,
-    this.children,
-  });
+  const LayoutBottomSheet({super.key, this.title, this.children});
 
   @override
   Widget build(BuildContext context) {
@@ -20,18 +16,16 @@ class LayoutBottomSheet extends StatelessWidget {
           color: Colors.white,
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20),
-            topRight: Radius.circular(20)
+            topRight: Radius.circular(20),
           ),
-          border: Border.all(
-            color: Colors.black12
-          ),
+          border: Border.all(color: Colors.black12),
           boxShadow: const [
             BoxShadow(
               color: Colors.black12,
               offset: Offset(0, -1),
-              blurRadius: 10
+              blurRadius: 10,
             ),
-          ]
+          ],
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -49,7 +43,7 @@ class LayoutBottomSheet extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-              )
+              ),
             ),
             ...children ?? [],
           ],

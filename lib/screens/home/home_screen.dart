@@ -36,9 +36,18 @@ class _HomeScreenState extends State<HomeScreen> {
   @mustCallSuper
   void didChangeDependencies() {
     super.didChangeDependencies();
+
     _profileProvider = Provider.of<ProfileProvider>(context);
-    _attendanceProvider = Provider.of<AttendanceProvider>(context, listen: false);
-    _articleProvider = Provider.of<ArticleProvider>(context, listen: false);
+
+    _attendanceProvider = Provider.of<AttendanceProvider>(
+      context,
+      listen: false,
+    );
+
+    _articleProvider = Provider.of<ArticleProvider>(
+      context,
+      listen: false,
+    );
   }
 
   Future _onRefresh() {
@@ -57,27 +66,59 @@ class _HomeScreenState extends State<HomeScreen> {
 
   _getAttendanceSummary() async {
     var now = DateTime.now();
+
     var beginningNextMonth = (now.month < 12)
         ? DateTime(now.year, now.month + 1, 1)
         : DateTime(now.year + 1, 1, 1);
-    var firstDayOfMonth = DateTime(now.year, now.month, 1);
-    var lastDayOfMonth = beginningNextMonth.subtract(const Duration(days: 1));
 
-    await _profileProvider.getAttendanceSummary(params: {
-      'mine': true.toString(),
-      'start_date': DateFormat('yyyy-MM-dd').format(firstDayOfMonth),
-      'end_date': DateFormat('yyyy-MM-dd').format(lastDayOfMonth),
-    });
+    var firstDayOfMonth = DateTime(
+      now.year,
+      now.month,
+      1,
+    );
+
+    var lastDayOfMonth = beginningNextMonth.subtract(
+      const Duration(days: 1),
+    );
+
+    await _profileProvider.getAttendanceSummary(
+      params: {
+        'mine': true.toString(),
+        'start_date': DateFormat('yyyy-MM-dd').format(
+          firstDayOfMonth,
+        ),
+        'end_date': DateFormat('yyyy-MM-dd').format(
+          lastDayOfMonth,
+        ),
+      },
+    );
   }
 
   _getArticles() async {
-    await _articleProvider.getArticles(params: {
-      'limit': '3',
-    });
+    await _articleProvider.getArticles(
+      params: {
+        'limit': '3',
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    /*
+     * Kebijakan Internal akan tampil apabila user
+     * memiliki minimal satu akses dari 4 dokumen:
+     *
+     * - Pedoman
+     * - Surat Edaran
+     * - Ketetapan Pendiri
+     * - Surat Keputusan
+     */
+    final bool internalPolicyAccess =
+        (_profileProvider.profile?.guidelineAccess ?? false) ||
+            (_profileProvider.profile?.circularLetterAccess ?? false) ||
+            (_profileProvider.profile?.founderDecreeAccess ?? false) ||
+            (_profileProvider.profile?.decisionLetterAccess ?? false);
+
     return UpgraderWidget(
       child: Layout(
         onRefresh: _onRefresh,
@@ -86,7 +127,9 @@ class _HomeScreenState extends State<HomeScreen> {
         safeAreaTop: false,
         children: [
           Container(
-            margin: const EdgeInsets.only(bottom: 20),
+            margin: const EdgeInsets.only(
+              bottom: 20,
+            ),
             padding: EdgeInsets.only(
               right: 20,
               left: 20,
@@ -100,48 +143,70 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  margin: const EdgeInsets.only(bottom: 20),
+                  margin: const EdgeInsets.only(
+                    bottom: 20,
+                  ),
                   child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'Hello',
-                                style: TextStyle(
-                                  color: LayoutColor.textSecondary,
-                                  fontSize: 14,
-                                ),
-                              ),
-                              Text(
-                                _profileProvider.profile?.name ?? '',
-                                style: const TextStyle(
-                                    color: LayoutColor.textPrimary,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                    height: 1.2),
-                              ),
-                            ]),
-                        InkWell(
-                            onTap: () {
-                              // showSnackBarAnywhere('Fitur ')
-                            },
-                            child: const Icon(
-                              Icons.notifications_on_outlined,
-                              size: 25,
-                            )),
-                      ]),
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Hello',
+                            style: TextStyle(
+                              color: LayoutColor.textSecondary,
+                              fontSize: 14,
+                            ),
+                          ),
+                          Text(
+                            _profileProvider.profile?.name ?? '',
+                            style: const TextStyle(
+                              color: LayoutColor.textPrimary,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              height: 1.2,
+                            ),
+                          ),
+                        ],
+                      ),
+                      InkWell(
+                        onTap: () {
+                          // showSnackBarAnywhere('Fitur ')
+                        },
+                        child: const Icon(
+                          Icons.notifications_on_outlined,
+                          size: 25,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                const AttendanceSection()
+
+                const AttendanceSection(),
               ],
             ),
           ),
+
           FeatureSection(
-            approvalAccess: _profileProvider.profile?.approvalAccess ?? false,
-            guidelineAccess: _profileProvider.profile?.guidelineAccess ?? false,
-            circularLetterAccess: _profileProvider.profile?.circularLetterAccess ?? false,
+            approvalAccess:
+            _profileProvider.profile?.approvalAccess ?? false,
+
+            guidelineAccess:
+            _profileProvider.profile?.guidelineAccess ?? false,
+
+            circularLetterAccess:
+            _profileProvider.profile?.circularLetterAccess ?? false,
+
+            founderDecreeAccess:
+            _profileProvider.profile?.founderDecreeAccess ?? false,
+
+            decisionLetterAccess:
+            _profileProvider.profile?.decisionLetterAccess ?? false,
+
+            internalPolicyAccess: internalPolicyAccess,
           ),
+
           const ArticleSection(),
         ],
       ),

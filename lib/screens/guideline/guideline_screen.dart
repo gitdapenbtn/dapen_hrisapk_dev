@@ -28,8 +28,9 @@ class _GuidelineScreenState extends State<GuidelineScreen> {
   @mustCallSuper
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _employeeOrganizationProvider =
-        Provider.of<EmployeeOrganizationProvider>(context);
+    _employeeOrganizationProvider = Provider.of<EmployeeOrganizationProvider>(
+      context,
+    );
   }
 
   Future _onRefresh() {
@@ -51,9 +52,7 @@ class _GuidelineScreenState extends State<GuidelineScreen> {
     return Layout(
       onRefresh: _onRefresh,
       isLoading: _isLoading,
-      appBar: const LayoutAppBar(
-        title: 'Dokumen Pedoman',
-      ),
+      appBar: const LayoutAppBar(title: 'Dokumen Pedoman'),
       padding: EdgeInsets.zero,
       child: _listView(_employeeOrganizationProvider.employeeOrganizations),
     );
@@ -82,17 +81,13 @@ class _GuidelineScreenState extends State<GuidelineScreen> {
             // margin: const EdgeInsets.only(bottom: 20),
             decoration: BoxDecoration(
               color: Colors.white70,
-              border: const Border(
-                bottom: BorderSide(
-                  color: Colors.black12,
-                ),
-              ),
+              border: const Border(bottom: BorderSide(color: Colors.black12)),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(.05),
                   blurRadius: 5,
                   offset: const Offset(0, 2),
-                )
+                ),
               ],
             ),
             child: Row(
@@ -103,9 +98,7 @@ class _GuidelineScreenState extends State<GuidelineScreen> {
                   children: [
                     Text(
                       employeeOrganizations[i].name,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Text(
                       employeeOrganizations[i].description ?? '',

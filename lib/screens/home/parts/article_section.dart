@@ -45,9 +45,7 @@ class _ArticleSectionState extends State<ArticleSection> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(
-                builder: (context) => const ArticleScreen(),
-              ),
+              MaterialPageRoute(builder: (context) => const ArticleScreen()),
             );
           },
         ),
@@ -125,9 +123,7 @@ class _ArticleSectionState extends State<ArticleSection> {
                                     article.title,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
-                                    style: const TextStyle(
-                                      fontSize: 13,
-                                    ),
+                                    style: const TextStyle(fontSize: 13),
                                   ),
                                   const SizedBox(height: 5),
                                   Text(

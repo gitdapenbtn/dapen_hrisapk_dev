@@ -6,10 +6,7 @@ import 'package:location/location.dart';
 
 class LocationPicker extends StatefulWidget {
   final ValueChanged<LocationData>? onChange;
-  const LocationPicker({
-    super.key,
-    this.onChange,
-  });
+  const LocationPicker({super.key, this.onChange});
 
   @override
   State<LocationPicker> createState() => _LocationPickerState();
@@ -17,23 +14,19 @@ class LocationPicker extends StatefulWidget {
 
 class _LocationPickerState extends State<LocationPicker> {
   late StreamSubscription<LocationData> _locationSubscription;
-  
+
   late GoogleMapController _googleMapController;
   final Location _location = Location();
-  
-  void _onMapCreated(GoogleMapController ctrl)
-  {
+
+  void _onMapCreated(GoogleMapController ctrl) {
     _googleMapController = ctrl;
-    _locationSubscription = _location.onLocationChanged.listen((l) { 
+    _locationSubscription = _location.onLocationChanged.listen((l) {
       _googleMapController.animateCamera(
         CameraUpdate.newCameraPosition(
-          CameraPosition(
-            target: LatLng(l.latitude!, l.longitude!),
-            zoom: 15
-          ),
+          CameraPosition(target: LatLng(l.latitude!, l.longitude!), zoom: 15),
         ),
       );
-      if(widget.onChange != null) {
+      if (widget.onChange != null) {
         widget.onChange!(l);
       }
     });
@@ -44,7 +37,7 @@ class _LocationPickerState extends State<LocationPicker> {
     return GoogleMap(
       initialCameraPosition: const CameraPosition(
         target: LatLng(6.1750, 106.8283),
-        zoom: 2
+        zoom: 2,
       ),
       zoomControlsEnabled: false,
       zoomGesturesEnabled: false,

@@ -3,11 +3,8 @@ import 'package:flutter/material.dart';
 class LayoutBackButton extends StatelessWidget {
   final EdgeInsets? margin;
 
-  const LayoutBackButton({ 
-    super.key,
-    this.margin,
-  });
-  
+  const LayoutBackButton({super.key, this.margin});
+
   @override
   Widget build(BuildContext context) {
     return Visibility(
@@ -20,7 +17,7 @@ class LayoutBackButton extends StatelessWidget {
           },
           child: const Icon(Icons.arrow_back),
         ),
-      )
+      ),
     );
   }
 }

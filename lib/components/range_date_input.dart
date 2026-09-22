@@ -25,7 +25,7 @@ class RangeDateInput extends StatefulWidget {
     this.style,
     this.onChange,
   });
-  
+
   @override
   State<RangeDateInput> createState() => _RangeDateInputState();
 }
@@ -37,16 +37,16 @@ class _RangeDateInputState extends State<RangeDateInput> {
   @override
   void initState() {
     super.initState();
-    
+
     _setPeriod(
       widget.initial ??
-      DateTimeRange(
-        start: DateTime.now().subtract(const Duration(days: 7)),
-        end: DateTime.now(),
-      )
+          DateTimeRange(
+            start: DateTime.now().subtract(const Duration(days: 7)),
+            end: DateTime.now(),
+          ),
     );
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -76,7 +76,7 @@ class _RangeDateInputState extends State<RangeDateInput> {
       _controller.text = '$start - $end';
     });
   }
-  
+
   _selecteRangeDate() async {
     final DateTimeRange? period = await showDateRangePicker(
       context: context,
@@ -93,7 +93,7 @@ class _RangeDateInputState extends State<RangeDateInput> {
           ),
           child: child!,
         );
-      }
+      },
     );
 
     if (period != null) {

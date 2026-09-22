@@ -3,11 +3,7 @@ class EmployeeOrganizationModel {
   final String name;
   final String? description;
 
-  EmployeeOrganizationModel({
-    this.id,
-    required this.name,
-    this.description,
-  });
+  EmployeeOrganizationModel({this.id, required this.name, this.description});
 
   factory EmployeeOrganizationModel.fromJson(Map<String, dynamic> data) {
     return EmployeeOrganizationModel(

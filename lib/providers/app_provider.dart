@@ -19,8 +19,7 @@ class AppProvider with ChangeNotifier {
 
       notifyListeners();
       return true;
-    }
-    catch(err) {
+    } catch (err) {
       _isOffline = true;
 
       showSnackBarAnywhere('Offline Mode', width: 200);

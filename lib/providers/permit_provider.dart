@@ -10,7 +10,7 @@ import 'package:path/path.dart';
 
 class PermitProvider with ChangeNotifier {
   final Http http = Http();
-  
+
   PermitModel? _permit;
   PermitModel? get permit => _permit;
 
@@ -19,21 +19,20 @@ class PermitProvider with ChangeNotifier {
 
   List<PermitTypeModel> _types = [];
   List<PermitTypeModel> get types => _types;
-  
-  Future<HttpModel> getPermits({ Map<String, dynamic>? params }) async {
+
+  Future<HttpModel> getPermits({Map<String, dynamic>? params}) async {
     try {
       HttpModel response = await http.get('permits', params);
 
       List<PermitModel> newPermits = [];
-      for(var x in response.data) {
+      for (var x in response.data) {
         newPermits.add(PermitModel.fromJson(x));
       }
       _permits = newPermits;
-      
+
       notifyListeners();
       return response;
-    }
-    catch(err) {
+    } catch (err) {
       _permits = [];
 
       notifyListeners();
@@ -56,7 +55,7 @@ class PermitProvider with ChangeNotifier {
     String? reason,
     List<File>? attachments,
   }) async {
-    Map<String, String> params= {
+    Map<String, String> params = {
       "permit_type_id": type.id.toString(),
       "start_date": DateFormat("yyyy-MM-dd").format(startDate).toString(),
       "end_date": DateFormat("yyyy-MM-dd").format(endDate).toString(),
@@ -64,18 +63,22 @@ class PermitProvider with ChangeNotifier {
     };
 
     List<MultipartFile> files = [];
-    if(attachments != null) {
+    if (attachments != null) {
       files = attachments.map((attachment) {
         return http.multipartFile(
           'attachments[]',
-          attachment.readAsBytes().asStream(), 
+          attachment.readAsBytes().asStream(),
           attachment.lengthSync(),
-          basename(attachment.path)
+          basename(attachment.path),
         );
       }).toList();
     }
 
-    HttpModel response = await http.postMultipartRequest('permits', params: params, files: files);    
+    HttpModel response = await http.postMultipartRequest(
+      'permits',
+      params: params,
+      files: files,
+    );
 
     notifyListeners();
     return response;
@@ -87,15 +90,14 @@ class PermitProvider with ChangeNotifier {
       HttpModel response = await http.get('permit_types');
 
       List<PermitTypeModel> newTypes = [];
-      for(var x in response.data) {
+      for (var x in response.data) {
         newTypes.add(PermitTypeModel.fromJson(x));
       }
       _types = newTypes;
-      
+
       notifyListeners();
       return response;
-    }
-    catch(err) {
+    } catch (err) {
       _types = [];
 
       notifyListeners();

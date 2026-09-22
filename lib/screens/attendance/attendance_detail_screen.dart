@@ -10,10 +10,7 @@ import 'package:unicons/unicons.dart';
 
 class AttendanceDetailScreen extends StatefulWidget {
   final AttendanceModel attendance;
-  const AttendanceDetailScreen({
-    super.key,
-    required this.attendance,
-  });
+  const AttendanceDetailScreen({super.key, required this.attendance});
 
   @override
   State<AttendanceDetailScreen> createState() => _AttendanceDetailScreenState();
@@ -31,7 +28,7 @@ class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
 
   @override
   @protected
-  @mustCallSuper 
+  @mustCallSuper
   void didChangeDependencies() {
     super.didChangeDependencies();
     _attendanceProvider = Provider.of<AttendanceProvider>(context);
@@ -41,7 +38,7 @@ class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
     setState(() {
       _isLoading = true;
     });
-    
+
     return Future.delayed(const Duration(seconds: 1), () async {
       await _attendanceProvider.findAttendanceById(id: widget.attendance.id);
 
@@ -56,9 +53,7 @@ class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
     return Layout(
       isLoading: _isLoading,
       onRefresh: _onRefresh,
-      appBar: const LayoutAppBar(
-        title: 'Detail Absensi',
-      ),
+      appBar: const LayoutAppBar(title: 'Detail Absensi'),
       padding: const EdgeInsets.all(20),
       child: _body(),
     );
@@ -66,17 +61,17 @@ class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
 
   Widget _body() {
     Widget body;
-    if(_attendanceProvider.attendance != null) {
+    if (_attendanceProvider.attendance != null) {
       body = Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _text(
             title: 'Nik Karyawan',
-            value: widget.attendance.employee!.registrationNumber
+            value: widget.attendance.employee!.registrationNumber,
           ),
           _text(
             title: 'Nama Karyawan',
-            value: widget.attendance.employee!.name
+            value: widget.attendance.employee!.name,
           ),
           _text(
             title: 'Tanggal Absensi',
@@ -102,13 +97,11 @@ class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
                   Flexible(
                     child: Container(
                       width: MediaQuery.of(context).size.width / 4,
-                      constraints: const BoxConstraints(
-                        minHeight: 100,                          
-                      ),
+                      constraints: const BoxConstraints(minHeight: 100),
                       color: Colors.grey,
-                      child: widget.attendance.imageIn != null 
-                        ? Image.network(widget.attendance.imageIn!)
-                        : const Icon(UniconsLine.image, color: Colors.white,),
+                      child: widget.attendance.imageIn != null
+                          ? Image.network(widget.attendance.imageIn!)
+                          : const Icon(UniconsLine.image, color: Colors.white),
                     ),
                   ),
                   const SizedBox(width: 20),
@@ -120,18 +113,15 @@ class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
                         title: 'Jam Masuk',
                         value: widget.attendance.timeIn,
                       ),
-                      _text(
-                        title: 'Catatan',
-                        value: widget.attendance.noteIn,
-                      ),
+                      _text(title: 'Catatan', value: widget.attendance.noteIn),
                     ],
-                  )
+                  ),
                 ],
               ),
             ],
           ),
 
-          const SizedBox(height: 20,),
+          const SizedBox(height: 20),
 
           ExpansionTile(
             initiallyExpanded: true,
@@ -152,13 +142,11 @@ class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
                   Flexible(
                     child: Container(
                       width: MediaQuery.of(context).size.width / 4,
-                      constraints: const BoxConstraints(
-                        minHeight: 100,                          
-                      ),
+                      constraints: const BoxConstraints(minHeight: 100),
                       color: Colors.grey,
-                      child: widget.attendance.imageOut != null 
-                        ? Image.network(widget.attendance.imageOut!)
-                        : const Icon(UniconsLine.image, color: Colors.white,),
+                      child: widget.attendance.imageOut != null
+                          ? Image.network(widget.attendance.imageOut!)
+                          : const Icon(UniconsLine.image, color: Colors.white),
                     ),
                   ),
                   const SizedBox(width: 20),
@@ -170,17 +158,13 @@ class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
                         title: 'Jam Pulang',
                         value: widget.attendance.timeOut,
                       ),
-                      _text(
-                        title: 'Catatan',
-                        value: widget.attendance.noteOut,
-                      ),
+                      _text(title: 'Catatan', value: widget.attendance.noteOut),
                     ],
-                  )
+                  ),
                 ],
               ),
             ],
           ),
-
         ],
       );
     } else {
@@ -193,45 +177,27 @@ class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
   Widget _title(String title) {
     return Text(
       title,
-      style: const TextStyle(
-        color: LayoutColor.textSecondary
-      ),
+      style: const TextStyle(color: LayoutColor.textSecondary),
     );
   }
 
-  Widget _text({
-    required String title,
-    String? value,
-  }) {
+  Widget _text({required String title, String? value}) {
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: const TextStyle(
-              color: LayoutColor.textSecondary
-            ),
-          ),
+          Text(title, style: const TextStyle(color: LayoutColor.textSecondary)),
           Text(
             value ?? '-',
-            style: const TextStyle(
-              fontWeight: FontWeight.bold
-            ),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ],
       ),
     );
   }
 
-  Widget badge(
-    String label,
-    {
-      Color? color,
-      Color? textColor,
-    }
-  ) {
+  Widget badge(String label, {Color? color, Color? textColor}) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
       decoration: BoxDecoration(
@@ -240,11 +206,8 @@ class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
       ),
       child: Text(
         label,
-        style: TextStyle(
-          color: textColor ?? Colors.white,
-          fontSize: 12,
-        ),
-      )
+        style: TextStyle(color: textColor ?? Colors.white, fontSize: 12),
+      ),
     );
   }
 }

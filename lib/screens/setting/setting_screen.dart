@@ -16,13 +16,13 @@ import 'package:provider/provider.dart';
 import 'package:unicons/unicons.dart';
 
 class SettingScreen extends StatefulWidget {
-  const SettingScreen({ super.key });
+  const SettingScreen({super.key});
 
   @override
   State<SettingScreen> createState() => _SettingScreenState();
 }
 
-class _SettingScreenState extends State<SettingScreen> {  
+class _SettingScreenState extends State<SettingScreen> {
   late AuthProvider _authProvider;
   bool _isLoading = false;
   String version = '1.0.0';
@@ -46,20 +46,21 @@ class _SettingScreenState extends State<SettingScreen> {
       _isLoading = true;
     });
 
-    _authProvider.logout()
-      .then((resp) {
-        Navigator.pushAndRemoveUntil(
-          context, 
-          MaterialPageRoute(builder: (context) => const LoginScreen()),
-          (route) => false
-        );
-      })
-      .catchError((err) {
-        setState(() {
-          _isLoading = false;
+    _authProvider
+        .logout()
+        .then((resp) {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const LoginScreen()),
+            (route) => false,
+          );
+        })
+        .catchError((err) {
+          setState(() {
+            _isLoading = false;
+          });
+          showSnackBarAnywhere(err.toString());
         });
-        showSnackBarAnywhere(err.toString());
-      });
   }
 
   @override
@@ -70,15 +71,12 @@ class _SettingScreenState extends State<SettingScreen> {
       children: [
         Section(
           child: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 30,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
             width: MediaQuery.of(context).size.width,
             child: Consumer<ProfileProvider>(
-              builder: (context, value, child) =>  Column(
+              builder: (context, value, child) => Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children:[
+                children: [
                   AvatarInitialName(
                     name: value.profile?.employee?.name ?? '-',
                     fontSize: 30,
@@ -97,9 +95,9 @@ class _SettingScreenState extends State<SettingScreen> {
                     value.profile?.employee?.organization?.name ?? '-',
                     style: const TextStyle(
                       fontSize: 14,
-                      color: LayoutColor.textSecondary
+                      color: LayoutColor.textSecondary,
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -115,9 +113,11 @@ class _SettingScreenState extends State<SettingScreen> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const ProfileScreen()),
+                    MaterialPageRoute(
+                      builder: (context) => const ProfileScreen(),
+                    ),
                   );
-                }
+                },
               ),
               _button(
                 label: 'Saldo Cuti',
@@ -125,12 +125,14 @@ class _SettingScreenState extends State<SettingScreen> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const LeaveQuotaScreen()),
+                    MaterialPageRoute(
+                      builder: (context) => const LeaveQuotaScreen(),
+                    ),
                   );
-                }
+                },
               ),
-            ]
-          )
+            ],
+          ),
         ),
 
         const SectionTitle('Informasi'),
@@ -155,7 +157,9 @@ class _SettingScreenState extends State<SettingScreen> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const ChangePasswordScreen()),
+                    MaterialPageRoute(
+                      builder: (context) => const ChangePasswordScreen(),
+                    ),
                   );
                 },
               ),
@@ -167,24 +171,20 @@ class _SettingScreenState extends State<SettingScreen> {
             ],
           ),
         ),
-
       ],
     );
   }
 
-  Widget _button({ required String label, Icon? icon, Function? onTap }) {
+  Widget _button({required String label, Icon? icon, Function? onTap}) {
     return InkWell(
       onTap: () {
-        if(onTap != null) {
+        if (onTap != null) {
           onTap();
         }
       },
       child: Container(
         margin: const EdgeInsets.only(top: 10),
-        padding: const EdgeInsets.symmetric(
-          vertical: 10,
-          horizontal: 10,
-        ),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(5),
@@ -203,7 +203,7 @@ class _SettingScreenState extends State<SettingScreen> {
                       child: icon,
                     ),
                   ),
-                  Text(label)
+                  Text(label),
                 ],
               ),
             ),

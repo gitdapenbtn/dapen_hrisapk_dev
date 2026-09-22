@@ -14,14 +14,11 @@ import 'package:dpbtn_absen/models/user_model.dart';
 class ProfileProvider with ChangeNotifier {
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
   final Http http = Http();
-  
+
   UserModel? _profile;
   UserModel? get profile => _profile;
 
-  AttendanceModel _attendance = AttendanceModel(
-    id: 0, 
-    date: DateTime.now(),
-  );
+  AttendanceModel _attendance = AttendanceModel(id: 0, date: DateTime.now());
   AttendanceModel get attendance => _attendance;
 
   AttendanceSummaryModel _attendanceSummary = AttendanceSummaryModel();
@@ -34,7 +31,7 @@ class ProfileProvider with ChangeNotifier {
     HttpModel response = await http.get('profile', null, false);
     _profile = UserModel.fromJson(response.data);
     await _secureStorage.write(key: 'user', value: json.encode(response.data));
-    
+
     notifyListeners();
     return response;
   }
@@ -65,32 +62,38 @@ class ProfileProvider with ChangeNotifier {
 
   Future getAttendanceToday() async {
     try {
-      HttpModel response = await http.get('profile/attendance_today', null, false);
-      if(response.data != null) {
+      HttpModel response = await http.get(
+        'profile/attendance_today',
+        null,
+        false,
+      );
+      if (response.data != null) {
         _attendance = AttendanceModel.fromJson(response.data);
-        await _secureStorage.write(key: 'todayAttendance', value: json.encode(_attendance.toMap()));
+        await _secureStorage.write(
+          key: 'todayAttendance',
+          value: json.encode(_attendance.toMap()),
+        );
       }
-    } catch(err) {
+    } catch (err) {
       await getLocalAttendanceToday();
     }
 
     notifyListeners();
   }
 
-  Future<HttpModel> getLeaveQuotas({ Map<String, dynamic>? params }) async {
+  Future<HttpModel> getLeaveQuotas({Map<String, dynamic>? params}) async {
     try {
       HttpModel response = await http.get('profile/leave_quota', params);
 
       List<LeaveTypeModel> newLeaveQuotas = [];
-      for(var x in response.data) {
+      for (var x in response.data) {
         newLeaveQuotas.add(LeaveTypeModel.fromJson(x));
       }
       _leaveQuotas = newLeaveQuotas;
-            
+
       notifyListeners();
       return response;
-    }
-    catch(err) {
+    } catch (err) {
       _leaveQuotas = [];
       notifyListeners();
       rethrow;
@@ -99,25 +102,33 @@ class ProfileProvider with ChangeNotifier {
 
   Future getLocalAttendanceToday() async {
     final DateTime dateNow = DateTime.now();
-    final String? todayAttendance = await _secureStorage.read(key: 'todayAttendance');
+    final String? todayAttendance = await _secureStorage.read(
+      key: 'todayAttendance',
+    );
 
     AttendanceModel newAttendance = AttendanceModel(id: 0, date: dateNow);
-    if(todayAttendance != null && todayAttendance.isNotEmpty) {
-      AttendanceModel newTodayAttendance = AttendanceModel.fromJson(json.decode(todayAttendance));
-      if(newTodayAttendance.date.toLocalId('yyyy-MM-dd').toString() == newAttendance.date.toLocalId('yyyy-MM-dd').toString()) {
+    if (todayAttendance != null && todayAttendance.isNotEmpty) {
+      AttendanceModel newTodayAttendance = AttendanceModel.fromJson(
+        json.decode(todayAttendance),
+      );
+      if (newTodayAttendance.date.toLocalId('yyyy-MM-dd').toString() ==
+          newAttendance.date.toLocalId('yyyy-MM-dd').toString()) {
         newAttendance = newTodayAttendance;
       }
     }
 
     _attendance = newAttendance;
-    await _secureStorage.write(key: 'todayAttendance', value: json.encode(newAttendance.toMap()));
+    await _secureStorage.write(
+      key: 'todayAttendance',
+      value: json.encode(newAttendance.toMap()),
+    );
 
     notifyListeners();
   }
 
-  Future<HttpModel> getLeaveQuota({ Map<String, dynamic>? params }) async {
+  Future<HttpModel> getLeaveQuota({Map<String, dynamic>? params}) async {
     HttpModel response = await http.get('attendances/summary', params);
-    if(response.data != null) {
+    if (response.data != null) {
       _attendanceSummary = AttendanceSummaryModel.fromJson(response.data);
     }
 
@@ -125,9 +136,9 @@ class ProfileProvider with ChangeNotifier {
     return response;
   }
 
-  Future<HttpModel> getAttendanceSummary({ Map<String, dynamic>? params }) async {
+  Future<HttpModel> getAttendanceSummary({Map<String, dynamic>? params}) async {
     HttpModel response = await http.get('attendances/summary', params, false);
-    if(response.data != null) {
+    if (response.data != null) {
       _attendanceSummary = AttendanceSummaryModel.fromJson(response.data);
     }
 
@@ -142,10 +153,14 @@ class ProfileProvider with ChangeNotifier {
     required String time,
     String? note,
   }) async {
-    String? localTodayAttendace = await _secureStorage.read(key: 'todayAttendance');
+    String? localTodayAttendace = await _secureStorage.read(
+      key: 'todayAttendance',
+    );
 
-    if(localTodayAttendace != null && localTodayAttendace.isNotEmpty) {
-      AttendanceModel todayAttendance = AttendanceModel.fromJson(json.decode(localTodayAttendace));
+    if (localTodayAttendace != null && localTodayAttendace.isNotEmpty) {
+      AttendanceModel todayAttendance = AttendanceModel.fromJson(
+        json.decode(localTodayAttendace),
+      );
       todayAttendance = todayAttendance.updateWith(
         timeIn: time,
         latitudeIn: latitude,
@@ -155,7 +170,10 @@ class ProfileProvider with ChangeNotifier {
       );
 
       _attendance = todayAttendance;
-      await _secureStorage.write(key: 'todayAttendance', value: json.encode(todayAttendance.toMap()));
+      await _secureStorage.write(
+        key: 'todayAttendance',
+        value: json.encode(todayAttendance.toMap()),
+      );
     }
 
     notifyListeners();
@@ -168,10 +186,14 @@ class ProfileProvider with ChangeNotifier {
     required String time,
     String? note,
   }) async {
-    String? localTodayAttendace = await _secureStorage.read(key: 'todayAttendance');
+    String? localTodayAttendace = await _secureStorage.read(
+      key: 'todayAttendance',
+    );
 
-    if(localTodayAttendace != null && localTodayAttendace.isNotEmpty) {
-      AttendanceModel todayAttendance = AttendanceModel.fromJson(json.decode(localTodayAttendace));
+    if (localTodayAttendace != null && localTodayAttendace.isNotEmpty) {
+      AttendanceModel todayAttendance = AttendanceModel.fromJson(
+        json.decode(localTodayAttendace),
+      );
       todayAttendance = todayAttendance.updateWith(
         timeOut: time,
         latitudeOut: latitude,
@@ -181,7 +203,10 @@ class ProfileProvider with ChangeNotifier {
       );
 
       _attendance = todayAttendance;
-      await _secureStorage.write(key: 'todayAttendance', value: json.encode(todayAttendance.toMap()));
+      await _secureStorage.write(
+        key: 'todayAttendance',
+        value: json.encode(todayAttendance.toMap()),
+      );
     }
 
     notifyListeners();

@@ -12,10 +12,11 @@ import 'package:provider/provider.dart';
 import 'package:unicons/unicons.dart';
 
 class AttendanceRequestScreen extends StatefulWidget {
-  const AttendanceRequestScreen({ super.key });
+  const AttendanceRequestScreen({super.key});
 
   @override
-  State<AttendanceRequestScreen> createState() => _AttendanceRequestScreenState();
+  State<AttendanceRequestScreen> createState() =>
+      _AttendanceRequestScreenState();
 }
 
 class _AttendanceRequestScreenState extends State<AttendanceRequestScreen> {
@@ -25,7 +26,7 @@ class _AttendanceRequestScreenState extends State<AttendanceRequestScreen> {
     end: DateTime.now(),
   );
   bool _isLoading = false;
-  
+
   @override
   void initState() {
     super.initState();
@@ -37,7 +38,9 @@ class _AttendanceRequestScreenState extends State<AttendanceRequestScreen> {
   @mustCallSuper
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _attendanceRequestProvider = Provider.of<AttendanceRequestProvider>(context);
+    _attendanceRequestProvider = Provider.of<AttendanceRequestProvider>(
+      context,
+    );
   }
 
   Future _onRefresh() async {
@@ -51,16 +54,17 @@ class _AttendanceRequestScreenState extends State<AttendanceRequestScreen> {
         "start_date": _period.start.toLocalId("yyyy-MM-dd"),
         "end_date": _period.end.toLocalId("yyyy-MM-dd"),
       };
-      
-      _attendanceRequestProvider.getAttendanceRequests(params: params)
-        .whenComplete(() {
-          setState(() {
-            _isLoading = false;
+
+      _attendanceRequestProvider
+          .getAttendanceRequests(params: params)
+          .whenComplete(() {
+            setState(() {
+              _isLoading = false;
+            });
           });
-        });
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Layout(
@@ -71,12 +75,8 @@ class _AttendanceRequestScreenState extends State<AttendanceRequestScreen> {
         bottom: LayoutAppBarBottom(
           child: RangeDateInput(
             fillColor: Colors.white60,
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 10,
-            ),
-            style: const TextStyle(
-              fontSize: 13,
-            ),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+            style: const TextStyle(fontSize: 13),
             onChange: (period) {
               setState(() {
                 _period = period;
@@ -91,8 +91,8 @@ class _AttendanceRequestScreenState extends State<AttendanceRequestScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const AttendanceRequestFormScreen()
-            )
+              builder: (context) => const AttendanceRequestFormScreen(),
+            ),
           );
         },
         label: const Text('Buat'),
@@ -116,8 +116,10 @@ class _AttendanceRequestScreenState extends State<AttendanceRequestScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => AttendanceRequestDetailScreen(attendanceRequest: attendanceRequests[i])
-              )
+                builder: (context) => AttendanceRequestDetailScreen(
+                  attendanceRequest: attendanceRequests[i],
+                ),
+              ),
             );
           },
           child: Container(
@@ -130,9 +132,9 @@ class _AttendanceRequestScreenState extends State<AttendanceRequestScreen> {
                 BoxShadow(
                   color: Colors.black.withOpacity(.05),
                   blurRadius: 5,
-                  offset: const Offset(0,2),
-                )
-              ]
+                  offset: const Offset(0, 2),
+                ),
+              ],
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,16 +144,18 @@ class _AttendanceRequestScreenState extends State<AttendanceRequestScreen> {
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     color: LayoutColor.secondary,
-                    fontSize: 13
-                  )
+                    fontSize: 13,
+                  ),
                 ),
                 Text(
-                  attendanceRequests[i].date.toLocalId('dd MMM yyyy').toString(),
+                  attendanceRequests[i].date
+                      .toLocalId('dd MMM yyyy')
+                      .toString(),
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     color: LayoutColor.textPrimary,
-                    fontSize: 15
-                  )
+                    fontSize: 15,
+                  ),
                 ),
 
                 const Divider(),
@@ -167,7 +171,7 @@ class _AttendanceRequestScreenState extends State<AttendanceRequestScreen> {
                           attendanceRequests[i].status.name,
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: LayoutColor.secondary
+                            color: LayoutColor.secondary,
                           ),
                         ),
                       ],
@@ -181,12 +185,12 @@ class _AttendanceRequestScreenState extends State<AttendanceRequestScreen> {
                       child: const Icon(UniconsLine.angle_right),
                     ),
                   ],
-                )
+                ),
               ],
             ),
-          )
+          ),
         );
       },
     );
- }
+  }
 }

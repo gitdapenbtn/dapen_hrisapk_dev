@@ -17,7 +17,7 @@ import 'package:provider/provider.dart';
 import 'package:unicons/unicons.dart';
 
 class OvertimeFormScreen extends StatefulWidget {
-  const OvertimeFormScreen({ super.key });
+  const OvertimeFormScreen({super.key});
 
   @override
   State<OvertimeFormScreen> createState() => _OvertimeFormScreenState();
@@ -39,7 +39,7 @@ class _OvertimeFormScreenState extends State<OvertimeFormScreen> {
     super.initState();
     _onRefresh();
   }
-  
+
   @override
   @protected
   @mustCallSuper
@@ -51,56 +51,48 @@ class _OvertimeFormScreenState extends State<OvertimeFormScreen> {
   Future _onRefresh() {
     return Future.delayed(const Duration(seconds: 1), () async {
       await _overtimeProvider.getTypes();
-      setState(() {
-      });
+      setState(() {});
     });
   }
-  
+
   _submitHandler() async {
     setState(() {
       _isLoading = true;
     });
-    
-    _overtimeProvider.create(
-      startDate: _startDate,
-      startTime: _startTime.format(context).toString(),
-      endDate: _endDate,
-      endTime: _endTime.format(context).toString(),
-      type: _overtimeType!,
-      reason: _reasonController.text,
-      attachments: _attachments,
-    )
-    .then((resp) {
-      Navigator.pop(context);
-      showSnackBarAnywhere('${resp.message}');
-    })
-    .catchError((err) {
-      setState(() {
-        _isLoading = false;
-      });
-      showSnackBarAnywhere(err.toString());
-    });
+
+    _overtimeProvider
+        .create(
+          startDate: _startDate,
+          startTime: _startTime.format(context).toString(),
+          endDate: _endDate,
+          endTime: _endTime.format(context).toString(),
+          type: _overtimeType!,
+          reason: _reasonController.text,
+          attachments: _attachments,
+        )
+        .then((resp) {
+          Navigator.pop(context);
+          showSnackBarAnywhere('${resp.message}');
+        })
+        .catchError((err) {
+          setState(() {
+            _isLoading = false;
+          });
+          showSnackBarAnywhere(err.toString());
+        });
   }
+
   @override
   Widget build(BuildContext context) {
     return Layout(
       onRefresh: _onRefresh,
-      appBar: const LayoutAppBar(
-        title: 'Form Lembur',
-      ),
-      padding: const EdgeInsets.only(
-        top: 30,
-        left: 20,
-        right: 20,
-        bottom: 80
-      ),
+      appBar: const LayoutAppBar(title: 'Form Lembur'),
+      padding: const EdgeInsets.only(top: 30, left: 20, right: 20, bottom: 80),
       bottomSheet: Container(
         color: LayoutColor.background,
         padding: const EdgeInsets.all(20),
         child: PrimaryButton(
-          onPressed: _isLoading 
-            ? null
-            : _submitHandler ,
+          onPressed: _isLoading ? null : _submitHandler,
           child: const Text('Kirim'),
         ),
       ),
@@ -114,12 +106,9 @@ class _OvertimeFormScreenState extends State<OvertimeFormScreen> {
               padding: EdgeInsets.all(10),
               child: Text(
                 'Pilih Tipe Lembur',
-                textAlign: TextAlign.center, 
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
-              )
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
             ),
           ),
           decoratorProps: DropDownDecoratorProps(
@@ -127,7 +116,7 @@ class _OvertimeFormScreenState extends State<OvertimeFormScreen> {
               labelText: 'Tipe Lembur',
               hintText: 'Pilih Tipe Lembur',
               floatingLabelBehavior: FloatingLabelBehavior.always,
-              suffixIcon: const Icon(UniconsLine.label)
+              suffixIcon: const Icon(UniconsLine.label),
             ),
           ),
           onChanged: (value) {
@@ -228,5 +217,5 @@ class _OvertimeFormScreenState extends State<OvertimeFormScreen> {
         ),
       ],
     );
- }
+  }
 }

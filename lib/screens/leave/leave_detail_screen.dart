@@ -12,10 +12,7 @@ import 'package:unicons/unicons.dart';
 
 class LeaveDetailScreen extends StatefulWidget {
   final LeaveModel leave;
-  const LeaveDetailScreen({
-    super.key,
-    required this.leave,
-  });
+  const LeaveDetailScreen({super.key, required this.leave});
 
   @override
   State<LeaveDetailScreen> createState() => _LeaveDetailScreenState();
@@ -25,7 +22,7 @@ class _LeaveDetailScreenState extends State<LeaveDetailScreen> {
   late LeaveProvider _leaveProvider;
 
   bool _isLoading = false;
-  
+
   @override
   void initState() {
     super.initState();
@@ -34,7 +31,7 @@ class _LeaveDetailScreenState extends State<LeaveDetailScreen> {
 
   @override
   @protected
-  @mustCallSuper 
+  @mustCallSuper
   void didChangeDependencies() {
     super.didChangeDependencies();
     _leaveProvider = Provider.of<LeaveProvider>(context);
@@ -46,7 +43,7 @@ class _LeaveDetailScreenState extends State<LeaveDetailScreen> {
     });
     return Future.delayed(const Duration(seconds: 1), () async {
       await _leaveProvider.findLeaveById(id: widget.leave.id);
-      
+
       setState(() {
         _isLoading = false;
       });
@@ -58,9 +55,7 @@ class _LeaveDetailScreenState extends State<LeaveDetailScreen> {
     return Layout(
       isLoading: _isLoading,
       onRefresh: _onRefresh,
-      appBar: const LayoutAppBar(
-        title: 'Detail Cuti',
-      ),
+      appBar: const LayoutAppBar(title: 'Detail Cuti'),
       padding: const EdgeInsets.all(20),
       child: _body(),
     );
@@ -68,30 +63,19 @@ class _LeaveDetailScreenState extends State<LeaveDetailScreen> {
 
   Widget _body() {
     Widget body;
-    if(_leaveProvider.leave != null) {
+    if (_leaveProvider.leave != null) {
       body = Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _text(
-            title: 'Nama Karyawan',
-            value: widget.leave.employee!.name
-          ),
-          _text(
-            title: 'Tipe Cuti',
-            value: widget.leave.type.name
-          ),
+          _text(title: 'Nama Karyawan', value: widget.leave.employee!.name),
+          _text(title: 'Tipe Cuti', value: widget.leave.type.name),
           _text(
             title: 'Tanggal Cuti',
-            value: '${widget.leave.startDate.toLocalId('dd MMM yyyy')} - ${widget.leave.endDate.toLocalId('dd MMM yyyy')}',
+            value:
+                '${widget.leave.startDate.toLocalId('dd MMM yyyy')} - ${widget.leave.endDate.toLocalId('dd MMM yyyy')}',
           ),
-          _text(
-            title: 'Alasan',
-            value: widget.leave.reason,
-          ),
-          _text(
-            title: 'Status',
-            value: widget.leave.status.name,
-          ),
+          _text(title: 'Alasan', value: widget.leave.reason),
+          _text(title: 'Status', value: widget.leave.status.name),
 
           _title('Lampiran'),
           _attachmentList(_leaveProvider.leave!.attachments),
@@ -112,32 +96,20 @@ class _LeaveDetailScreenState extends State<LeaveDetailScreen> {
   Widget _title(String title) {
     return Text(
       title,
-      style: const TextStyle(
-        color: LayoutColor.textSecondary
-      ),
+      style: const TextStyle(color: LayoutColor.textSecondary),
     );
   }
 
-  Widget _text({
-    required String title,
-    String? value,
-  }) {
+  Widget _text({required String title, String? value}) {
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: const TextStyle(
-              color: LayoutColor.textSecondary
-            ),
-          ),
+          Text(title, style: const TextStyle(color: LayoutColor.textSecondary)),
           Text(
             value ?? '-',
-            style: const TextStyle(
-              fontWeight: FontWeight.bold
-            ),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ],
       ),
@@ -146,8 +118,8 @@ class _LeaveDetailScreenState extends State<LeaveDetailScreen> {
 
   Widget _attachmentList(List<AttachmentModel>? attachments) {
     Widget attahcmentList = const Text('Tidak ada lampiran.');
-    if(attachments != null) {
-      if(attachments.isNotEmpty) {
+    if (attachments != null) {
+      if (attachments.isNotEmpty) {
         attahcmentList = Container(
           margin: const EdgeInsets.only(top: 10),
           child: ListView.builder(
@@ -164,11 +136,8 @@ class _LeaveDetailScreenState extends State<LeaveDetailScreen> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
                   boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 1
-                    )
-                  ]
+                    BoxShadow(color: Colors.black12, blurRadius: 1),
+                  ],
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -177,9 +146,7 @@ class _LeaveDetailScreenState extends State<LeaveDetailScreen> {
                     Flexible(
                       child: Text(
                         attachments[i].name,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold
-                        ),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
                     const SizedBox(width: 30),
@@ -190,8 +157,8 @@ class _LeaveDetailScreenState extends State<LeaveDetailScreen> {
                   ],
                 ),
               );
-            }
-          )
+            },
+          ),
         );
       }
     }
@@ -201,8 +168,8 @@ class _LeaveDetailScreenState extends State<LeaveDetailScreen> {
 
   Widget _approvalList(List<ApproverModel>? approvers) {
     Widget approvalList = const Text('Tidak ada pemberi persetujuan.');
-    if(approvers != null) {
-      if(approvers.isNotEmpty) {
+    if (approvers != null) {
+      if (approvers.isNotEmpty) {
         approvalList = Container(
           margin: const EdgeInsets.only(top: 10),
           child: ListView.builder(
@@ -211,23 +178,17 @@ class _LeaveDetailScreenState extends State<LeaveDetailScreen> {
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (ctx, i) {
               Widget status;
-              if(approvers[i].isApproved != null) {
-                if(approvers[i].isApproved == true) {
-                  status = badge(
-                    'Disetujui', 
-                    color: LayoutColor.success,
-                  );
+              if (approvers[i].isApproved != null) {
+                if (approvers[i].isApproved == true) {
+                  status = badge('Disetujui', color: LayoutColor.success);
                 } else {
-                  status = badge(
-                    'Ditolak', 
-                    color: LayoutColor.danger,
-                  );
+                  status = badge('Ditolak', color: LayoutColor.danger);
                 }
               } else {
                 status = badge(
-                  'Diproses', 
+                  'Diproses',
                   color: LayoutColor.disabled,
-                  textColor: LayoutColor.textPrimary
+                  textColor: LayoutColor.textPrimary,
                 );
               }
 
@@ -240,11 +201,8 @@ class _LeaveDetailScreenState extends State<LeaveDetailScreen> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
                   boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 1
-                    )
-                  ]
+                    BoxShadow(color: Colors.black12, blurRadius: 1),
+                  ],
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -253,9 +211,7 @@ class _LeaveDetailScreenState extends State<LeaveDetailScreen> {
                     Flexible(
                       child: Text(
                         approvers[i].name,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold
-                        ),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
                     const SizedBox(width: 30),
@@ -263,8 +219,8 @@ class _LeaveDetailScreenState extends State<LeaveDetailScreen> {
                   ],
                 ),
               );
-            }
-          )
+            },
+          ),
         );
       }
     }
@@ -272,13 +228,7 @@ class _LeaveDetailScreenState extends State<LeaveDetailScreen> {
     return approvalList;
   }
 
-  Widget badge(
-    String label,
-    {
-      Color? color,
-      Color? textColor,
-    }
-  ) {
+  Widget badge(String label, {Color? color, Color? textColor}) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
       decoration: BoxDecoration(
@@ -287,11 +237,8 @@ class _LeaveDetailScreenState extends State<LeaveDetailScreen> {
       ),
       child: Text(
         label,
-        style: TextStyle(
-          color: textColor ?? Colors.white,
-          fontSize: 12,
-        ),
-      )
+        style: TextStyle(color: textColor ?? Colors.white, fontSize: 12),
+      ),
     );
   }
 }

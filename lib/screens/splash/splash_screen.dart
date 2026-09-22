@@ -8,7 +8,7 @@ import 'package:dpbtn_absen/screens/login/login_screen.dart';
 import 'package:dpbtn_absen/screens/main/main_screen.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({ super.key });
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -22,13 +22,13 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     splashScreenHandler();
   }
-  
-  splashScreenHandler() async{
+
+  splashScreenHandler() async {
     await requestLocationPermission();
     await requestCameraPermission();
-    
+
     String? accessToken = await Http().getAccessToken();
-    if(accessToken != null) {
+    if (accessToken != null) {
       return Timer(duration, redirectToHomeScreen);
     } else {
       return Timer(duration, redirectToLoginScreen);
@@ -62,8 +62,8 @@ class _SplashScreenState extends State<SplashScreen> {
             width: MediaQuery.of(context).size.width,
             fit: BoxFit.fitWidth,
           ),
-        )
-      )
+        ),
+      ),
     );
   }
 }

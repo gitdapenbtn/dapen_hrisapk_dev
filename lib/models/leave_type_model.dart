@@ -6,7 +6,7 @@ class LeaveTypeModel {
   final bool isContinues;
   final bool isMinus;
   final int quota;
-  
+
   LeaveTypeModel({
     required this.id,
     required this.name,

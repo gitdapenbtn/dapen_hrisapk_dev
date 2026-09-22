@@ -13,8 +13,9 @@ class EmployeeOrganizationProvider with ChangeNotifier {
   List<EmployeeOrganizationModel> get employeeOrganizations =>
       _employeeOrganizations;
 
-  Future<HttpModel> getEmployeeOrganizations(
-      {Map<String, dynamic>? params}) async {
+  Future<HttpModel> getEmployeeOrganizations({
+    Map<String, dynamic>? params,
+  }) async {
     try {
       HttpModel response = await http.get('employee_organizations', params);
 

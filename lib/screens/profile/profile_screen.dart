@@ -8,13 +8,13 @@ import 'package:dpbtn_absen/providers/profile_provider.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({ super.key });
+  const ProfileScreen({super.key});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {  
+class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController _nikController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _genderController = TextEditingController();
@@ -49,22 +49,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
       _isLoading = true;
     });
     return Future.delayed(const Duration(seconds: 1), () async {
-
       await _profileProvider.getProfile();
-      
 
       final employee = _profileProvider.profile!.employee!;
 
       _nikController.text = employee.registrationNumber ?? '';
       _nameController.text = employee.name;
       _emailController.text = employee.email;
-      _genderController.text = employee.gender != null ? employee.gender!.name : '';
+      _genderController.text = employee.gender != null
+          ? employee.gender!.name
+          : '';
       _birthdayController.text = employee.birthday ?? '';
       _religionController.text = employee.religion ?? '';
       _joinDateController.text = employee.joinDate ?? '';
 
-      _organizationController.text = employee.organization != null ? employee.organization!.name : '';
-      _positionController.text = employee.position != null ? employee.position!.name : '';
+      _organizationController.text = employee.organization != null
+          ? employee.organization!.name
+          : '';
+      _positionController.text = employee.position != null
+          ? employee.position!.name
+          : '';
 
       setState(() {
         _isLoading = false;
@@ -78,15 +82,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       hasNavigationBottom: true,
       isLoading: _isLoading,
       onRefresh: _onRefresh,
-      appBar: const LayoutAppBar(
-        title: 'Profil',
-      ),
+      appBar: const LayoutAppBar(title: 'Profil'),
       child: Column(
         children: [
-          const SectionTitle(
-            'Biodata', 
-            margin: EdgeInsets.only(bottom: 20),
-          ),
+          const SectionTitle('Biodata', margin: EdgeInsets.only(bottom: 20)),
           Section(
             child: Column(
               children: [
@@ -101,59 +100,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 TextFormField(
                   controller: _nameController,
                   enabled: false,
-                  decoration: CustomInputDecoration(
-                    labelText: 'Nama Karyawan',
-                  ),
+                  decoration: CustomInputDecoration(labelText: 'Nama Karyawan'),
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
                   controller: _genderController,
                   enabled: false,
-                  decoration: CustomInputDecoration(
-                    labelText: 'Jenis Kelamin',
-                  ),
+                  decoration: CustomInputDecoration(labelText: 'Jenis Kelamin'),
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
                   controller: _birthdayController,
                   enabled: false,
-                  decoration: CustomInputDecoration(
-                    labelText: 'Tanggal Lahir',
-                  ),
+                  decoration: CustomInputDecoration(labelText: 'Tanggal Lahir'),
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
                   controller: _religionController,
                   enabled: false,
-                  decoration: CustomInputDecoration(
-                    labelText: 'Agama',
-                  ),
+                  decoration: CustomInputDecoration(labelText: 'Agama'),
                 ),
-              ]
+              ],
             ),
           ),
 
-          const SectionTitle(
-            'Pekerjaan', 
-            margin: EdgeInsets.only(bottom: 20),
-          ),
+          const SectionTitle('Pekerjaan', margin: EdgeInsets.only(bottom: 20)),
           Section(
             child: Column(
               children: [
                 TextFormField(
                   controller: _positionController,
                   enabled: false,
-                  decoration: CustomInputDecoration(
-                    labelText: 'Jabatan',
-                  ),
+                  decoration: CustomInputDecoration(labelText: 'Jabatan'),
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
                   controller: _organizationController,
                   enabled: false,
-                  decoration: CustomInputDecoration(
-                    labelText: 'Divisi',
-                  ),
+                  decoration: CustomInputDecoration(labelText: 'Divisi'),
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
@@ -163,25 +147,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     labelText: 'Tanggal Bergabung',
                   ),
                 ),
-              ]
+              ],
             ),
           ),
 
-          const SectionTitle(
-            'Akun', 
-            margin: EdgeInsets.only(bottom: 20),
-          ),
+          const SectionTitle('Akun', margin: EdgeInsets.only(bottom: 20)),
           Section(
             child: Column(
               children: [
                 TextFormField(
                   controller: _emailController,
-                  decoration: CustomInputDecoration(
-                    labelText: 'Email',
-                  ),
+                  decoration: CustomInputDecoration(labelText: 'Email'),
                   enabled: false,
                 ),
-              ]
+              ],
             ),
           ),
         ],

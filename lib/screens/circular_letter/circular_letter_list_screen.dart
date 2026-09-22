@@ -62,14 +62,8 @@ class _CircularLetterListScreenState extends State<CircularLetterListScreen> {
     return Layout(
       onRefresh: _onRefresh,
       isLoading: _isLoading,
-      appBar: const LayoutAppBar(
-        title: 'Dokumen Pedoman',
-      ),
-      child: Column(
-        children: [
-          _listView(_guidelineProvider.guidelines),
-        ],
-      ),
+      appBar: const LayoutAppBar(title: 'Dokumen Pedoman'),
+      child: Column(children: [_listView(_guidelineProvider.guidelines)]),
     );
   }
 
@@ -80,9 +74,9 @@ class _CircularLetterListScreenState extends State<CircularLetterListScreen> {
       itemCount: guidelines.length,
       padding: const EdgeInsets.symmetric(horizontal: 10),
       itemBuilder: (ctx, i) {
-        String lastReviewAt = DateFormat('dd MMMM yyyy')
-            .format(guidelines[i].lastReviewAt)
-            .toString();
+        String lastReviewAt = DateFormat(
+          'dd MMMM yyyy',
+        ).format(guidelines[i].lastReviewAt).toString();
 
         return InkWell(
           onTap: () {
@@ -107,7 +101,7 @@ class _CircularLetterListScreenState extends State<CircularLetterListScreen> {
                   color: Colors.black.withOpacity(.05),
                   blurRadius: 5,
                   offset: const Offset(0, 2),
-                )
+                ),
               ],
             ),
             child: Column(
@@ -130,9 +124,7 @@ class _CircularLetterListScreenState extends State<CircularLetterListScreen> {
                           const SizedBox(height: 10),
                           Text(
                             guidelines[i].title,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
@@ -143,11 +135,8 @@ class _CircularLetterListScreenState extends State<CircularLetterListScreen> {
                 const Divider(),
                 Text(
                   'Terakhir Di Review : $lastReviewAt',
-                  style: const TextStyle(
-                    color: Colors.black45,
-                    fontSize: 12,
-                  ),
-                )
+                  style: const TextStyle(color: Colors.black45, fontSize: 12),
+                ),
               ],
             ),
           ),

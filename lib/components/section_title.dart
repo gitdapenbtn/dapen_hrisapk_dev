@@ -5,28 +5,19 @@ class SectionTitle extends StatelessWidget {
   final Function? onPressed;
   final EdgeInsets? margin;
 
-  const SectionTitle(this.title, { 
-    super.key,
-    this.onPressed,
-    this.margin,
-  });
+  const SectionTitle(this.title, {super.key, this.onPressed, this.margin});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 20,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       margin: margin,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             title ?? '',
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 15,
-            ),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
           ),
           Visibility(
             visible: onPressed != null,
@@ -36,11 +27,8 @@ class SectionTitle extends StatelessWidget {
                 onPressed!();
               },
               child: const Text(
-                'Lihat Semua', 
-                style: TextStyle(
-                  color: Colors.blue,
-                  fontSize: 12,
-                ),
+                'Lihat Semua',
+                style: TextStyle(color: Colors.blue, fontSize: 12),
               ),
             ),
           ),

@@ -35,21 +35,17 @@ class _CircularLetterPdfScreenState extends State<CircularLetterPdfScreen> {
         title: Text(widget.title),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(
-              Icons.keyboard_arrow_up,
-            ),
+            icon: const Icon(Icons.keyboard_arrow_up),
             onPressed: () {
               _pdfViewerController.previousPage();
             },
           ),
           IconButton(
-            icon: const Icon(
-              Icons.keyboard_arrow_down,
-            ),
+            icon: const Icon(Icons.keyboard_arrow_down),
             onPressed: () {
               _pdfViewerController.nextPage();
             },
-          )
+          ),
         ],
       ),
       body: SafeArea(

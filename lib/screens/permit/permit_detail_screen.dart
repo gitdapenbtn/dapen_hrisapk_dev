@@ -12,10 +12,7 @@ import 'package:unicons/unicons.dart';
 
 class PermitDetailScreen extends StatefulWidget {
   final PermitModel permit;
-  const PermitDetailScreen({
-    super.key,
-    required this.permit,
-  });
+  const PermitDetailScreen({super.key, required this.permit});
 
   @override
   State<PermitDetailScreen> createState() => _PermitDetailScreenState();
@@ -34,7 +31,7 @@ class _PermitDetailScreenState extends State<PermitDetailScreen> {
 
   @override
   @protected
-  @mustCallSuper 
+  @mustCallSuper
   void didChangeDependencies() {
     super.didChangeDependencies();
     _permitProvider = Provider.of<PermitProvider>(context);
@@ -44,7 +41,7 @@ class _PermitDetailScreenState extends State<PermitDetailScreen> {
     setState(() {
       _isLoading = true;
     });
-    
+
     return Future.delayed(const Duration(seconds: 1), () async {
       await _permitProvider.findPermitById(id: widget.permit.id);
 
@@ -59,9 +56,7 @@ class _PermitDetailScreenState extends State<PermitDetailScreen> {
     return Layout(
       isLoading: _isLoading,
       onRefresh: _onRefresh,
-      appBar: const LayoutAppBar(
-        title: 'Detail Izin',
-      ),
+      appBar: const LayoutAppBar(title: 'Detail Izin'),
       padding: const EdgeInsets.all(20),
       child: _body(),
     );
@@ -69,30 +64,19 @@ class _PermitDetailScreenState extends State<PermitDetailScreen> {
 
   Widget _body() {
     Widget body;
-    if(_permitProvider.permit != null) {
+    if (_permitProvider.permit != null) {
       body = Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _text(
-            title: 'Nama Karyawan',
-            value: widget.permit.employee!.name
-          ),
-          _text(
-            title: 'Tipe Izin',
-            value: widget.permit.type.name
-          ),
+          _text(title: 'Nama Karyawan', value: widget.permit.employee!.name),
+          _text(title: 'Tipe Izin', value: widget.permit.type.name),
           _text(
             title: 'Tanggal Izin',
-            value: '${widget.permit.startDate.toLocalId('dd MMM yyyy')} - ${widget.permit.endDate.toLocalId('dd MMM yyyy')}',
+            value:
+                '${widget.permit.startDate.toLocalId('dd MMM yyyy')} - ${widget.permit.endDate.toLocalId('dd MMM yyyy')}',
           ),
-          _text(
-            title: 'Alasan',
-            value: widget.permit.reason,
-          ),
-          _text(
-            title: 'Status',
-            value: widget.permit.status.name,
-          ),
+          _text(title: 'Alasan', value: widget.permit.reason),
+          _text(title: 'Status', value: widget.permit.status.name),
 
           _title('Lampiran'),
           _attachmentList(_permitProvider.permit!.attachments),
@@ -113,32 +97,20 @@ class _PermitDetailScreenState extends State<PermitDetailScreen> {
   Widget _title(String title) {
     return Text(
       title,
-      style: const TextStyle(
-        color: LayoutColor.textSecondary
-      ),
+      style: const TextStyle(color: LayoutColor.textSecondary),
     );
   }
 
-  Widget _text({
-    required String title,
-    String? value,
-  }) {
+  Widget _text({required String title, String? value}) {
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: const TextStyle(
-              color: LayoutColor.textSecondary
-            ),
-          ),
+          Text(title, style: const TextStyle(color: LayoutColor.textSecondary)),
           Text(
             value ?? '-',
-            style: const TextStyle(
-              fontWeight: FontWeight.bold
-            ),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ],
       ),
@@ -147,8 +119,8 @@ class _PermitDetailScreenState extends State<PermitDetailScreen> {
 
   Widget _attachmentList(List<AttachmentModel>? attachments) {
     Widget attahcmentList = const Text('Tidak ada lampiran.');
-    if(attachments != null) {
-      if(attachments.isNotEmpty) {
+    if (attachments != null) {
+      if (attachments.isNotEmpty) {
         attahcmentList = Container(
           margin: const EdgeInsets.only(top: 10),
           child: ListView.builder(
@@ -165,11 +137,8 @@ class _PermitDetailScreenState extends State<PermitDetailScreen> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
                   boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 1
-                    )
-                  ]
+                    BoxShadow(color: Colors.black12, blurRadius: 1),
+                  ],
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -178,9 +147,7 @@ class _PermitDetailScreenState extends State<PermitDetailScreen> {
                     Flexible(
                       child: Text(
                         attachments[i].name,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold
-                        ),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
                     const SizedBox(width: 30),
@@ -191,8 +158,8 @@ class _PermitDetailScreenState extends State<PermitDetailScreen> {
                   ],
                 ),
               );
-            }
-          )
+            },
+          ),
         );
       }
     }
@@ -202,8 +169,8 @@ class _PermitDetailScreenState extends State<PermitDetailScreen> {
 
   Widget _approvalList(List<ApproverModel>? approvers) {
     Widget approvalList = const Text('Tidak ada pemberi persetujuan.');
-    if(approvers != null) {
-      if(approvers.isNotEmpty) {
+    if (approvers != null) {
+      if (approvers.isNotEmpty) {
         approvalList = Container(
           margin: const EdgeInsets.only(top: 10),
           child: ListView.builder(
@@ -212,23 +179,17 @@ class _PermitDetailScreenState extends State<PermitDetailScreen> {
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (ctx, i) {
               Widget status;
-              if(approvers[i].isApproved != null) {
-                if(approvers[i].isApproved == true) {
-                  status = badge(
-                    'Disetujui', 
-                    color: LayoutColor.success,
-                  );
+              if (approvers[i].isApproved != null) {
+                if (approvers[i].isApproved == true) {
+                  status = badge('Disetujui', color: LayoutColor.success);
                 } else {
-                  status = badge(
-                    'Ditolak', 
-                    color: LayoutColor.danger,
-                  );
+                  status = badge('Ditolak', color: LayoutColor.danger);
                 }
               } else {
                 status = badge(
-                  'Diproses', 
+                  'Diproses',
                   color: LayoutColor.disabled,
-                  textColor: LayoutColor.textPrimary
+                  textColor: LayoutColor.textPrimary,
                 );
               }
 
@@ -241,11 +202,8 @@ class _PermitDetailScreenState extends State<PermitDetailScreen> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
                   boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 1
-                    )
-                  ]
+                    BoxShadow(color: Colors.black12, blurRadius: 1),
+                  ],
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -254,9 +212,7 @@ class _PermitDetailScreenState extends State<PermitDetailScreen> {
                     Flexible(
                       child: Text(
                         approvers[i].name,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold
-                        ),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
                     const SizedBox(width: 30),
@@ -264,8 +220,8 @@ class _PermitDetailScreenState extends State<PermitDetailScreen> {
                   ],
                 ),
               );
-            }
-          )
+            },
+          ),
         );
       }
     }
@@ -273,13 +229,7 @@ class _PermitDetailScreenState extends State<PermitDetailScreen> {
     return approvalList;
   }
 
-  Widget badge(
-    String label,
-    {
-      Color? color,
-      Color? textColor,
-    }
-  ) {
+  Widget badge(String label, {Color? color, Color? textColor}) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
       decoration: BoxDecoration(
@@ -288,11 +238,8 @@ class _PermitDetailScreenState extends State<PermitDetailScreen> {
       ),
       child: Text(
         label,
-        style: TextStyle(
-          color: textColor ?? Colors.white,
-          fontSize: 12,
-        ),
-      )
+        style: TextStyle(color: textColor ?? Colors.white, fontSize: 12),
+      ),
     );
   }
 }

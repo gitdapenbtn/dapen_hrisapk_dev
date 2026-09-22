@@ -24,7 +24,7 @@ class AttendanceModel {
   final String? latitudeOut;
   final String? longitudeOut;
   final EmployeeModel? employee;
-  
+
   AttendanceModel({
     required this.id,
     required this.date,
@@ -77,7 +77,7 @@ class AttendanceModel {
     EmployeeModel? employee,
   }) {
     return AttendanceModel(
-      id: id ?? this.id, 
+      id: id ?? this.id,
       date: date ?? this.date,
       timeIn: timeIn ?? this.timeIn,
       timeOut: timeOut ?? this.timeOut,
@@ -137,8 +137,8 @@ class AttendanceModel {
       noteIn: data['note_in'],
       noteOut: data['note_out'],
       employee: data['employee'] != null
-        ? EmployeeModel.fromJson(data['employee'])
-        : null,
+          ? EmployeeModel.fromJson(data['employee'])
+          : null,
     );
   }
 }

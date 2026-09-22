@@ -27,7 +27,8 @@ class ResetPasswordScreen extends StatefulWidget {
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   late AuthProvider _authProvider;
   final TextEditingController _newPasswordController = TextEditingController();
-  final TextEditingController _newPasswordConfirmationController = TextEditingController();
+  final TextEditingController _newPasswordConfirmationController =
+      TextEditingController();
   final FocusNode _newPasswordFocus = FocusNode();
   final FocusNode _newPasswordConfirmationFocus = FocusNode();
   String? _errorMessage;
@@ -49,33 +50,32 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     String newPassword = _newPasswordController.text;
     String newPasswordConfirmation = _newPasswordConfirmationController.text;
 
-    if(newPassword == newPasswordConfirmation) {
-      _authProvider.resetPassword(
-          email: widget.email,
-          newPassword: newPassword,
-          newPasswordConfirmation: newPasswordConfirmation, 
-          verificationCode: widget.verificationCode
-        )
-        .then((resp) {
-          showSnackBarAnywhere(resp.message ?? '');
-          Navigator.pushAndRemoveUntil(
-            context, 
-            MaterialPageRoute(
-              builder: (context) => const LoginScreen(),
-            ),
-            (route) => false
-          );
-        })
-        .catchError((err) {
-          setState(() {
-            _errorMessage = err.toString();
+    if (newPassword == newPasswordConfirmation) {
+      _authProvider
+          .resetPassword(
+            email: widget.email,
+            newPassword: newPassword,
+            newPasswordConfirmation: newPasswordConfirmation,
+            verificationCode: widget.verificationCode,
+          )
+          .then((resp) {
+            showSnackBarAnywhere(resp.message ?? '');
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const LoginScreen()),
+              (route) => false,
+            );
+          })
+          .catchError((err) {
+            setState(() {
+              _errorMessage = err.toString();
+            });
+          })
+          .whenComplete(() {
+            setState(() {
+              _isLoading = false;
+            });
           });
-        })
-        .whenComplete(() {
-          setState(() {
-            _isLoading = false;
-          });
-        });
     } else {
       setState(() {
         _newPasswordController.clear();
@@ -101,9 +101,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             BoxShadow(
               color: Colors.black12,
               offset: Offset(0, -2),
-              blurRadius: 10
-            )
-          ]
+              blurRadius: 10,
+            ),
+          ],
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -111,22 +111,28 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             Container(
               alignment: Alignment.center,
               width: double.infinity,
-              child: const Text('Atur Ulang Password', style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                color: Colors.black87
-              )),
+              child: const Text(
+                'Atur Ulang Password',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: Colors.black87,
+                ),
+              ),
             ),
 
             Container(
               margin: const EdgeInsets.only(bottom: 30),
               alignment: Alignment.center,
               width: double.infinity,
-              child: const Text('Masukkan Password Baru', style: TextStyle(
-                fontWeight: FontWeight.normal,
-                fontSize: 15,
-                color: Colors.black54
-              )),
+              child: const Text(
+                'Masukkan Password Baru',
+                style: TextStyle(
+                  fontWeight: FontWeight.normal,
+                  fontSize: 15,
+                  color: Colors.black54,
+                ),
+              ),
             ),
 
             Container(
@@ -159,7 +165,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 enabled: !_isLoading,
               ),
             ),
-                          
+
             Visibility(
               visible: _errorMessage != null,
               child: AlertMessage(
@@ -173,9 +179,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               margin: const EdgeInsets.only(top: 20),
               alignment: Alignment.center,
               child: PrimaryButton(
-                onPressed: !_isLoading 
-                  ? _submitHandler 
-                  : null,
+                onPressed: !_isLoading ? _submitHandler : null,
                 child: const Text('Ubah Password'),
               ),
             ),
@@ -183,9 +187,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         ),
       ),
       backgroundColor: LayoutColor.primary,
-      body: Center(
-        child: SvgPicture.asset('assets/svg/attendance2.svg')
-      ),
+      body: Center(child: SvgPicture.asset('assets/svg/attendance2.svg')),
     );
   }
 }

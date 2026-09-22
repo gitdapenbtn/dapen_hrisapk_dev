@@ -12,10 +12,7 @@ import 'package:unicons/unicons.dart';
 
 class OvertimeDetailScreen extends StatefulWidget {
   final OvertimeModel overtime;
-  const OvertimeDetailScreen({
-    super.key,
-    required this.overtime,
-  });
+  const OvertimeDetailScreen({super.key, required this.overtime});
 
   @override
   State<OvertimeDetailScreen> createState() => _OvertimeDetailScreenState();
@@ -34,7 +31,7 @@ class _OvertimeDetailScreenState extends State<OvertimeDetailScreen> {
 
   @override
   @protected
-  @mustCallSuper 
+  @mustCallSuper
   void didChangeDependencies() {
     super.didChangeDependencies();
     _overtimeProvider = Provider.of<OvertimeProvider>(context);
@@ -44,7 +41,7 @@ class _OvertimeDetailScreenState extends State<OvertimeDetailScreen> {
     setState(() {
       _isLoading = true;
     });
-    
+
     return Future.delayed(const Duration(seconds: 1), () async {
       await _overtimeProvider.findOvertimeById(id: widget.overtime.id);
 
@@ -59,9 +56,7 @@ class _OvertimeDetailScreenState extends State<OvertimeDetailScreen> {
     return Layout(
       isLoading: _isLoading,
       onRefresh: _onRefresh,
-      appBar: const LayoutAppBar(
-        title: 'Detail Lembur',
-      ),
+      appBar: const LayoutAppBar(title: 'Detail Lembur'),
       padding: const EdgeInsets.all(20),
       child: _body(),
     );
@@ -69,34 +64,26 @@ class _OvertimeDetailScreenState extends State<OvertimeDetailScreen> {
 
   Widget _body() {
     Widget body;
-    if(_overtimeProvider.overtime != null) {
+    if (_overtimeProvider.overtime != null) {
       body = Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _text(
-            title: 'Nama Karyawan',
-            value: widget.overtime.employee!.name
-          ),
-          _text(
-            title: 'Tipe Lembur',
-            value: widget.overtime.type.name
-          ),
+          _text(title: 'Nama Karyawan', value: widget.overtime.employee!.name),
+          _text(title: 'Tipe Lembur', value: widget.overtime.type.name),
           _text(
             title: 'Mulai',
-            value: widget.overtime.startDate.toLocalId('dd MMM yyyy, HH:mm').toString(),
+            value: widget.overtime.startDate
+                .toLocalId('dd MMM yyyy, HH:mm')
+                .toString(),
           ),
           _text(
             title: 'Berakhir',
-            value: widget.overtime.endDate.toLocalId('dd MMM yyyy, HH:mm').toString(),
+            value: widget.overtime.endDate
+                .toLocalId('dd MMM yyyy, HH:mm')
+                .toString(),
           ),
-          _text(
-            title: 'Alasan',
-            value: widget.overtime.reason,
-          ),
-          _text(
-            title: 'Status',
-            value: widget.overtime.status.name,
-          ),
+          _text(title: 'Alasan', value: widget.overtime.reason),
+          _text(title: 'Status', value: widget.overtime.status.name),
 
           _title('Lampiran'),
           _attachmentList(_overtimeProvider.overtime!.attachments),
@@ -117,32 +104,20 @@ class _OvertimeDetailScreenState extends State<OvertimeDetailScreen> {
   Widget _title(String title) {
     return Text(
       title,
-      style: const TextStyle(
-        color: LayoutColor.textSecondary
-      ),
+      style: const TextStyle(color: LayoutColor.textSecondary),
     );
   }
 
-  Widget _text({
-    required String title,
-    String? value,
-  }) {
+  Widget _text({required String title, String? value}) {
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: const TextStyle(
-              color: LayoutColor.textSecondary
-            ),
-          ),
+          Text(title, style: const TextStyle(color: LayoutColor.textSecondary)),
           Text(
             value ?? '-',
-            style: const TextStyle(
-              fontWeight: FontWeight.bold
-            ),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ],
       ),
@@ -151,8 +126,8 @@ class _OvertimeDetailScreenState extends State<OvertimeDetailScreen> {
 
   Widget _attachmentList(List<AttachmentModel>? attachments) {
     Widget attahcmentList = const Text('Tidak ada lampiran.');
-    if(attachments != null) {
-      if(attachments.isNotEmpty) {
+    if (attachments != null) {
+      if (attachments.isNotEmpty) {
         attahcmentList = Container(
           margin: const EdgeInsets.only(top: 10),
           child: ListView.builder(
@@ -169,11 +144,8 @@ class _OvertimeDetailScreenState extends State<OvertimeDetailScreen> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
                   boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 1
-                    )
-                  ]
+                    BoxShadow(color: Colors.black12, blurRadius: 1),
+                  ],
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -182,9 +154,7 @@ class _OvertimeDetailScreenState extends State<OvertimeDetailScreen> {
                     Flexible(
                       child: Text(
                         attachments[i].name,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold
-                        ),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
                     const SizedBox(width: 30),
@@ -195,8 +165,8 @@ class _OvertimeDetailScreenState extends State<OvertimeDetailScreen> {
                   ],
                 ),
               );
-            }
-          )
+            },
+          ),
         );
       }
     }
@@ -206,8 +176,8 @@ class _OvertimeDetailScreenState extends State<OvertimeDetailScreen> {
 
   Widget _approvalList(List<ApproverModel>? approvers) {
     Widget approvalList = const Text('Tidak ada pemberi persetujuan.');
-    if(approvers != null) {
-      if(approvers.isNotEmpty) {
+    if (approvers != null) {
+      if (approvers.isNotEmpty) {
         approvalList = Container(
           margin: const EdgeInsets.only(top: 10),
           child: ListView.builder(
@@ -216,23 +186,17 @@ class _OvertimeDetailScreenState extends State<OvertimeDetailScreen> {
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (ctx, i) {
               Widget status;
-              if(approvers[i].isApproved != null) {
-                if(approvers[i].isApproved == true) {
-                  status = badge(
-                    'Disetujui', 
-                    color: LayoutColor.success,
-                  );
+              if (approvers[i].isApproved != null) {
+                if (approvers[i].isApproved == true) {
+                  status = badge('Disetujui', color: LayoutColor.success);
                 } else {
-                  status = badge(
-                    'Ditolak', 
-                    color: LayoutColor.danger,
-                  );
+                  status = badge('Ditolak', color: LayoutColor.danger);
                 }
               } else {
                 status = badge(
-                  'Diproses', 
+                  'Diproses',
                   color: LayoutColor.disabled,
-                  textColor: LayoutColor.textPrimary
+                  textColor: LayoutColor.textPrimary,
                 );
               }
 
@@ -245,11 +209,8 @@ class _OvertimeDetailScreenState extends State<OvertimeDetailScreen> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
                   boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 1
-                    )
-                  ]
+                    BoxShadow(color: Colors.black12, blurRadius: 1),
+                  ],
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -258,9 +219,7 @@ class _OvertimeDetailScreenState extends State<OvertimeDetailScreen> {
                     Flexible(
                       child: Text(
                         approvers[i].name,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold
-                        ),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
                     const SizedBox(width: 30),
@@ -268,8 +227,8 @@ class _OvertimeDetailScreenState extends State<OvertimeDetailScreen> {
                   ],
                 ),
               );
-            }
-          )
+            },
+          ),
         );
       }
     }
@@ -277,13 +236,7 @@ class _OvertimeDetailScreenState extends State<OvertimeDetailScreen> {
     return approvalList;
   }
 
-  Widget badge(
-    String label,
-    {
-      Color? color,
-      Color? textColor,
-    }
-  ) {
+  Widget badge(String label, {Color? color, Color? textColor}) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
       decoration: BoxDecoration(
@@ -292,11 +245,8 @@ class _OvertimeDetailScreenState extends State<OvertimeDetailScreen> {
       ),
       child: Text(
         label,
-        style: TextStyle(
-          color: textColor ?? Colors.white,
-          fontSize: 12,
-        ),
-      )
+        style: TextStyle(color: textColor ?? Colors.white, fontSize: 12),
+      ),
     );
   }
 }

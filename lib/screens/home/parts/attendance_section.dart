@@ -6,9 +6,7 @@ import 'package:dpbtn_absen/screens/attendance/attendance_out_screen.dart';
 import 'package:provider/provider.dart';
 
 class AttendanceSection extends StatefulWidget {
-  const AttendanceSection({ 
-    super.key 
-  });
+  const AttendanceSection({super.key});
 
   @override
   State<AttendanceSection> createState() => _AttendanceSectionState();
@@ -31,22 +29,18 @@ class _AttendanceSectionState extends State<AttendanceSection> {
   }
 
   bool _canCheckIn() {
-    return (
-      !_hasCheckIn() &&
-      !_profileProvider.attendance.isDayOff &&
-      !_profileProvider.attendance.isLeave &&
-      !_profileProvider.attendance.isPermit
-    );
+    return (!_hasCheckIn() &&
+        !_profileProvider.attendance.isDayOff &&
+        !_profileProvider.attendance.isLeave &&
+        !_profileProvider.attendance.isPermit);
   }
 
   bool _canCheckOut() {
-    return (
-      _hasCheckIn() &&
-      !_hasCheckOut() &&
-      !_profileProvider.attendance.isDayOff &&
-      !_profileProvider.attendance.isLeave &&
-      !_profileProvider.attendance.isPermit
-    );
+    return (_hasCheckIn() &&
+        !_hasCheckOut() &&
+        !_profileProvider.attendance.isDayOff &&
+        !_profileProvider.attendance.isLeave &&
+        !_profileProvider.attendance.isPermit);
   }
 
   bool _hasCheckIn() {
@@ -56,13 +50,13 @@ class _AttendanceSectionState extends State<AttendanceSection> {
   bool _hasCheckOut() {
     return (_profileProvider.attendance.timeOut != null);
   }
-  
+
   Widget _checkInStatus() {
     String label;
     Color color;
-    if(_profileProvider.attendance.scheduleIn != null) {
-      if(_profileProvider.attendance.timeIn != null) {
-        if(_profileProvider.attendance.isComeOnTime) {
+    if (_profileProvider.attendance.scheduleIn != null) {
+      if (_profileProvider.attendance.timeIn != null) {
+        if (_profileProvider.attendance.isComeOnTime) {
           label = 'Tepat Waktu';
           color = LayoutColor.success;
         } else {
@@ -77,21 +71,15 @@ class _AttendanceSectionState extends State<AttendanceSection> {
       label = '-';
       color = LayoutColor.textSecondary;
     }
-    return Text(
-      label, 
-      style: TextStyle(
-        color: color,
-        fontSize: 12,
-      )
-    );
+    return Text(label, style: TextStyle(color: color, fontSize: 12));
   }
-  
+
   Widget _checkOutStatus() {
     String label;
     Color color;
-    if(_profileProvider.attendance.scheduleIn != null) {
-      if(_profileProvider.attendance.timeOut != null) {
-        if(_profileProvider.attendance.isOutOnTime) {
+    if (_profileProvider.attendance.scheduleIn != null) {
+      if (_profileProvider.attendance.timeOut != null) {
+        if (_profileProvider.attendance.isOutOnTime) {
           label = 'Tepat Waktu';
           color = LayoutColor.success;
         } else {
@@ -106,24 +94,15 @@ class _AttendanceSectionState extends State<AttendanceSection> {
       label = '-';
       color = LayoutColor.textSecondary;
     }
-    return Text(
-      label, 
-      style: TextStyle(
-        color: color,
-        fontSize: 12,
-      )
-    );
+    return Text(label, style: TextStyle(color: color, fontSize: 12));
   }
-  
+
   Widget _checkInTime() {
     String label = _profileProvider.attendance.timeIn ?? '__:__';
 
     return Text(
-      label, 
-      style: const TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 18,
-      )
+      label,
+      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
     );
   }
 
@@ -131,11 +110,8 @@ class _AttendanceSectionState extends State<AttendanceSection> {
     String label = _profileProvider.attendance.timeOut ?? '__:__';
 
     return Text(
-      label, 
-      style: const TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 18,
-      )
+      label,
+      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
     );
   }
 
@@ -148,7 +124,7 @@ class _AttendanceSectionState extends State<AttendanceSection> {
   _checkIn() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const AttendanceInScreen())
+      MaterialPageRoute(builder: (context) => const AttendanceInScreen()),
     );
   }
 
@@ -156,20 +132,23 @@ class _AttendanceSectionState extends State<AttendanceSection> {
     final now = TimeOfDay.now();
     TimeOfDay scheduleTime = TimeOfDay.now();
 
-    if(_profileProvider.attendance.scheduleOut != null) {
+    if (_profileProvider.attendance.scheduleOut != null) {
       List schedule = _profileProvider.attendance.scheduleOut!.split(':');
-      scheduleTime = TimeOfDay(hour: int.parse(schedule[0]), minute: int.parse(schedule[1]));
+      scheduleTime = TimeOfDay(
+        hour: int.parse(schedule[0]),
+        minute: int.parse(schedule[1]),
+      );
     }
 
     int nowSecond = _strToSecond(now.hour, now.minute);
     int scheduleSecond = _strToSecond(scheduleTime.hour, scheduleTime.minute);
 
-    if(nowSecond < scheduleSecond) {
+    if (nowSecond < scheduleSecond) {
       _showOutEarlyDialog();
     } else {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const AttendanceOutScreen())
+        MaterialPageRoute(builder: (context) => const AttendanceOutScreen()),
       );
     }
   }
@@ -178,18 +157,18 @@ class _AttendanceSectionState extends State<AttendanceSection> {
     // set up the buttons
     Widget cancelButton = TextButton(
       child: const Text("Batal"),
-      onPressed:  () {
+      onPressed: () {
         Navigator.pop(context);
       },
     );
-    
+
     Widget continueButton = TextButton(
       child: const Text("Lanjutkan"),
       onPressed: () {
         Navigator.pop(context);
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const AttendanceOutScreen())
+          MaterialPageRoute(builder: (context) => const AttendanceOutScreen()),
         );
       },
     );
@@ -198,10 +177,7 @@ class _AttendanceSectionState extends State<AttendanceSection> {
     AlertDialog alert = AlertDialog(
       title: const Text("Pulang Cepat"),
       content: const Text("Anda yakin ingin melanjutkan ?"),
-      actions: [
-        cancelButton,
-        continueButton,
-      ],
+      actions: [cancelButton, continueButton],
     );
 
     // show the dialog
@@ -214,7 +190,7 @@ class _AttendanceSectionState extends State<AttendanceSection> {
   }
 
   @override
-  Widget build(BuildContext context) {    
+  Widget build(BuildContext context) {
     return Row(
       children: [
         Container(
@@ -224,7 +200,6 @@ class _AttendanceSectionState extends State<AttendanceSection> {
           child: AttendanceCard(
             title: 'Ringkasan Bulan Ini',
             children: [
-
               SizedBox(
                 width: MediaQuery.of(context).size.width / 2.6,
                 child: Row(
@@ -237,8 +212,8 @@ class _AttendanceSectionState extends State<AttendanceSection> {
                     AttendanceSummaryItem(
                       label: 'Cuti',
                       value: _profileProvider.attendanceSummary.leave,
-                    )
-                  ]
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 20),
@@ -254,8 +229,8 @@ class _AttendanceSectionState extends State<AttendanceSection> {
                     AttendanceSummaryItem(
                       label: 'Alpa',
                       value: _profileProvider.attendanceSummary.absent,
-                    )
-                  ]
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -271,13 +246,8 @@ class _AttendanceSectionState extends State<AttendanceSection> {
                   width: MediaQuery.of(context).size.width,
                   child: AttendanceCard(
                     title: 'Absen Masuk',
-                    onPressed: _canCheckIn()
-                      ? _checkIn
-                      : null,
-                    children: [
-                      _checkInTime(),
-                      _checkInStatus(),
-                    ],
+                    onPressed: _canCheckIn() ? _checkIn : null,
+                    children: [_checkInTime(), _checkInStatus()],
                   ),
                 ),
 
@@ -288,17 +258,12 @@ class _AttendanceSectionState extends State<AttendanceSection> {
                   width: MediaQuery.of(context).size.width,
                   child: AttendanceCard(
                     title: 'Absen Pulang',
-                    onPressed: _canCheckOut()
-                      ? _checkOut
-                      : null,
-                    children: [
-                      _checkOutTime(),
-                      _checkOutStatus(),
-                    ],
+                    onPressed: _canCheckOut() ? _checkOut : null,
+                    children: [_checkOutTime(), _checkOutStatus()],
                   ),
                 ),
               ],
-            )
+            ),
           ),
         ),
       ],
@@ -306,23 +271,18 @@ class _AttendanceSectionState extends State<AttendanceSection> {
   }
 }
 
-class AttendanceCard extends StatelessWidget{
+class AttendanceCard extends StatelessWidget {
   final String? title;
   final List<Widget>? children;
   final Function? onPressed;
 
-  const AttendanceCard({
-    super.key,
-    this.title,
-    this.children,
-    this.onPressed,
-  });
+  const AttendanceCard({super.key, this.title, this.children, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        if(onPressed != null) {
+        if (onPressed != null) {
           onPressed!();
         }
       },
@@ -339,12 +299,10 @@ class AttendanceCard extends StatelessWidget{
                   Visibility(
                     visible: title != null,
                     child: Container(
-                      margin: const EdgeInsets.only(bottom:10),
+                      margin: const EdgeInsets.only(bottom: 10),
                       child: Text(
                         title ?? '',
-                        style: const TextStyle(
-                          fontSize: 12,
-                        ),
+                        style: const TextStyle(fontSize: 12),
                       ),
                     ),
                   ),
@@ -355,13 +313,10 @@ class AttendanceCard extends StatelessWidget{
               Visibility(
                 visible: onPressed != null,
                 child: const Flexible(
-                  child: Icon(
-                    Icons.chevron_right,
-                    color: Colors.black38,
-                  ),
+                  child: Icon(Icons.chevron_right, color: Colors.black38),
                 ),
               ),
-           ]
+            ],
           ),
         ),
       ),
@@ -369,15 +324,11 @@ class AttendanceCard extends StatelessWidget{
   }
 }
 
-class AttendanceSummaryItem extends StatelessWidget{
+class AttendanceSummaryItem extends StatelessWidget {
   final String label;
   final int value;
 
-  const AttendanceSummaryItem({
-    super.key,
-    this.label = '',
-    this.value = 0,
-  });
+  const AttendanceSummaryItem({super.key, this.label = '', this.value = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -388,18 +339,18 @@ class AttendanceSummaryItem extends StatelessWidget{
       decoration: BoxDecoration(
         color: LayoutColor.primary.withOpacity(.08),
         borderRadius: BorderRadius.circular(5),
-        border: Border.all(width: 1, color: LayoutColor.primary.withOpacity(.2)),
+        border: Border.all(
+          width: 1,
+          color: LayoutColor.primary.withOpacity(.2),
+        ),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            '$value', 
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 15,
-            ),
+            '$value',
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
           ),
           Text(
             label,
@@ -407,7 +358,7 @@ class AttendanceSummaryItem extends StatelessWidget{
               color: Colors.black45,
               letterSpacing: .5,
               fontWeight: FontWeight.bold,
-              fontSize: 12
+              fontSize: 12,
             ),
           ),
         ],

@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:unicons/unicons.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
-  const ForgotPasswordScreen({ super.key });
+  const ForgotPasswordScreen({super.key});
 
   @override
   State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
@@ -34,28 +34,29 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       _isLoading = true;
     });
 
-    _authProvider.forgotPassword(_emailController.text)
-      .then((resp) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ForgotPasswordConfirmationScreen(
-              email: _emailController.text,
-              verificationCode: resp.data['verification_code']
-            )
-          )
-        );
-      })
-      .catchError((err) {
-        setState(() {
-          _errorMessage = err.toString();
+    _authProvider
+        .forgotPassword(_emailController.text)
+        .then((resp) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ForgotPasswordConfirmationScreen(
+                email: _emailController.text,
+                verificationCode: resp.data['verification_code'],
+              ),
+            ),
+          );
+        })
+        .catchError((err) {
+          setState(() {
+            _errorMessage = err.toString();
+          });
+        })
+        .whenComplete(() {
+          setState(() {
+            _isLoading = false;
+          });
         });
-      })
-      .whenComplete(() {
-        setState(() {
-          _isLoading = false;
-        });
-      });
   }
 
   @override
@@ -74,9 +75,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             BoxShadow(
               color: Colors.black12,
               offset: Offset(0, -2),
-              blurRadius: 10
-            )
-          ]
+              blurRadius: 10,
+            ),
+          ],
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -84,22 +85,28 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             Container(
               alignment: Alignment.center,
               width: double.infinity,
-              child: const Text('Lupa Password', style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                color: Colors.black87
-              )),
+              child: const Text(
+                'Lupa Password',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: Colors.black87,
+                ),
+              ),
             ),
 
             Container(
               margin: const EdgeInsets.only(bottom: 30),
               alignment: Alignment.center,
               width: double.infinity,
-              child: const Text('Atur Ulang Password', style: TextStyle(
-                fontWeight: FontWeight.normal,
-                fontSize: 15,
-                color: Colors.black54
-              )),
+              child: const Text(
+                'Atur Ulang Password',
+                style: TextStyle(
+                  fontWeight: FontWeight.normal,
+                  fontSize: 15,
+                  color: Colors.black54,
+                ),
+              ),
             ),
 
             SizedBox(
@@ -113,7 +120,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 ),
               ),
             ),
-                          
+
             Visibility(
               visible: _errorMessage != null,
               child: AlertMessage(
@@ -142,18 +149,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               },
               child: const Text(
                 'Masuk',
-                style: TextStyle(
-                  color: LayoutColor.info
-                ),
+                style: TextStyle(color: LayoutColor.info),
               ),
-            )              
+            ),
           ],
         ),
       ),
       backgroundColor: LayoutColor.primary,
-      body: Center(
-        child: SvgPicture.asset('assets/svg/attendance2.svg')
-      ),
+      body: Center(child: SvgPicture.asset('assets/svg/attendance2.svg')),
     );
   }
 }

@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:unicons/unicons.dart';
 
 class LeaveQuotaScreen extends StatefulWidget {
-  const LeaveQuotaScreen({ super.key });
+  const LeaveQuotaScreen({super.key});
 
   @override
   State<LeaveQuotaScreen> createState() => _LeaveQuotaScreenState();
@@ -18,7 +18,7 @@ class LeaveQuotaScreen extends StatefulWidget {
 class _LeaveQuotaScreenState extends State<LeaveQuotaScreen> {
   late ProfileProvider _profileProvider;
   bool _isLoading = false;
-  
+
   @override
   void initState() {
     super.initState();
@@ -37,25 +37,22 @@ class _LeaveQuotaScreenState extends State<LeaveQuotaScreen> {
     setState(() {
       _isLoading = true;
     });
-    
+
     return Future.delayed(const Duration(seconds: 1), () async {
-      _profileProvider.getLeaveQuotas()
-        .whenComplete(() {
-          setState(() {
-            _isLoading = false;
-          });
+      _profileProvider.getLeaveQuotas().whenComplete(() {
+        setState(() {
+          _isLoading = false;
         });
+      });
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Layout(
       onRefresh: _onRefresh,
       isLoading: _isLoading,
-      appBar: const LayoutAppBar(
-        title: 'Saldo Cuti',
-      ),
+      appBar: const LayoutAppBar(title: 'Saldo Cuti'),
       child: _listView(_profileProvider.leaveQuotas),
     );
   }
@@ -68,8 +65,7 @@ class _LeaveQuotaScreenState extends State<LeaveQuotaScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       itemBuilder: (ctx, i) {
         return InkWell(
-          onTap: () {
-          },
+          onTap: () {},
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             margin: const EdgeInsets.only(bottom: 20),
@@ -80,9 +76,9 @@ class _LeaveQuotaScreenState extends State<LeaveQuotaScreen> {
                 BoxShadow(
                   color: Colors.black.withOpacity(.05),
                   blurRadius: 5,
-                  offset: const Offset(0,2),
-                )
-              ]
+                  offset: const Offset(0, 2),
+                ),
+              ],
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,7 +87,7 @@ class _LeaveQuotaScreenState extends State<LeaveQuotaScreen> {
                   leaveQuotas[i].name.toTitleCase(),
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: LayoutColor.secondary
+                    color: LayoutColor.secondary,
                   ),
                 ),
 
@@ -101,19 +97,19 @@ class _LeaveQuotaScreenState extends State<LeaveQuotaScreen> {
                     fontWeight: FontWeight.bold,
                     color: LayoutColor.textSecondary,
                     fontSize: 12,
-                  )
+                  ),
                 ),
                 const Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                      Text(
-                        'Sisa Saldo : ${leaveQuotas[i].quota}',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: LayoutColor.secondary
-                        ),
+                    Text(
+                      'Sisa Saldo : ${leaveQuotas[i].quota}',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: LayoutColor.secondary,
                       ),
+                    ),
 
                     Container(
                       decoration: BoxDecoration(
@@ -123,12 +119,12 @@ class _LeaveQuotaScreenState extends State<LeaveQuotaScreen> {
                       child: const Icon(UniconsLine.angle_right),
                     ),
                   ],
-                )
+                ),
               ],
             ),
-          )
+          ),
         );
       },
     );
- }
+  }
 }

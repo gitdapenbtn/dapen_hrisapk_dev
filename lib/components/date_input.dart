@@ -5,7 +5,7 @@ import 'package:dpbtn_absen/layouts/constants/layout_color.dart';
 
 class DateInput extends StatefulWidget {
   final DateTime? initialDate;
-  final CustomInputDecoration? decoration; 
+  final CustomInputDecoration? decoration;
   final ValueChanged? onChange;
 
   const DateInput({
@@ -14,7 +14,7 @@ class DateInput extends StatefulWidget {
     this.onChange,
     super.key,
   });
-  
+
   @override
   State<DateInput> createState() => _DateInputState();
 }
@@ -28,7 +28,7 @@ class _DateInputState extends State<DateInput> {
     super.initState();
     _setDate(widget.initialDate ?? DateTime.now());
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return TextField(
@@ -48,7 +48,7 @@ class _DateInputState extends State<DateInput> {
 
   Future<void> _selectDate(BuildContext context, initialDate) async {
     final DateTime? picked = await showDatePicker(
-      context: context, 
+      context: context,
       initialDate: initialDate,
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
@@ -62,12 +62,12 @@ class _DateInputState extends State<DateInput> {
           ),
           child: child!,
         );
-      }
+      },
     );
 
-    if(picked != null) {
+    if (picked != null) {
       _setDate(picked);
-      if(widget.onChange != null) {
+      if (widget.onChange != null) {
         widget.onChange!(picked);
       }
     }

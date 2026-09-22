@@ -10,17 +10,19 @@ class ForgotPasswordConfirmationScreen extends StatefulWidget {
   final String email;
   final String verificationCode;
 
-  const ForgotPasswordConfirmationScreen({ 
+  const ForgotPasswordConfirmationScreen({
     super.key,
     required this.email,
     required this.verificationCode,
   });
 
   @override
-  State<ForgotPasswordConfirmationScreen> createState() => _ForgotPasswordConfirmationScreenState();
+  State<ForgotPasswordConfirmationScreen> createState() =>
+      _ForgotPasswordConfirmationScreenState();
 }
 
-class _ForgotPasswordConfirmationScreenState extends State<ForgotPasswordConfirmationScreen> {
+class _ForgotPasswordConfirmationScreenState
+    extends State<ForgotPasswordConfirmationScreen> {
   final FocusNode _code1Focus = FocusNode();
   final FocusNode _code2Focus = FocusNode();
   final FocusNode _code3Focus = FocusNode();
@@ -31,8 +33,9 @@ class _ForgotPasswordConfirmationScreenState extends State<ForgotPasswordConfirm
   final TextEditingController _code4 = TextEditingController();
 
   _submitHandler() {
-    String verificationCode = _code1.text + _code2.text + _code3.text + _code4.text;
-    if(widget.verificationCode == verificationCode) {
+    String verificationCode =
+        _code1.text + _code2.text + _code3.text + _code4.text;
+    if (widget.verificationCode == verificationCode) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -40,11 +43,11 @@ class _ForgotPasswordConfirmationScreenState extends State<ForgotPasswordConfirm
             email: widget.email,
             verificationCode: verificationCode,
           ),
-        )
+        ),
       );
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return WillPopScopeExit(
@@ -62,9 +65,9 @@ class _ForgotPasswordConfirmationScreenState extends State<ForgotPasswordConfirm
               BoxShadow(
                 color: Colors.black12,
                 offset: Offset(0, -2),
-                blurRadius: 10
-              )
-            ]
+                blurRadius: 10,
+              ),
+            ],
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -72,27 +75,33 @@ class _ForgotPasswordConfirmationScreenState extends State<ForgotPasswordConfirm
               Container(
                 alignment: Alignment.center,
                 width: double.infinity,
-                child: const Text('Kode Verifikasi', style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                  color: Colors.black87
-                )),
+                child: const Text(
+                  'Kode Verifikasi',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: Colors.black87,
+                  ),
+                ),
               ),
 
               Container(
                 margin: const EdgeInsets.only(bottom: 30),
                 alignment: Alignment.center,
                 width: double.infinity,
-                child: const Text('Kode Dikirim Melalui Email', style: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 15,
-                  color: Colors.black54
-                )),
+                child: const Text(
+                  'Kode Dikirim Melalui Email',
+                  style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 15,
+                    color: Colors.black54,
+                  ),
+                ),
               ),
 
               Container(
                 margin: const EdgeInsets.only(bottom: 30),
-                  child: Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(
@@ -104,12 +113,12 @@ class _ForgotPasswordConfirmationScreenState extends State<ForgotPasswordConfirm
                         decoration: CustomInputDecoration(),
                         maxLength: 1,
                         onChanged: (value) {
-                          if(value.isNotEmpty) {
+                          if (value.isNotEmpty) {
                             _code2Focus.requestFocus();
                           }
                         },
                         onFieldSubmitted: (value) {
-                          if(value.isNotEmpty) {
+                          if (value.isNotEmpty) {
                             _code2Focus.requestFocus();
                           } else {
                             _code1Focus.requestFocus();
@@ -126,14 +135,14 @@ class _ForgotPasswordConfirmationScreenState extends State<ForgotPasswordConfirm
                         decoration: CustomInputDecoration(),
                         maxLength: 1,
                         onChanged: (value) {
-                          if(value.isEmpty) {
+                          if (value.isEmpty) {
                             _code1Focus.requestFocus();
                           } else {
                             _code3Focus.requestFocus();
                           }
                         },
                         onFieldSubmitted: (value) {
-                          if(value.isNotEmpty) {
+                          if (value.isNotEmpty) {
                             _code3Focus.requestFocus();
                           } else {
                             _code2Focus.requestFocus();
@@ -150,14 +159,14 @@ class _ForgotPasswordConfirmationScreenState extends State<ForgotPasswordConfirm
                         decoration: CustomInputDecoration(),
                         maxLength: 1,
                         onChanged: (value) {
-                          if(value.isEmpty) {
+                          if (value.isEmpty) {
                             _code2Focus.requestFocus();
                           } else {
                             _code4Focus.requestFocus();
                           }
                         },
                         onFieldSubmitted: (value) {
-                          if(value.isNotEmpty) {
+                          if (value.isNotEmpty) {
                             _code4Focus.requestFocus();
                           } else {
                             _code3Focus.requestFocus();
@@ -174,21 +183,21 @@ class _ForgotPasswordConfirmationScreenState extends State<ForgotPasswordConfirm
                         decoration: CustomInputDecoration(),
                         maxLength: 1,
                         onChanged: (value) {
-                          if(value.isEmpty) {
+                          if (value.isEmpty) {
                             _code3Focus.requestFocus();
                           }
                         },
                         onFieldSubmitted: (value) {
-                          if(value.isEmpty) {
+                          if (value.isEmpty) {
                             _code4Focus.requestFocus();
                           }
                         },
                       ),
                     ),
-                  ]
+                  ],
                 ),
               ),
-                           
+
               Container(
                 margin: const EdgeInsets.only(bottom: 20),
                 alignment: Alignment.center,
@@ -201,9 +210,7 @@ class _ForgotPasswordConfirmationScreenState extends State<ForgotPasswordConfirm
           ),
         ),
         backgroundColor: LayoutColor.primary,
-        body: Center(
-          child: SvgPicture.asset('assets/svg/attendance2.svg')
-        ),
+        body: Center(child: SvgPicture.asset('assets/svg/attendance2.svg')),
       ),
     );
   }

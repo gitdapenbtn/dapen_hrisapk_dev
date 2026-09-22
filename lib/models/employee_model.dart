@@ -39,8 +39,9 @@ class EmployeeModel {
       joinDate: data['join_date'],
       registrationNumber: data['registration_number'],
       religion: data['religion'],
-      gender:
-          data['gender'] != null ? GenderModel.fromJson(data['gender']) : null,
+      gender: data['gender'] != null
+          ? GenderModel.fromJson(data['gender'])
+          : null,
       organization: data['employee_organization'] != null
           ? EmployeeOrganizationModel.fromJson(data['employee_organization'])
           : null,

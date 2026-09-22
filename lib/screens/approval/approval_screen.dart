@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:unicons/unicons.dart';
 
 class ApprovalScreen extends StatefulWidget {
-  const ApprovalScreen({ super.key });
+  const ApprovalScreen({super.key});
 
   @override
   State<ApprovalScreen> createState() => _ApprovalScreenState();
@@ -24,7 +24,7 @@ class _ApprovalScreenState extends State<ApprovalScreen> {
     end: DateTime.now(),
   );
   bool _isLoading = false;
-  
+
   @override
   void initState() {
     super.initState();
@@ -43,22 +43,21 @@ class _ApprovalScreenState extends State<ApprovalScreen> {
     setState(() {
       _isLoading = true;
     });
-    
+
     return Future.delayed(const Duration(seconds: 1), () async {
       Map<String, dynamic> params = {
         "start_date": _period.start.toLocalId("yyyy-MM-dd"),
         "end_date": _period.end.toLocalId("yyyy-MM-dd"),
       };
-      
-      _approvalProvider.getApprovals(params: params)
-        .whenComplete(() {
-          setState(() {
-            _isLoading = false;
-          });
+
+      _approvalProvider.getApprovals(params: params).whenComplete(() {
+        setState(() {
+          _isLoading = false;
         });
+      });
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Layout(
@@ -69,12 +68,8 @@ class _ApprovalScreenState extends State<ApprovalScreen> {
         bottom: LayoutAppBarBottom(
           child: RangeDateInput(
             fillColor: Colors.white60,
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 10,
-            ),
-            style: const TextStyle(
-              fontSize: 13,
-            ),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+            style: const TextStyle(fontSize: 13),
             onChange: (period) {
               setState(() {
                 _period = period;
@@ -140,8 +135,9 @@ class _ApprovalScreenState extends State<ApprovalScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ApprovalDetailScreen(approval: approvals[i])
-              )
+                builder: (context) =>
+                    ApprovalDetailScreen(approval: approvals[i]),
+              ),
             );
           },
           child: Container(
@@ -153,15 +149,18 @@ class _ApprovalScreenState extends State<ApprovalScreen> {
                 BoxShadow(
                   color: Colors.black.withOpacity(.05),
                   blurRadius: 5,
-                  offset: const Offset(0,2),
-                )
-              ]
+                  offset: const Offset(0, 2),
+                ),
+              ],
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 10,
+                  ),
                   margin: const EdgeInsets.only(bottom: 10),
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
@@ -171,9 +170,10 @@ class _ApprovalScreenState extends State<ApprovalScreen> {
                       topRight: Radius.circular(10),
                     ),
                   ),
-                  child: Text('$title ( ${approvals[i].employee!.name} )', style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),),
+                  child: Text(
+                    '$title ( ${approvals[i].employee!.name} )',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -183,7 +183,7 @@ class _ApprovalScreenState extends State<ApprovalScreen> {
                       fontWeight: FontWeight.bold,
                       color: LayoutColor.textSecondary,
                       fontSize: 12,
-                    )
+                    ),
                   ),
                 ),
                 Container(
@@ -193,8 +193,8 @@ class _ApprovalScreenState extends State<ApprovalScreen> {
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       color: LayoutColor.textPrimary,
-                      fontSize: 15
-                    )
+                      fontSize: 15,
+                    ),
                   ),
                 ),
                 const Divider(),
@@ -210,10 +210,7 @@ class _ApprovalScreenState extends State<ApprovalScreen> {
                       Wrap(
                         crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
-                          Icon(
-                            statusIcon,
-                            color: statusColor,
-                          ),
+                          Icon(statusIcon, color: statusColor),
                           const SizedBox(width: 10),
                           Text(
                             status,
@@ -233,15 +230,15 @@ class _ApprovalScreenState extends State<ApprovalScreen> {
                         child: const Icon(UniconsLine.angle_right),
                       ),
                     ],
-                  )
+                  ),
                 ),
               ],
             ),
-          )
+          ),
         );
       },
     );
- }
+  }
 }
 
 class TypeColor {

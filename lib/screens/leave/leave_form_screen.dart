@@ -16,7 +16,7 @@ import 'package:provider/provider.dart';
 import 'package:unicons/unicons.dart';
 
 class LeaveFormScreen extends StatefulWidget {
-  const LeaveFormScreen({ super.key });
+  const LeaveFormScreen({super.key});
 
   @override
   State<LeaveFormScreen> createState() => _LeaveFormScreenState();
@@ -24,12 +24,14 @@ class LeaveFormScreen extends StatefulWidget {
 
 class _LeaveFormScreenState extends State<LeaveFormScreen> {
   final TextEditingController _reasonController = TextEditingController();
-  final TextEditingController _addressController= TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+
   late LeaveProvider _leaveProvider;
 
   DateTime _startDate = DateTime.now();
   DateTime _endDate = DateTime.now();
   LeaveTypeModel? _leaveType;
+
   List<File> _attachments = [];
   bool _isLoading = false;
 
@@ -38,109 +40,111 @@ class _LeaveFormScreenState extends State<LeaveFormScreen> {
     super.initState();
     _onRefresh();
   }
-  
+
   @override
-  @protected
-  @mustCallSuper
   void didChangeDependencies() {
     super.didChangeDependencies();
     _leaveProvider = Provider.of<LeaveProvider>(context);
   }
 
-  Future _onRefresh() {
-    return Future.delayed(const Duration(seconds: 1), () async {
-      await _leaveProvider.getTypes();
-      setState(() {
-      });
-    });
+  Future<void> _onRefresh() async {
+    await _leaveProvider.getTypes();
+
+    if (mounted) {
+      setState(() {});
+    }
   }
-  
-  _submitHandler() async {
+
+  Future<void> _submitHandler() async {
+    if (_leaveType == null) {
+      showSnackBarAnywhere("Silakan pilih tipe cuti");
+      return;
+    }
+
     setState(() {
       _isLoading = true;
     });
 
-    _leaveProvider.create(
-      startDate: _startDate,
-      endDate: _endDate,
-      type: _leaveType!,
-      reason: _reasonController.text,
-      address: _addressController.text,
-      attachments: _attachments,
-    )
-    .then((resp) {
-      Navigator.pop(context);
-      showSnackBarAnywhere('${resp.message}');
-    })
-    .catchError((err) {
-      setState(() {
-        _isLoading = false;
-      });
-      showSnackBarAnywhere(err.toString());
-    });
+    _leaveProvider
+        .create(
+          startDate: _startDate,
+          endDate: _endDate,
+          type: _leaveType!,
+          reason: _reasonController.text,
+          address: _addressController.text,
+          attachments: _attachments,
+        )
+        .then((resp) {
+          Navigator.pop(context);
+          showSnackBarAnywhere(resp.message ?? "Berhasil");
+        })
+        .catchError((err) {
+          setState(() {
+            _isLoading = false;
+          });
+
+          showSnackBarAnywhere(err.toString());
+        });
   }
+
   @override
   Widget build(BuildContext context) {
     return Layout(
       onRefresh: _onRefresh,
-      appBar: const LayoutAppBar(
-        title: 'Form Cuti',
-      ),
-      padding: const EdgeInsets.only(
-        top: 30,
-        left: 20,
-        right: 20,
-        bottom: 80
-      ),
+      appBar: const LayoutAppBar(title: 'Form Cuti'),
+      padding: const EdgeInsets.only(top: 30, left: 20, right: 20, bottom: 80),
       bottomSheet: Container(
         color: LayoutColor.background,
         padding: const EdgeInsets.all(20),
         child: PrimaryButton(
-          onPressed: _isLoading 
-            ? null
-            : _submitHandler ,
-          child: const Text('Kirim'),
+          onPressed: _isLoading ? null : _submitHandler,
+          child: const Text("Kirim"),
         ),
       ),
       children: [
         DropdownSearch<LeaveTypeModel>(
           items: (filter, infiniteScrollProps) => _leaveProvider.types,
+
           itemAsString: (item) => item.name,
+
+          compareFn: (a, b) => a.id == b.id,
+
           popupProps: const PopupProps.dialog(
             fit: FlexFit.loose,
             title: Padding(
               padding: EdgeInsets.all(10),
               child: Text(
-                'Pilih Tipe Cuti',
-                textAlign: TextAlign.center, 
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
-              )
+                "Pilih Tipe Cuti",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
             ),
           ),
+
           decoratorProps: DropDownDecoratorProps(
             decoration: CustomInputDecoration(
-              labelText: 'Tipe Cuti',
-              hintText: 'Pilih Tipe Cuti',
+              labelText: "Tipe Cuti",
+              hintText: "Pilih Tipe Cuti",
               floatingLabelBehavior: FloatingLabelBehavior.always,
-              suffixIcon: const Icon(UniconsLine.label)
+              suffixIcon: const Icon(UniconsLine.label),
             ),
           ),
+
+          autoValidateMode: AutovalidateMode.always,
+
           onChanged: (value) {
             setState(() {
               _leaveType = value;
             });
           },
-          autoValidateMode: AutovalidateMode.always,
         ),
 
         const SizedBox(height: 30),
+
         DateInput(
           initialDate: _startDate,
           decoration: CustomInputDecoration(
-            labelText: 'Mulai Tanggal',
+            labelText: "Mulai Tanggal",
             suffixIcon: const Icon(UniconsLine.calendar_alt),
           ),
           onChange: (value) {
@@ -151,10 +155,11 @@ class _LeaveFormScreenState extends State<LeaveFormScreen> {
         ),
 
         const SizedBox(height: 30),
+
         DateInput(
           initialDate: _endDate,
           decoration: CustomInputDecoration(
-            labelText: 'Sampai Tanggal',
+            labelText: "Sampai Tanggal",
             suffixIcon: const Icon(UniconsLine.calendar_alt),
           ),
           onChange: (value) {
@@ -165,26 +170,29 @@ class _LeaveFormScreenState extends State<LeaveFormScreen> {
         ),
 
         const SizedBox(height: 30),
+
         TextFormField(
           controller: _reasonController,
           maxLines: null,
           decoration: CustomInputDecoration(
-            labelText: 'Alasan / Keperluan',
+            labelText: "Alasan / Keperluan",
             suffixIcon: const Icon(UniconsLine.notes),
           ),
         ),
 
         const SizedBox(height: 30),
+
         TextFormField(
           controller: _addressController,
           maxLines: null,
           decoration: CustomInputDecoration(
-            labelText: 'Alamat Cuti',
+            labelText: "Alamat Cuti",
             suffixIcon: const Icon(UniconsLine.home),
           ),
         ),
 
         const SizedBox(height: 30),
+
         FileInput(
           onChanged: (value) {
             setState(() {
@@ -194,5 +202,5 @@ class _LeaveFormScreenState extends State<LeaveFormScreen> {
         ),
       ],
     );
- }
+  }
 }

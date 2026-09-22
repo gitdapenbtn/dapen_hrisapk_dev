@@ -4,11 +4,7 @@ class NotificationButton extends StatelessWidget {
   final Function? onPressed;
   final int? counter;
 
-  const NotificationButton({ 
-    super.key,
-    this.onPressed,
-    this.counter = 0,
-  });
+  const NotificationButton({super.key, this.onPressed, this.counter = 0});
 
   Widget badge() {
     return Positioned(
@@ -20,10 +16,7 @@ class NotificationButton extends StatelessWidget {
           color: Colors.red,
           borderRadius: BorderRadius.circular(6),
         ),
-        constraints: const BoxConstraints(
-          minWidth: 12,
-          minHeight: 12,
-        ),
+        constraints: const BoxConstraints(minWidth: 12, minHeight: 12),
       ),
     );
   }
@@ -37,7 +30,7 @@ class NotificationButton extends StatelessWidget {
           onTap: () {
             onPressed!();
           },
-          child: const Icon(Icons.notifications_none_outlined), 
+          child: const Icon(Icons.notifications_none_outlined),
         ),
         counter != 0 ? badge() : Container(),
       ],

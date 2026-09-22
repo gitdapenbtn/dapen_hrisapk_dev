@@ -16,7 +16,7 @@ import 'package:provider/provider.dart';
 import 'package:unicons/unicons.dart';
 
 class PermitFormScreen extends StatefulWidget {
-  const PermitFormScreen({ super.key });
+  const PermitFormScreen({super.key});
 
   @override
   State<PermitFormScreen> createState() => _PermitFormScreenState();
@@ -36,7 +36,7 @@ class _PermitFormScreenState extends State<PermitFormScreen> {
     super.initState();
     _onRefresh();
   }
-  
+
   @override
   @protected
   @mustCallSuper
@@ -48,54 +48,46 @@ class _PermitFormScreenState extends State<PermitFormScreen> {
   Future _onRefresh() {
     return Future.delayed(const Duration(seconds: 1), () async {
       await _permitProvider.getTypes();
-      setState(() {
-      });
+      setState(() {});
     });
   }
-  
+
   _submitHandler() async {
     setState(() {
       _isLoading = true;
     });
 
-    _permitProvider.create(
-      startDate: _startDate,
-      endDate: _endDate,
-      type: _permitType!,
-      reason: _reasonController.text,
-      attachments: _attachments,
-    )
-    .then((resp) {
-      Navigator.pop(context);
-      showSnackBarAnywhere('${resp.message}');
-    })
-    .catchError((err) {
-      setState(() {
-        _isLoading = false;
-      });
-      showSnackBarAnywhere(err.toString());
-    });
+    _permitProvider
+        .create(
+          startDate: _startDate,
+          endDate: _endDate,
+          type: _permitType!,
+          reason: _reasonController.text,
+          attachments: _attachments,
+        )
+        .then((resp) {
+          Navigator.pop(context);
+          showSnackBarAnywhere('${resp.message}');
+        })
+        .catchError((err) {
+          setState(() {
+            _isLoading = false;
+          });
+          showSnackBarAnywhere(err.toString());
+        });
   }
+
   @override
   Widget build(BuildContext context) {
     return Layout(
       onRefresh: _onRefresh,
-      appBar: const LayoutAppBar(
-        title: 'Form Izin',
-      ),
-      padding: const EdgeInsets.only(
-        top: 30,
-        left: 20,
-        right: 20,
-        bottom: 80
-      ),
+      appBar: const LayoutAppBar(title: 'Form Izin'),
+      padding: const EdgeInsets.only(top: 30, left: 20, right: 20, bottom: 80),
       bottomSheet: Container(
         color: LayoutColor.background,
         padding: const EdgeInsets.all(20),
         child: PrimaryButton(
-          onPressed: _isLoading 
-            ? null
-            : _submitHandler ,
+          onPressed: _isLoading ? null : _submitHandler,
           child: const Text('Kirim'),
         ),
       ),
@@ -109,12 +101,9 @@ class _PermitFormScreenState extends State<PermitFormScreen> {
               padding: EdgeInsets.all(10),
               child: Text(
                 'Pilih Tipe Izin',
-                textAlign: TextAlign.center, 
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
-              )
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
             ),
           ),
           decoratorProps: DropDownDecoratorProps(
@@ -122,7 +111,7 @@ class _PermitFormScreenState extends State<PermitFormScreen> {
               labelText: 'Tipe Izin',
               hintText: 'Pilih Tipe Izin',
               floatingLabelBehavior: FloatingLabelBehavior.always,
-              suffixIcon: const Icon(UniconsLine.label)
+              suffixIcon: const Icon(UniconsLine.label),
             ),
           ),
           onChanged: (value) {
@@ -181,5 +170,5 @@ class _PermitFormScreenState extends State<PermitFormScreen> {
         ),
       ],
     );
- }
+  }
 }

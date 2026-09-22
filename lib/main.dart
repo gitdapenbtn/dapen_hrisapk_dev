@@ -4,6 +4,8 @@ import 'package:dpbtn_absen/providers/article_provider.dart';
 import 'package:dpbtn_absen/providers/circular_letter_provider.dart';
 import 'package:dpbtn_absen/providers/employee_organization_provider.dart';
 import 'package:dpbtn_absen/providers/guideline_provider.dart';
+import 'package:dpbtn_absen/providers/decision_letter_provider.dart';
+import 'package:dpbtn_absen/providers/founder_decree_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -36,16 +38,11 @@ void main() async {
   await _notificationService.init();
   cameras = await availableCameras();
 
-  if(kDebugMode) {
+  if (kDebugMode) {
     await Upgrader.clearSavedSettings();
   }
 
-  runApp(
-    MultiProvider(
-      providers: providers,
-      child: const MyApp()
-    )
-  );
+  runApp(MultiProvider(providers: providers, child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -60,19 +57,19 @@ class MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   }
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarBrightness: Brightness.light,
-      statusBarIconBrightness: Brightness.dark,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.dark,
+      ),
+    );
 
     return MaterialApp(
       title: 'DPBTN ABSEN',
@@ -82,8 +79,9 @@ class MyAppState extends State<MyApp> {
       theme: ThemeData(
         textTheme: GoogleFonts.poppinsTextTheme(),
         primaryColor: LayoutColor.primary,
-        bottomSheetTheme:
-            const BottomSheetThemeData(backgroundColor: Colors.transparent),
+        bottomSheetTheme: const BottomSheetThemeData(
+          backgroundColor: Colors.transparent,
+        ),
       ),
       home: const SplashScreen(),
     );
@@ -104,4 +102,6 @@ List<SingleChildWidget> providers = [
   ChangeNotifierProvider(create: (_) => GuidelineProvider()),
   ChangeNotifierProvider(create: (_) => CircularLetterProvider()),
   ChangeNotifierProvider(create: (_) => ArticleProvider()),
+  ChangeNotifierProvider(create: (_) => DecisionLetterProvider()),
+  ChangeNotifierProvider(create: (_) => FounderDecreeProvider()),
 ];

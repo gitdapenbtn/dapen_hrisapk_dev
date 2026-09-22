@@ -11,18 +11,19 @@ class FirebaseMessagingService {
 
   Future<void> init(NotificationService notificationService) async {
     await Firebase.initializeApp();
-    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
+          alert: true,
+          badge: true,
+          sound: true,
+        );
 
-    if(Platform.isIOS) {
+    if (Platform.isIOS) {
       String? apnsToken;
-      while(apnsToken == null) {
+      while (apnsToken == null) {
         apnsToken = await FirebaseMessaging.instance.getAPNSToken();
-        if(apnsToken != null) {
-          if(kDebugMode) {
+        if (apnsToken != null) {
+          if (kDebugMode) {
             print("APNS_TOKEN: $apnsToken");
           }
         }
@@ -36,7 +37,11 @@ class FirebaseMessagingService {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
       if (notification != null && android != null) {
-        notificationService.show(notification.hashCode, notification.title!, notification.body!);
+        notificationService.show(
+          notification.hashCode,
+          notification.title!,
+          notification.body!,
+        );
       }
     });
   }

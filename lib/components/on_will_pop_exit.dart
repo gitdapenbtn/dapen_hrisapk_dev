@@ -3,10 +3,7 @@ import 'package:dpbtn_absen/helpers/snackbar.dart';
 
 class WillPopScopeExit extends StatefulWidget {
   final Widget child;
-  const WillPopScopeExit({
-    super.key,
-    required this.child,
-  });
+  const WillPopScopeExit({super.key, required this.child});
 
   @override
   State<WillPopScopeExit> createState() => _WillPopScopeExitState();
@@ -16,7 +13,7 @@ class _WillPopScopeExitState extends State<WillPopScopeExit> {
   bool _shouldPop = false;
 
   Future<bool> _onWillPop() async {
-    if(_shouldPop) {
+    if (_shouldPop) {
       return true;
     } else {
       setState(() {
@@ -28,17 +25,14 @@ class _WillPopScopeExitState extends State<WillPopScopeExit> {
           setState(() {
             _shouldPop = false;
           });
-        }
+        },
       );
       return false;
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: _onWillPop,
-      child: widget.child
-    );
+    return WillPopScope(onWillPop: _onWillPop, child: widget.child);
   }
 }

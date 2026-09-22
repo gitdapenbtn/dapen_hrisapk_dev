@@ -6,11 +6,7 @@ class GuidelinePdfScreen extends StatefulWidget {
   final String title;
   final String url;
 
-  const GuidelinePdfScreen({
-    super.key,
-    required this.title,
-    required this.url,
-  });
+  const GuidelinePdfScreen({super.key, required this.title, required this.url});
 
   @override
   State<GuidelinePdfScreen> createState() => _GuidelinePdfScreenState();
@@ -34,21 +30,17 @@ class _GuidelinePdfScreenState extends State<GuidelinePdfScreen> {
         title: Text(widget.title),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(
-              Icons.keyboard_arrow_up,
-            ),
+            icon: const Icon(Icons.keyboard_arrow_up),
             onPressed: () {
               _pdfViewerController.previousPage();
             },
           ),
           IconButton(
-            icon: const Icon(
-              Icons.keyboard_arrow_down,
-            ),
+            icon: const Icon(Icons.keyboard_arrow_down),
             onPressed: () {
               _pdfViewerController.nextPage();
             },
-          )
+          ),
         ],
       ),
       body: SafeArea(

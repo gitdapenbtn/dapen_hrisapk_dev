@@ -21,7 +21,7 @@ class Http {
     'Accept': 'application/json',
     'Authorization': '',
     'Device-ID': '',
-    'Device-Type': 'mobile'
+    'Device-Type': 'mobile',
   };
 
   final String sockeExceptionMessage = 'Silahkan cek koneksi internet kamu.';
@@ -63,8 +63,9 @@ class Http {
     if (!path.startsWith('/')) {
       path = '/$path';
     }
-    _uri = Uri.parse('$_baseUrl$_baseUrlPrefix$path')
-        .replace(queryParameters: params);
+    _uri = Uri.parse(
+      '$_baseUrl$_baseUrlPrefix$path',
+    ).replace(queryParameters: params);
     return _uri;
   }
 
@@ -99,24 +100,29 @@ class Http {
       case 401:
         removeAccessToken();
         Navigator.pushAndRemoveUntil(
-            navigatorKey.currentContext!,
-            MaterialPageRoute(builder: (route) => loginScreen),
-            (route) => false);
+          navigatorKey.currentContext!,
+          MaterialPageRoute(builder: (route) => loginScreen),
+          (route) => false,
+        );
         throw UnauthorizedException(response.message);
       case 403:
         removeAccessToken();
         Navigator.pushAndRemoveUntil(
-            navigatorKey.currentContext!,
-            MaterialPageRoute(builder: (route) => loginScreen),
-            (route) => false);
+          navigatorKey.currentContext!,
+          MaterialPageRoute(builder: (route) => loginScreen),
+          (route) => false,
+        );
         throw UnauthorizedException(response.message);
       default:
         return response;
     }
   }
 
-  Future<HttpModel> get(String path,
-      [Map<String, dynamic>? params, bool showSnackBar = true]) async {
+  Future<HttpModel> get(
+    String path, [
+    Map<String, dynamic>? params,
+    bool showSnackBar = true,
+  ]) async {
     try {
       await getBaseUrl();
       await getAccessToken();
@@ -134,16 +140,22 @@ class Http {
     }
   }
 
-  Future<HttpModel> post(String path,
-      [Map<String, dynamic>? params, bool showSnackBar = true]) async {
+  Future<HttpModel> post(
+    String path, [
+    Map<String, dynamic>? params,
+    bool showSnackBar = true,
+  ]) async {
     try {
       await getBaseUrl();
       await getAccessToken();
       await getDeviceId();
       await getUri(path);
 
-      http.Response resp =
-          await http.post(_uri, body: json.encode(params), headers: headers);
+      http.Response resp = await http.post(
+        _uri,
+        body: json.encode(params),
+        headers: headers,
+      );
 
       return response(body: resp.body, statusCode: resp.statusCode);
     } on SocketException {
@@ -154,16 +166,22 @@ class Http {
     }
   }
 
-  Future<HttpModel> put(String path,
-      [Map<String, dynamic>? params, bool showSnackBar = true]) async {
+  Future<HttpModel> put(
+    String path, [
+    Map<String, dynamic>? params,
+    bool showSnackBar = true,
+  ]) async {
     try {
       await getBaseUrl();
       await getAccessToken();
       await getDeviceId();
       await getUri(path);
 
-      http.Response resp =
-          await http.put(_uri, body: json.encode(params), headers: headers);
+      http.Response resp = await http.put(
+        _uri,
+        body: json.encode(params),
+        headers: headers,
+      );
 
       return response(body: resp.body, statusCode: resp.statusCode);
     } on SocketException {
@@ -190,10 +208,12 @@ class Http {
     }
   }
 
-  Future<HttpModel> postMultipartRequest(String path,
-      {Map<String, String>? params,
-      List<http.MultipartFile>? files,
-      bool showSnackBar = true}) async {
+  Future<HttpModel> postMultipartRequest(
+    String path, {
+    Map<String, String>? params,
+    List<http.MultipartFile>? files,
+    bool showSnackBar = true,
+  }) async {
     try {
       await getBaseUrl();
       await getAccessToken();
@@ -231,7 +251,11 @@ class Http {
   }
 
   http.MultipartFile multipartFile(
-      String requestName, file, fileLength, filename) {
+    String requestName,
+    file,
+    fileLength,
+    filename,
+  ) {
     return http.MultipartFile(
       requestName,
       file,

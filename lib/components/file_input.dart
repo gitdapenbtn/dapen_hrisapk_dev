@@ -9,10 +9,7 @@ import 'package:unicons/unicons.dart';
 class FileInput extends StatefulWidget {
   final ValueChanged? onChanged;
 
-  const FileInput({
-    this.onChanged,
-    super.key,
-  });
+  const FileInput({this.onChanged, super.key});
 
   @override
   State<FileInput> createState() => _FileInputState();
@@ -22,16 +19,18 @@ class _FileInputState extends State<FileInput> {
   final List<File> _files = [];
 
   _selectFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true);
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      allowMultiple: true,
+    );
 
     if (result != null) {
       setState(() {
         _files.addAll(result.paths.map((path) => File(path!)).toList());
       });
 
-      if(widget.onChanged != null) {
+      if (widget.onChanged != null) {
         widget.onChanged!(_files);
-      } 
+      }
     }
   }
 
@@ -39,9 +38,9 @@ class _FileInputState extends State<FileInput> {
     setState(() {
       _files.removeAt(index);
     });
-    if(widget.onChanged != null) {
+    if (widget.onChanged != null) {
       widget.onChanged!(_files);
-    } 
+    }
   }
 
   @override
@@ -54,7 +53,7 @@ class _FileInputState extends State<FileInput> {
         children: [
           const Text('Lampiran'),
           const Divider(),
-          
+
           InkWell(
             onTap: _selectFile,
             child: Container(
@@ -72,7 +71,7 @@ class _FileInputState extends State<FileInput> {
                     child: const Column(
                       children: [
                         Icon(UniconsLine.paperclip),
-                        Text('Lampirkan')
+                        Text('Lampirkan'),
                       ],
                     ),
                   ),
@@ -80,8 +79,14 @@ class _FileInputState extends State<FileInput> {
                   const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Contoh file jpg, png, pdf, word, xls.', style: TextStyle(fontSize: 13)),
-                      Text('Maksimal ukuran file 4MB.', style: TextStyle(fontSize: 13)),
+                      Text(
+                        'Contoh file jpg, png, pdf, word, xls.',
+                        style: TextStyle(fontSize: 13),
+                      ),
+                      Text(
+                        'Maksimal ukuran file 4MB.',
+                        style: TextStyle(fontSize: 13),
+                      ),
                     ],
                   ),
                 ],
@@ -89,28 +94,28 @@ class _FileInputState extends State<FileInput> {
             ),
           ),
 
-          const SizedBox(height: 20,),
+          const SizedBox(height: 20),
 
           ListView.builder(
             shrinkWrap: true,
             itemCount: _files.length,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
-
               String filename = basename(_files[index].path);
-              
+
               return SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: Card(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Flexible(
-                          child: Text(filename)
-                        ),
+                        Flexible(child: Text(filename)),
                         SizedBox(
                           height: 35,
                           width: 35,
@@ -120,18 +125,18 @@ class _FileInputState extends State<FileInput> {
                               backgroundColor: LayoutColor.danger,
                               foregroundColor: LayoutColor.background,
                             ),
-                            child: const Icon(UniconsLine.times, size: 20,),
-                          )
+                            child: const Icon(UniconsLine.times, size: 20),
+                          ),
                         ),
-                      ]
+                      ],
                     ),
                   ),
-                )
+                ),
               );
-            }
+            },
           ),
         ],
-      )
+      ),
     );
   }
 }

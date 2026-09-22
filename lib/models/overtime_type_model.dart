@@ -3,7 +3,7 @@ class OvertimeTypeModel {
   final String name;
   final String? code;
   final String? description;
-  
+
   OvertimeTypeModel({
     required this.id,
     required this.name,

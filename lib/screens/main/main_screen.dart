@@ -7,7 +7,7 @@ import 'package:dpbtn_absen/screens/setting/setting_screen.dart';
 import 'package:unicons/unicons.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({ super.key });
+  const MainScreen({super.key});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -43,19 +43,19 @@ class _MainScreenState extends State<MainScreen> {
           items: const [
             BottomNavigationBarItem(
               icon: Icon(UniconsLine.home_alt),
-              label: 'Beranda'
+              label: 'Beranda',
             ),
             BottomNavigationBarItem(
               icon: Icon(UniconsLine.calendar_alt),
-              label: 'Absensi'
+              label: 'Absensi',
             ),
             BottomNavigationBarItem(
               icon: Icon(UniconsLine.setting),
-              label: 'Lainnya'
+              label: 'Lainnya',
             ),
           ],
         ),
-      )
+      ),
     );
   }
 }

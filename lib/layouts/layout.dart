@@ -13,13 +13,13 @@ class Layout extends StatefulWidget {
   final bool isLoading;
   final BoxConstraints? constraints;
   final bool hasNavigationBottom;
-  
+
   final bool safeAreaTop;
   final bool safeAreaBottom;
   final bool safeAreaLeft;
   final bool safeAreaRight;
 
-  const Layout({ 
+  const Layout({
     super.key,
     this.appBar,
     this.floatingActionButton,
@@ -36,7 +36,7 @@ class Layout extends StatefulWidget {
     this.safeAreaLeft = true,
     this.safeAreaRight = true,
   });
-  
+
   @override
   State<Layout> createState() => _LayoutState();
 }
@@ -44,35 +44,41 @@ class Layout extends StatefulWidget {
 class _LayoutState extends State<Layout> {
   final EdgeInsets _padding = const EdgeInsets.symmetric(vertical: 20);
 
-  double get appBarHeight => widget.appBar != null ? widget.appBar!.preferredSize.height : 0;
-  double get safeAreaHeight => (widget.safeAreaTop || widget.appBar != null) ? MediaQuery.of(context).padding.top : 0;
-  double get bottomNavigationBarHeight => widget.hasNavigationBottom ? kBottomNavigationBarHeight : 0;
+  double get appBarHeight =>
+      widget.appBar != null ? widget.appBar!.preferredSize.height : 0;
+  double get safeAreaHeight => (widget.safeAreaTop || widget.appBar != null)
+      ? MediaQuery.of(context).padding.top
+      : 0;
+  double get bottomNavigationBarHeight =>
+      widget.hasNavigationBottom ? kBottomNavigationBarHeight : 0;
 
-  double get minHeight => (MediaQuery.of(context).size.height - (appBarHeight + safeAreaHeight + bottomNavigationBarHeight));
+  double get minHeight =>
+      (MediaQuery.of(context).size.height -
+      (appBarHeight + safeAreaHeight + bottomNavigationBarHeight));
 
   @override
   void initState() {
     super.initState();
-
   }
+
   Future _refreshData() async {
-    if(widget.onRefresh != null) {
+    if (widget.onRefresh != null) {
       await widget.onRefresh!();
     }
   }
 
   Widget _body() {
     Widget body;
-    if(widget.isLoading) {
-      body = const Center(
-        child: CircularProgressIndicator(),
-      );
+    if (widget.isLoading) {
+      body = const Center(child: CircularProgressIndicator());
     } else {
-      body = widget.child ?? Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: widget.children ?? [],
-      );
+      body =
+          widget.child ??
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: widget.children ?? [],
+          );
     }
     return body;
   }
@@ -95,9 +101,8 @@ class _LayoutState extends State<Layout> {
               color: LayoutColor.background,
               width: MediaQuery.of(context).size.width,
               padding: widget.padding ?? _padding,
-              constraints: widget.constraints ?? BoxConstraints(
-                minHeight: minHeight
-              ),
+              constraints:
+                  widget.constraints ?? BoxConstraints(minHeight: minHeight),
               child: _body(),
             ),
           ),

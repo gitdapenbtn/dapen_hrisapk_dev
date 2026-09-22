@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:unicons/unicons.dart';
 
 class PermitScreen extends StatefulWidget {
-  const PermitScreen({ super.key });
+  const PermitScreen({super.key});
 
   @override
   State<PermitScreen> createState() => _PermitScreenState();
@@ -25,7 +25,7 @@ class _PermitScreenState extends State<PermitScreen> {
     end: DateTime.now(),
   );
   bool _isLoading = false;
-  
+
   @override
   void initState() {
     super.initState();
@@ -51,16 +51,15 @@ class _PermitScreenState extends State<PermitScreen> {
         "start_date": _period.start.toLocalId("yyyy-MM-dd"),
         "end_date": _period.end.toLocalId("yyyy-MM-dd"),
       };
-      
-      _permitProvider.getPermits(params: params)
-        .whenComplete(() {
-          setState(() {
-            _isLoading = false;
-          });
+
+      _permitProvider.getPermits(params: params).whenComplete(() {
+        setState(() {
+          _isLoading = false;
         });
+      });
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Layout(
@@ -71,12 +70,8 @@ class _PermitScreenState extends State<PermitScreen> {
         bottom: LayoutAppBarBottom(
           child: RangeDateInput(
             fillColor: Colors.white60,
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 10,
-            ),
-            style: const TextStyle(
-              fontSize: 13,
-            ),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+            style: const TextStyle(fontSize: 13),
             onChange: (period) {
               setState(() {
                 _period = period;
@@ -90,9 +85,7 @@ class _PermitScreenState extends State<PermitScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(
-              builder: (context) => const PermitFormScreen()
-            )
+            MaterialPageRoute(builder: (context) => const PermitFormScreen()),
           );
         },
         label: const Text('Buat'),
@@ -111,7 +104,9 @@ class _PermitScreenState extends State<PermitScreen> {
       itemCount: permits.length,
       padding: const EdgeInsets.symmetric(horizontal: 20),
       itemBuilder: (ctx, i) {
-        String startDate = permits[i].startDate.toLocalId('EEE, dd MMM').toString();
+        String startDate = permits[i].startDate
+            .toLocalId('EEE, dd MMM')
+            .toString();
         String endDate = permits[i].endDate.toLocalId('EEE, dd MMM').toString();
         String rangeDate = '$startDate - $endDate';
 
@@ -120,8 +115,8 @@ class _PermitScreenState extends State<PermitScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => PermitDetailScreen(permit: permits[i])
-              )
+                builder: (context) => PermitDetailScreen(permit: permits[i]),
+              ),
             );
           },
           child: Container(
@@ -134,9 +129,9 @@ class _PermitScreenState extends State<PermitScreen> {
                 BoxShadow(
                   color: Colors.black.withOpacity(.05),
                   blurRadius: 5,
-                  offset: const Offset(0,2),
-                )
-              ]
+                  offset: const Offset(0, 2),
+                ),
+              ],
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -147,15 +142,15 @@ class _PermitScreenState extends State<PermitScreen> {
                     fontWeight: FontWeight.bold,
                     color: LayoutColor.textSecondary,
                     fontSize: 12,
-                  )
+                  ),
                 ),
                 Text(
                   rangeDate,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     color: LayoutColor.textPrimary,
-                    fontSize: 15
-                  )
+                    fontSize: 15,
+                  ),
                 ),
 
                 const Divider(),
@@ -171,7 +166,7 @@ class _PermitScreenState extends State<PermitScreen> {
                           permits[i].status.name,
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: LayoutColor.secondary
+                            color: LayoutColor.secondary,
                           ),
                         ),
                       ],
@@ -185,12 +180,12 @@ class _PermitScreenState extends State<PermitScreen> {
                       child: const Icon(UniconsLine.angle_right),
                     ),
                   ],
-                )
+                ),
               ],
             ),
-          )
+          ),
         );
       },
     );
- }
+  }
 }

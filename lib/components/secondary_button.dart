@@ -18,13 +18,13 @@ class SecondaryButton extends TextButton {
     super.statesController,
     super.key,
   }) : super(
-    style: TextButton.styleFrom(
-      backgroundColor: LayoutColor.secondary,
-      foregroundColor: LayoutColor.textPrimary,
-      disabledBackgroundColor: LayoutColor.secondary,
-      disabledForegroundColor: LayoutColor.textSecondary,
-      minimumSize: const Size.fromHeight(50),
-    ),
-    child: child
-  );
+         style: TextButton.styleFrom(
+           backgroundColor: LayoutColor.secondary,
+           foregroundColor: LayoutColor.textPrimary,
+           disabledBackgroundColor: LayoutColor.secondary,
+           disabledForegroundColor: LayoutColor.textSecondary,
+           minimumSize: const Size.fromHeight(50),
+         ),
+         child: child,
+       );
 }

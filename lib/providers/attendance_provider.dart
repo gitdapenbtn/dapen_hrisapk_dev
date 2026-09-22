@@ -12,27 +12,26 @@ import 'package:dpbtn_absen/providers/profile_provider.dart';
 class AttendanceProvider with ChangeNotifier {
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
   final Http http = Http();
-  
+
   AttendanceModel? _attendance;
   AttendanceModel? get attendance => _attendance;
 
   List<AttendanceModel> _attendances = [];
   List<AttendanceModel> get attendances => _attendances;
-  
-  Future<HttpModel> getAttendances({ Map<String, dynamic>? params }) async {
+
+  Future<HttpModel> getAttendances({Map<String, dynamic>? params}) async {
     try {
       HttpModel response = await http.get('attendances', params);
 
       List<AttendanceModel> newAttendances = [];
-      for(var x in response.data) {
+      for (var x in response.data) {
         newAttendances.add(AttendanceModel.fromJson(x));
       }
       _attendances = newAttendances;
-      
+
       notifyListeners();
       return response;
-    }
-    catch(err) {
+    } catch (err) {
       _attendances = [];
       notifyListeners();
       rethrow;
@@ -46,7 +45,7 @@ class AttendanceProvider with ChangeNotifier {
     notifyListeners();
     return response;
   }
-  
+
   Future<HttpModel> postTimeIn({
     required File photo,
     required String latitude,
@@ -54,30 +53,31 @@ class AttendanceProvider with ChangeNotifier {
     required String time,
     String? note,
     String? date,
-    bool sync=false,
+    bool sync = false,
   }) async {
     try {
-      Map<String, String> params= {
-        "date" : date ?? '',
-        "time" : time,
-        "latitude" : latitude,
+      Map<String, String> params = {
+        "date": date ?? '',
+        "time": time,
+        "latitude": latitude,
         "longitude": longitude,
-        "note": note ?? '', 
+        "note": note ?? '',
         "sync": sync.toString(),
       };
 
       List<MultipartFile> files = [];
-      files.add(http.multipartFile(
+      files.add(
+        http.multipartFile(
           'image',
-          photo.readAsBytes().asStream(), 
+          photo.readAsBytes().asStream(),
           photo.lengthSync(),
           'image',
-        )
+        ),
       );
 
       HttpModel response = await http.postMultipartRequest(
         'attendances/in',
-        params: params, 
+        params: params,
         files: files,
         showSnackBar: false,
       );
@@ -89,19 +89,22 @@ class AttendanceProvider with ChangeNotifier {
         time: time,
         note: note,
       );
-      
+
       notifyListeners();
       return response;
     } on SocketException {
-      if(!sync) {
-        await postTimeInLocal(photo: photo, latitude: latitude, longitude: longitude, time: time, note: note);
+      if (!sync) {
+        await postTimeInLocal(
+          photo: photo,
+          latitude: latitude,
+          longitude: longitude,
+          time: time,
+          note: note,
+        );
       }
 
       notifyListeners();
-      return HttpModel(
-        message: 'Berhasil absen masuk',
-        status: false,
-      );
+      return HttpModel(message: 'Berhasil absen masuk', status: false);
     }
   }
 
@@ -112,33 +115,35 @@ class AttendanceProvider with ChangeNotifier {
     required String time,
     String? note,
     String? date,
-    bool sync=false,
+    bool sync = false,
   }) async {
     try {
-      Map<String, String> params= {
-        "date" : date ?? '',
-        "time" : time,
-        "latitude" : latitude,
+      Map<String, String> params = {
+        "date": date ?? '',
+        "time": time,
+        "latitude": latitude,
         "longitude": longitude,
-        "note": note ?? '', 
+        "note": note ?? '',
         "sync": sync.toString(),
       };
 
       List<MultipartFile> files = [];
-      files.add(http.multipartFile(
+      files.add(
+        http.multipartFile(
           'image',
-          photo.readAsBytes().asStream(), 
+          photo.readAsBytes().asStream(),
           photo.lengthSync(),
           'image',
-        ));
+        ),
+      );
 
       HttpModel response = await http.postMultipartRequest(
         'attendances/out',
-        params: params, 
+        params: params,
         files: files,
         showSnackBar: false,
       );
-      
+
       await ProfileProvider().setAttendanceOut(
         photo: photo,
         latitude: latitude,
@@ -150,15 +155,18 @@ class AttendanceProvider with ChangeNotifier {
       notifyListeners();
       return response;
     } on SocketException {
-      if(!sync) {
-        await postTimeOutLocal(photo: photo, latitude: latitude, longitude: longitude, time: time, note: note);
+      if (!sync) {
+        await postTimeOutLocal(
+          photo: photo,
+          latitude: latitude,
+          longitude: longitude,
+          time: time,
+          note: note,
+        );
       }
 
       notifyListeners();
-      return HttpModel(
-        message: 'Berhasil absen pulang',
-        status: false,
-      );
+      return HttpModel(message: 'Berhasil absen pulang', status: false);
     }
   }
 
@@ -170,21 +178,25 @@ class AttendanceProvider with ChangeNotifier {
     String? note,
   }) async {
     try {
-      Map params= {
+      Map params = {
         "date": DateTime.now().toLocalId('yyyy-MM-dd'),
-        "time" : time,
-        "latitude" : latitude,
+        "time": time,
+        "latitude": latitude,
         "longitude": longitude,
-        "note": note ?? '', 
-        "photo": photo.path
+        "note": note ?? '',
+        "photo": photo.path,
       };
-      
-      String? localAttendances = await _secureStorage.read(key: 'inAttendances');
+
+      String? localAttendances = await _secureStorage.read(
+        key: 'inAttendances',
+      );
       List<dynamic> newLocalAttendances = [];
-      if(localAttendances != null) {
+      if (localAttendances != null) {
         newLocalAttendances = json.decode(localAttendances);
-        int existsAttendance = newLocalAttendances.indexWhere((e) => e['date'] == params['date']);
-        if(existsAttendance == -1) {
+        int existsAttendance = newLocalAttendances.indexWhere(
+          (e) => e['date'] == params['date'],
+        );
+        if (existsAttendance == -1) {
           newLocalAttendances.add(params);
         } else {
           newLocalAttendances[existsAttendance] = params;
@@ -193,7 +205,10 @@ class AttendanceProvider with ChangeNotifier {
         newLocalAttendances.add(params);
       }
 
-      await _secureStorage.write(key: 'inAttendances', value: json.encode(newLocalAttendances));
+      await _secureStorage.write(
+        key: 'inAttendances',
+        value: json.encode(newLocalAttendances),
+      );
       await ProfileProvider().setAttendanceIn(
         photo: photo,
         latitude: latitude,
@@ -201,35 +216,38 @@ class AttendanceProvider with ChangeNotifier {
         time: time,
         note: note,
       );
-    }
-    catch(err) {
+    } catch (err) {
       rethrow;
     }
   }
-  
+
   Future postTimeOutLocal({
     required File photo,
     required String latitude,
     required String longitude,
     required String time,
-    String? note
+    String? note,
   }) async {
     try {
-      Map params= {
+      Map params = {
         "date": DateTime.now().toLocalId('yyyy-MM-dd'),
-        "time" : time,
-        "latitude" : latitude,
+        "time": time,
+        "latitude": latitude,
         "longitude": longitude,
-        "note": note ?? '', 
+        "note": note ?? '',
         "photo": photo.path,
       };
-      
-      String? localAttendances = await _secureStorage.read(key: 'outAttendances');
+
+      String? localAttendances = await _secureStorage.read(
+        key: 'outAttendances',
+      );
       List<dynamic> newLocalAttendances = [];
-      if(localAttendances != null) {
+      if (localAttendances != null) {
         newLocalAttendances = json.decode(localAttendances);
-        int existsAttendance = newLocalAttendances.indexWhere((e) => e['date'] == params['date']);
-        if(existsAttendance == -1) {
+        int existsAttendance = newLocalAttendances.indexWhere(
+          (e) => e['date'] == params['date'],
+        );
+        if (existsAttendance == -1) {
           newLocalAttendances.add(params);
         } else {
           newLocalAttendances[existsAttendance] = params;
@@ -238,7 +256,10 @@ class AttendanceProvider with ChangeNotifier {
         newLocalAttendances.add(params);
       }
 
-      await _secureStorage.write(key: 'outAttendances', value: json.encode(newLocalAttendances));
+      await _secureStorage.write(
+        key: 'outAttendances',
+        value: json.encode(newLocalAttendances),
+      );
       await ProfileProvider().setAttendanceOut(
         photo: photo,
         latitude: latitude,
@@ -246,70 +267,81 @@ class AttendanceProvider with ChangeNotifier {
         time: time,
         note: note,
       );
-    }
-    catch(err) {
+    } catch (err) {
       rethrow;
     }
   }
 
   Future sync() async {
-    final String? localInAttendances = await _secureStorage.read(key: 'inAttendances');
-    final String? localOutAttendances = await _secureStorage.read(key: 'outAttendances');
+    final String? localInAttendances = await _secureStorage.read(
+      key: 'inAttendances',
+    );
+    final String? localOutAttendances = await _secureStorage.read(
+      key: 'outAttendances',
+    );
 
-    if(localInAttendances != null && localInAttendances.isNotEmpty) {
+    if (localInAttendances != null && localInAttendances.isNotEmpty) {
       List localInAttendancesList = json.decode(localInAttendances);
-      if(localInAttendancesList.isNotEmpty) {
+      if (localInAttendancesList.isNotEmpty) {
         List removeLocalInAttendancesList = [];
-        for(var x in localInAttendancesList) {
+        for (var x in localInAttendancesList) {
           try {
             HttpModel resp = await postTimeIn(
               date: x['date'],
               photo: File(x['photo']),
-              latitude: x['latitude'], 
-              longitude: x['longitude'], 
+              latitude: x['latitude'],
+              longitude: x['longitude'],
               time: x['time'],
               sync: true,
             );
 
-            if(resp.status != false) {
+            if (resp.status != false) {
               removeLocalInAttendancesList.add(x['date']);
             }
-          }
-          catch(err) {
+          } catch (err) {
             continue;
           }
         }
-        localInAttendancesList.removeWhere((e) => removeLocalInAttendancesList.contains(e['date']));
-        await _secureStorage.write(key: 'inAttendances', value: json.encode(localInAttendancesList));
+        localInAttendancesList.removeWhere(
+          (e) => removeLocalInAttendancesList.contains(e['date']),
+        );
+        await _secureStorage.write(
+          key: 'inAttendances',
+          value: json.encode(localInAttendancesList),
+        );
       }
     }
 
-    if(localOutAttendances != null) {
+    if (localOutAttendances != null) {
       final List localOutAttendancesList = json.decode(localOutAttendances);
-      if(localOutAttendancesList.isNotEmpty) {
+      if (localOutAttendancesList.isNotEmpty) {
         List removeLocalOutAttendancesList = [];
-        for(var x in localOutAttendancesList) {
+        for (var x in localOutAttendancesList) {
           try {
             HttpModel resp = await postTimeOut(
               date: x['date'],
-              photo: File(x['photo']), 
-              latitude: x['latitude'], 
-              longitude: x['longitude'], 
+              photo: File(x['photo']),
+              latitude: x['latitude'],
+              longitude: x['longitude'],
               time: x['time'],
               sync: true,
             );
 
-            if(resp.status != false) {
+            if (resp.status != false) {
               removeLocalOutAttendancesList.add(x['date']);
             }
-          }
-          catch(err) {
+          } catch (err) {
             continue;
           }
         }
 
-        localOutAttendancesList.removeWhere((e) => removeLocalOutAttendancesList.contains(e['date']));
-        await _secureStorage.write(key: 'outAttendances', value: json.encode(localOutAttendancesList));
+        localOutAttendancesList.removeWhere(
+          (e) => removeLocalOutAttendancesList.contains(e['date']),
+        );
+        await _secureStorage.write(
+          key: 'outAttendances',
+          value: json.encode(localOutAttendancesList),
+        );
       }
     }
   }

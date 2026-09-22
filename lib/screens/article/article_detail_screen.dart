@@ -7,10 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ArticleDetailScreen extends StatefulWidget {
   final ArticleModel article;
-  const ArticleDetailScreen({
-    super.key,
-    required this.article,
-  });
+  const ArticleDetailScreen({super.key, required this.article});
 
   @override
   State<ArticleDetailScreen> createState() => _ArticleDetailScreenState();
@@ -25,9 +22,7 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Layout(
-      appBar: const LayoutAppBar(
-        title: 'Berita',
-      ),
+      appBar: const LayoutAppBar(title: 'Berita'),
       padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,10 +31,7 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
           const SizedBox(height: 20),
           Text(
             widget.article.title,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           Html(
             shrinkWrap: true,

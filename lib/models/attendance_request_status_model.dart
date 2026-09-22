@@ -2,7 +2,7 @@ class AttendanceRequestStatusModel {
   final int id;
   final String name;
   final String? description;
-  
+
   AttendanceRequestStatusModel({
     required this.id,
     required this.name,

@@ -6,16 +6,11 @@ class HttpModel {
   final dynamic errors;
   final bool? status;
 
-  HttpModel({
-    this.message,
-    this.data,
-    this.status,
-    this.errors,
-  });
+  HttpModel({this.message, this.data, this.status, this.errors});
 
   factory HttpModel.fromResponseBody(String body) {
     Map<String, dynamic> resp = json.decode(body);
-    
+
     return HttpModel(
       message: resp['message'],
       data: resp['data'],

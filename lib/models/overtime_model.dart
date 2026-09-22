@@ -14,7 +14,7 @@ class OvertimeModel {
   final EmployeeModel? employee;
   final List<AttachmentModel>? attachments;
   final List<ApproverModel>? approvers;
-  
+
   OvertimeModel({
     required this.id,
     required this.startDate,
@@ -28,20 +28,19 @@ class OvertimeModel {
   });
 
   factory OvertimeModel.fromJson(Map<String, dynamic> data) {
-
     List<ApproverModel> approvers = [];
-    if(data['approvals'] != null) {
-      if(data['approvals'].length > 0) {
-        for(var x in data['approvals']) {
+    if (data['approvals'] != null) {
+      if (data['approvals'].length > 0) {
+        for (var x in data['approvals']) {
           approvers.add(ApproverModel.fromJson(x));
         }
       }
     }
 
     List<AttachmentModel> attachments = [];
-    if(data['attachments'] != null) {
-      if(data['attachments'].length > 0) {
-        for(var x in data['attachments']) {
+    if (data['attachments'] != null) {
+      if (data['attachments'].length > 0) {
+        for (var x in data['attachments']) {
           attachments.add(AttachmentModel.fromJson(x));
         }
       }
@@ -54,8 +53,8 @@ class OvertimeModel {
       type: OvertimeTypeModel.fromJson(data['overtime_type']),
       status: OvertimeStatusModel.fromJson(data['status']),
       employee: data['employee'] != null
-        ? EmployeeModel.fromJson(data['employee'])
-        : null,
+          ? EmployeeModel.fromJson(data['employee'])
+          : null,
       approvers: approvers,
       attachments: attachments,
     );

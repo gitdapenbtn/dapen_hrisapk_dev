@@ -4,7 +4,7 @@ class ApproverModel {
   final String email;
   final bool isRequired;
   final bool? isApproved;
-  
+
   ApproverModel({
     required this.id,
     required this.name,

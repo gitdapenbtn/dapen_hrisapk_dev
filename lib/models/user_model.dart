@@ -9,6 +9,8 @@ class UserModel {
   final bool guidelineAccess;
   final bool circularLetterAccess;
   final bool approvalAccess;
+  final bool founderDecreeAccess;
+  final bool decisionLetterAccess;
 
   UserModel({
     this.id,
@@ -19,6 +21,8 @@ class UserModel {
     this.guidelineAccess = false,
     this.circularLetterAccess = false,
     this.approvalAccess = false,
+    this.founderDecreeAccess = false,
+    this.decisionLetterAccess = false,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> data) {
@@ -32,11 +36,14 @@ class UserModel {
       employee: data['employee'] != null
           ? EmployeeModel.fromJson(data['employee'])
           : null,
-      approvalAccess: modules.contains('permit-update') ||
+      approvalAccess:
+          modules.contains('permit-update') ||
           modules.contains('leave-update') ||
           modules.contains('attendance-request-update'),
       circularLetterAccess: modules.contains('circular-letter-view'),
       guidelineAccess: modules.contains('guideline-view'),
+      founderDecreeAccess: modules.contains('founder-decree-view'),
+      decisionLetterAccess: modules.contains('decision-letter-view'),
     );
   }
 }

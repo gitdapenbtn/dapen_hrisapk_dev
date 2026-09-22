@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:unicons/unicons.dart';
 
 class OvertimeScreen extends StatefulWidget {
-  const OvertimeScreen({ super.key });
+  const OvertimeScreen({super.key});
 
   @override
   State<OvertimeScreen> createState() => _OvertimeScreenState();
@@ -25,7 +25,7 @@ class _OvertimeScreenState extends State<OvertimeScreen> {
     end: DateTime.now(),
   );
   bool _isLoading = false;
-  
+
   @override
   void initState() {
     super.initState();
@@ -44,23 +44,22 @@ class _OvertimeScreenState extends State<OvertimeScreen> {
     setState(() {
       _isLoading = true;
     });
-    
+
     return Future.delayed(const Duration(seconds: 1), () async {
       Map<String, dynamic> params = {
         "mine": true.toString(),
         "start_date": _period.start.toLocalId("yyyy-MM-dd"),
         "end_date": _period.end.toLocalId("yyyy-MM-dd"),
       };
-      
-      _overtimeProvider.getOvertimes(params: params)
-        .whenComplete(() {
-          setState(() {
-            _isLoading = false;
-          });
+
+      _overtimeProvider.getOvertimes(params: params).whenComplete(() {
+        setState(() {
+          _isLoading = false;
         });
+      });
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Layout(
@@ -71,12 +70,8 @@ class _OvertimeScreenState extends State<OvertimeScreen> {
         bottom: LayoutAppBarBottom(
           child: RangeDateInput(
             fillColor: Colors.white60,
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 10,
-            ),
-            style: const TextStyle(
-              fontSize: 13,
-            ),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+            style: const TextStyle(fontSize: 13),
             onChange: (period) {
               setState(() {
                 _period = period;
@@ -90,9 +85,7 @@ class _OvertimeScreenState extends State<OvertimeScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(
-              builder: (context) => const OvertimeFormScreen()
-            )
+            MaterialPageRoute(builder: (context) => const OvertimeFormScreen()),
           );
         },
         label: const Text('Buat'),
@@ -111,16 +104,21 @@ class _OvertimeScreenState extends State<OvertimeScreen> {
       itemCount: overtimes.length,
       padding: const EdgeInsets.symmetric(horizontal: 20),
       itemBuilder: (ctx, i) {
-        String startDate = overtimes[i].startDate.toLocalId('dd MMM, HH:mm').toString();
-        String endDate = overtimes[i].endDate.toLocalId('dd MMM, HH:mm').toString();
+        String startDate = overtimes[i].startDate
+            .toLocalId('dd MMM, HH:mm')
+            .toString();
+        String endDate = overtimes[i].endDate
+            .toLocalId('dd MMM, HH:mm')
+            .toString();
 
         return InkWell(
           onTap: () {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => OvertimeDetailScreen(overtime: overtimes[i])
-              )
+                builder: (context) =>
+                    OvertimeDetailScreen(overtime: overtimes[i]),
+              ),
             );
           },
           child: Container(
@@ -133,9 +131,9 @@ class _OvertimeScreenState extends State<OvertimeScreen> {
                 BoxShadow(
                   color: Colors.black.withOpacity(.05),
                   blurRadius: 5,
-                  offset: const Offset(0,2),
-                )
-              ]
+                  offset: const Offset(0, 2),
+                ),
+              ],
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,11 +144,11 @@ class _OvertimeScreenState extends State<OvertimeScreen> {
                     fontWeight: FontWeight.bold,
                     color: LayoutColor.textSecondary,
                     fontSize: 12,
-                  )
+                  ),
                 ),
 
                 const SizedBox(height: 5),
-                
+
                 Wrap(
                   children: [
                     const SizedBox(
@@ -160,8 +158,8 @@ class _OvertimeScreenState extends State<OvertimeScreen> {
                         style: TextStyle(
                           fontWeight: FontWeight.normal,
                           color: LayoutColor.textPrimary,
-                          fontSize: 15
-                        )
+                          fontSize: 15,
+                        ),
                       ),
                     ),
                     const Text(': '),
@@ -170,8 +168,8 @@ class _OvertimeScreenState extends State<OvertimeScreen> {
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: LayoutColor.textPrimary,
-                        fontSize: 15
-                      )
+                        fontSize: 15,
+                      ),
                     ),
                   ],
                 ),
@@ -184,8 +182,8 @@ class _OvertimeScreenState extends State<OvertimeScreen> {
                         style: TextStyle(
                           fontWeight: FontWeight.normal,
                           color: LayoutColor.textPrimary,
-                          fontSize: 15
-                        )
+                          fontSize: 15,
+                        ),
                       ),
                     ),
                     const Text(': '),
@@ -194,8 +192,8 @@ class _OvertimeScreenState extends State<OvertimeScreen> {
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: LayoutColor.textPrimary,
-                        fontSize: 15
-                      )
+                        fontSize: 15,
+                      ),
                     ),
                   ],
                 ),
@@ -213,7 +211,7 @@ class _OvertimeScreenState extends State<OvertimeScreen> {
                           overtimes[i].status.name,
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: LayoutColor.secondary
+                            color: LayoutColor.secondary,
                           ),
                         ),
                       ],
@@ -227,12 +225,12 @@ class _OvertimeScreenState extends State<OvertimeScreen> {
                       child: const Icon(UniconsLine.angle_right),
                     ),
                   ],
-                )
+                ),
               ],
             ),
-          )
+          ),
         );
       },
     );
- }
+  }
 }

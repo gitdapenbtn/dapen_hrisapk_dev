@@ -18,13 +18,13 @@ class DangerButton extends TextButton {
     super.statesController,
     super.key,
   }) : super(
-    style: TextButton.styleFrom(
-      backgroundColor: LayoutColor.danger,
-      foregroundColor: LayoutColor.background,
-      disabledBackgroundColor: LayoutColor.danger,
-      disabledForegroundColor: const Color.fromARGB(157, 240, 244, 249),
-      minimumSize: const Size.fromHeight(50),
-    ),
-    child: child
-  );
+         style: TextButton.styleFrom(
+           backgroundColor: LayoutColor.danger,
+           foregroundColor: LayoutColor.background,
+           disabledBackgroundColor: LayoutColor.danger,
+           disabledForegroundColor: const Color.fromARGB(157, 240, 244, 249),
+           minimumSize: const Size.fromHeight(50),
+         ),
+         child: child,
+       );
 }

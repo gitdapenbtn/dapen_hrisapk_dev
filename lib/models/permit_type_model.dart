@@ -4,7 +4,7 @@ class PermitTypeModel {
   final String? code;
   final String? description;
   final bool withTime;
-  
+
   PermitTypeModel({
     required this.id,
     required this.name,

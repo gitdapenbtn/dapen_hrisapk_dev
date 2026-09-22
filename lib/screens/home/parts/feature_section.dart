@@ -1,29 +1,34 @@
 import 'package:dpbtn_absen/screens/approval/approval_screen.dart';
-import 'package:dpbtn_absen/screens/circular_letter/circular_letter_screen.dart';
-import 'package:dpbtn_absen/screens/guideline/guideline_screen.dart';
+import 'package:dpbtn_absen/screens/internal_policy/internal_policy_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dpbtn_absen/components/section.dart';
 import 'package:dpbtn_absen/layouts/constants/layout_color.dart';
 import 'package:dpbtn_absen/screens/attendance_request/attendance_request_screen.dart';
 import 'package:dpbtn_absen/screens/leave/leave_screen.dart';
 import 'package:dpbtn_absen/screens/permit/permit_screen.dart';
-// import 'package:dpbtn_absen/screens/overtime/overtime_screen.dart';
 import 'package:unicons/unicons.dart';
 
 class FeatureSection extends StatelessWidget {
   final bool approvalAccess;
   final bool guidelineAccess;
   final bool circularLetterAccess;
+  final bool founderDecreeAccess;
+  final bool decisionLetterAccess;
+  final bool internalPolicyAccess;
 
-  const FeatureSection(
-      {super.key,
-      this.approvalAccess = false,
-      this.guidelineAccess = false,
-      this.circularLetterAccess = false});
+  const FeatureSection({
+    super.key,
+    this.approvalAccess = false,
+    this.guidelineAccess = false,
+    this.circularLetterAccess = false,
+    this.founderDecreeAccess = false,
+    this.decisionLetterAccess = false,
+    this.internalPolicyAccess = false,
+  });
 
   @override
   Widget build(BuildContext context) {
-    List<Feature> featureList = [
+    final List<Feature> featureList = [
       Feature(
         label: 'Pengajuan',
         label2: 'Absensi',
@@ -33,11 +38,14 @@ class FeatureSection extends StatelessWidget {
         ),
         onPressed: () {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const AttendanceRequestScreen()));
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AttendanceRequestScreen(),
+            ),
+          );
         },
       ),
+
       Feature(
         label: 'Pengajuan',
         label2: 'Cuti',
@@ -46,10 +54,15 @@ class FeatureSection extends StatelessWidget {
           color: Colors.black,
         ),
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const LeaveScreen()));
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const LeaveScreen(),
+            ),
+          );
         },
       ),
+
       Feature(
         label: 'Pengajuan',
         label2: 'Izin',
@@ -58,10 +71,15 @@ class FeatureSection extends StatelessWidget {
           color: Colors.black,
         ),
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const PermitScreen()));
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const PermitScreen(),
+            ),
+          );
         },
       ),
+
       Feature(
         label: 'Konfirmasi',
         label2: 'Pengajuan',
@@ -71,90 +89,73 @@ class FeatureSection extends StatelessWidget {
         ),
         access: approvalAccess,
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const ApprovalScreen()));
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ApprovalScreen(),
+            ),
+          );
         },
       ),
+
       Feature(
-        label: 'Dokumen',
-        label2: 'Pedoman',
+        label: 'Kebijakan',
+        label2: 'Internal',
         icon: const Icon(
           UniconsLine.folder_open,
           color: Colors.black,
         ),
-        access: guidelineAccess,
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const GuidelineScreen()));
-        },
-      ),
-      Feature(
-        label: 'Dokumen',
-        label2: 'Surat Edaran',
-        icon: const Icon(
-          Icons.folder_copy_outlined,
-          color: Colors.black,
-        ),
-        access: circularLetterAccess,
+        access: internalPolicyAccess,
         onPressed: () {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const CircularLetterScreen()));
+            context,
+            MaterialPageRoute(
+              builder: (context) => InternalPolicyScreen(
+                guidelineAccess: guidelineAccess,
+                circularLetterAccess: circularLetterAccess,
+                founderDecreeAccess: founderDecreeAccess,
+                decisionLetterAccess: decisionLetterAccess,
+              ),
+            ),
+          );
         },
       ),
-      // Feature(
-      //   label: 'Pengajuan Lembur',
-      //   icon: const Icon(
-      //     UniconsLine.clock_five,
-      //     color: Colors.black,
-      //   ),
-      //   onPressed: () {
-      //     Navigator.push(
-      //       context,
-      //       MaterialPageRoute(builder: (context) => const OvertimeScreen())
-      //     );
-      //   },
-      // ),
     ];
 
-    final List<Feature> features =
-        featureList.where((feature) => feature.access).toList();
+    final List<Feature> features = featureList
+        .where((feature) => feature.access)
+        .toList();
 
     return Section(
-      child: GridView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          padding: const EdgeInsets.only(top: 0),
-          shrinkWrap: true,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            crossAxisSpacing: 10,
-            childAspectRatio: 1 / 1,
-          ),
-          itemCount: features.length,
-          itemBuilder: (ctx, index) {
-            return InkWell(
-                onTap: () {
-                  if (features[index].onPressed != null) {
-                    features[index].onPressed!();
-                  }
-                },
-                child: Column(children: [
+      child: Wrap(
+        spacing: 10,
+        runSpacing: 10,
+        children: features.map((feature) {
+          return SizedBox(
+            width: (MediaQuery.of(context).size.width - 80) / 3,
+            child: InkWell(
+              onTap: () {
+                if (feature.onPressed != null) {
+                  feature.onPressed!();
+                }
+              },
+              child: Column(
+                children: [
                   Container(
                     height: 50,
                     width: 50,
-                    margin: const EdgeInsets.only(
-                      bottom: 8,
-                    ),
+                    margin: const EdgeInsets.only(bottom: 8),
                     decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 1,
-                              offset: Offset(0, 2)),
-                        ]),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 1,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
@@ -167,21 +168,31 @@ class FeatureSection extends StatelessWidget {
                           ],
                         ),
                       ),
-                      child: features[index].icon,
+                      child: feature.icon,
                     ),
                   ),
                   Text(
-                    '${features[index].label}',
+                    '${feature.label}',
                     textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 11, letterSpacing: 1),
+                    style: const TextStyle(
+                      fontSize: 11,
+                      letterSpacing: 1,
+                    ),
                   ),
                   Text(
-                    '${features[index].label2}',
+                    '${feature.label2}',
                     textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 11, letterSpacing: 1),
+                    style: const TextStyle(
+                      fontSize: 11,
+                      letterSpacing: 1,
+                    ),
                   ),
-                ]));
-          }),
+                ],
+              ),
+            ),
+          );
+        }).toList(),
+      ),
     );
   }
 }
@@ -193,6 +204,11 @@ class Feature {
   final Function? onPressed;
   final bool access;
 
-  Feature(
-      {this.label, this.label2, this.icon, this.onPressed, this.access = true});
+  Feature({
+    this.label,
+    this.label2,
+    this.icon,
+    this.onPressed,
+    this.access = true,
+  });
 }

@@ -45,22 +45,22 @@ class CustomInputDecoration extends InputDecoration {
     super.enabled,
     super.semanticCounterText,
     super.alignLabelWithHint,
-    super.constraints,    
+    super.constraints,
   }) : super(
-    filled: true,
-    focusColor: Colors.blue[50],
-    enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(10),
-      borderSide: const BorderSide(color: Colors.black12),
-    ),
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(10),
-      borderSide: BorderSide(color: Colors.grey.shade100),
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(10),
-      borderSide: const BorderSide(color: Colors.blue)
-    ),
-    counter: const Offstage(),
-  );
+         filled: true,
+         focusColor: Colors.blue[50],
+         enabledBorder: OutlineInputBorder(
+           borderRadius: BorderRadius.circular(10),
+           borderSide: const BorderSide(color: Colors.black12),
+         ),
+         border: OutlineInputBorder(
+           borderRadius: BorderRadius.circular(10),
+           borderSide: BorderSide(color: Colors.grey.shade100),
+         ),
+         focusedBorder: OutlineInputBorder(
+           borderRadius: BorderRadius.circular(10),
+           borderSide: const BorderSide(color: Colors.blue),
+         ),
+         counter: const Offstage(),
+       );
 }

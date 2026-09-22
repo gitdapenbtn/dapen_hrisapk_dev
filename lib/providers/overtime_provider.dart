@@ -10,7 +10,7 @@ import 'package:path/path.dart';
 
 class OvertimeProvider with ChangeNotifier {
   final Http http = Http();
-  
+
   OvertimeModel? _overtime;
   OvertimeModel? get overtime => _overtime;
 
@@ -19,21 +19,20 @@ class OvertimeProvider with ChangeNotifier {
 
   List<OvertimeTypeModel> _types = [];
   List<OvertimeTypeModel> get types => _types;
-  
-  Future<HttpModel> getOvertimes({ Map<String, dynamic>? params }) async {
+
+  Future<HttpModel> getOvertimes({Map<String, dynamic>? params}) async {
     try {
       HttpModel response = await http.get('overtimes', params);
 
       List<OvertimeModel> newOvertimes = [];
-      for(var x in response.data) {
+      for (var x in response.data) {
         newOvertimes.add(OvertimeModel.fromJson(x));
       }
       _overtimes = newOvertimes;
-      
+
       notifyListeners();
       return response;
-    }
-    catch(err) {
+    } catch (err) {
       _overtimes = [];
 
       notifyListeners();
@@ -58,11 +57,12 @@ class OvertimeProvider with ChangeNotifier {
     String? reason,
     List<File>? attachments,
   }) async {
-
-    String startDateString = DateFormat("yyyy-MM-dd").format(startDate).toString();
+    String startDateString = DateFormat(
+      "yyyy-MM-dd",
+    ).format(startDate).toString();
     String endDateString = DateFormat("yyyy-MM-dd").format(endDate).toString();
 
-    Map<String, String> params= {
+    Map<String, String> params = {
       "overtime_type_id": type.id.toString(),
       "start_overtime": '$startDateString $startTime',
       "end_overtime": '$endDateString $endTime',
@@ -70,18 +70,22 @@ class OvertimeProvider with ChangeNotifier {
     };
 
     List<MultipartFile> files = [];
-    if(attachments != null) {
+    if (attachments != null) {
       files = attachments.map((attachment) {
         return http.multipartFile(
           'attachments[]',
-          attachment.readAsBytes().asStream(), 
+          attachment.readAsBytes().asStream(),
           attachment.lengthSync(),
-          basename(attachment.path)
+          basename(attachment.path),
         );
       }).toList();
     }
 
-    HttpModel response = await http.postMultipartRequest('overtimes', params: params, files: files);    
+    HttpModel response = await http.postMultipartRequest(
+      'overtimes',
+      params: params,
+      files: files,
+    );
 
     notifyListeners();
     return response;
@@ -93,15 +97,14 @@ class OvertimeProvider with ChangeNotifier {
       HttpModel response = await http.get('overtime_types');
 
       List<OvertimeTypeModel> newTypes = [];
-      for(var x in response.data) {
+      for (var x in response.data) {
         newTypes.add(OvertimeTypeModel.fromJson(x));
       }
       _types = newTypes;
-      
+
       notifyListeners();
       return response;
-    }
-    catch(err) {
+    } catch (err) {
       _types = [];
 
       notifyListeners();

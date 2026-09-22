@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:unicons/unicons.dart';
 
 class LeaveScreen extends StatefulWidget {
-  const LeaveScreen({ super.key });
+  const LeaveScreen({super.key});
 
   @override
   State<LeaveScreen> createState() => _LeaveScreenState();
@@ -25,7 +25,7 @@ class _LeaveScreenState extends State<LeaveScreen> {
     end: DateTime.now(),
   );
   bool _isLoading = false;
-  
+
   @override
   void initState() {
     super.initState();
@@ -44,23 +44,22 @@ class _LeaveScreenState extends State<LeaveScreen> {
     setState(() {
       _isLoading = true;
     });
-    
+
     return Future.delayed(const Duration(seconds: 1), () async {
       Map<String, dynamic> params = {
         "mine": true.toString(),
         "start_date": _period.start.toLocalId("yyyy-MM-dd"),
         "end_date": _period.end.toLocalId("yyyy-MM-dd"),
       };
-      
-      _leaveProvider.getLeaves(params: params)
-        .whenComplete(() {
-          setState(() {
-            _isLoading = false;
-          });
+
+      _leaveProvider.getLeaves(params: params).whenComplete(() {
+        setState(() {
+          _isLoading = false;
         });
+      });
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Layout(
@@ -71,12 +70,8 @@ class _LeaveScreenState extends State<LeaveScreen> {
         bottom: LayoutAppBarBottom(
           child: RangeDateInput(
             fillColor: Colors.white60,
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 10,
-            ),
-            style: const TextStyle(
-              fontSize: 13,
-            ),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+            style: const TextStyle(fontSize: 13),
             onChange: (period) {
               setState(() {
                 _period = period;
@@ -90,9 +85,7 @@ class _LeaveScreenState extends State<LeaveScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(
-              builder: (context) => const LeaveFormScreen()
-            )
+            MaterialPageRoute(builder: (context) => const LeaveFormScreen()),
           );
         },
         label: const Text('Buat'),
@@ -111,7 +104,9 @@ class _LeaveScreenState extends State<LeaveScreen> {
       itemCount: leaves.length,
       padding: const EdgeInsets.symmetric(horizontal: 20),
       itemBuilder: (ctx, i) {
-        String startDate = leaves[i].startDate.toLocalId('EEE, dd MMM').toString();
+        String startDate = leaves[i].startDate
+            .toLocalId('EEE, dd MMM')
+            .toString();
         String endDate = leaves[i].endDate.toLocalId('EEE, dd MMM').toString();
         String rangeDate = '$startDate - $endDate';
 
@@ -120,8 +115,8 @@ class _LeaveScreenState extends State<LeaveScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => LeaveDetailScreen(leave: leaves[i])
-              )
+                builder: (context) => LeaveDetailScreen(leave: leaves[i]),
+              ),
             );
           },
           child: Container(
@@ -134,9 +129,9 @@ class _LeaveScreenState extends State<LeaveScreen> {
                 BoxShadow(
                   color: Colors.black.withOpacity(.05),
                   blurRadius: 5,
-                  offset: const Offset(0,2),
-                )
-              ]
+                  offset: const Offset(0, 2),
+                ),
+              ],
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -147,15 +142,15 @@ class _LeaveScreenState extends State<LeaveScreen> {
                     fontWeight: FontWeight.bold,
                     color: LayoutColor.textSecondary,
                     fontSize: 12,
-                  )
+                  ),
                 ),
                 Text(
                   rangeDate,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     color: LayoutColor.textPrimary,
-                    fontSize: 15
-                  )
+                    fontSize: 15,
+                  ),
                 ),
 
                 const Divider(),
@@ -171,7 +166,7 @@ class _LeaveScreenState extends State<LeaveScreen> {
                           leaves[i].status.name,
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: LayoutColor.secondary
+                            color: LayoutColor.secondary,
                           ),
                         ),
                       ],
@@ -185,12 +180,12 @@ class _LeaveScreenState extends State<LeaveScreen> {
                       child: const Icon(UniconsLine.angle_right),
                     ),
                   ],
-                )
+                ),
               ],
             ),
-          )
+          ),
         );
       },
     );
- }
+  }
 }

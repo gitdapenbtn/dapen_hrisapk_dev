@@ -4,7 +4,7 @@ import 'package:dpbtn_absen/layouts/constants/layout_color.dart';
 
 class TimeInput extends StatefulWidget {
   final TimeOfDay? initialTime;
-  final CustomInputDecoration? decoration; 
+  final CustomInputDecoration? decoration;
   final ValueChanged? onChange;
 
   const TimeInput({
@@ -13,7 +13,7 @@ class TimeInput extends StatefulWidget {
     this.onChange,
     super.key,
   });
-  
+
   @override
   State<TimeInput> createState() => _TimeInputState();
 }
@@ -34,7 +34,7 @@ class _TimeInputState extends State<TimeInput> {
     super.didChangeDependencies();
     _initialTime = widget.initialTime ?? TimeOfDay.now();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return TextField(
@@ -57,7 +57,7 @@ class _TimeInputState extends State<TimeInput> {
 
   Future<void> _selectTime(BuildContext context, initialTime) async {
     final TimeOfDay? picked = await showTimePicker(
-      context: context, 
+      context: context,
       initialTime: initialTime,
       initialEntryMode: TimePickerEntryMode.input,
       builder: (ctx, child) {
@@ -73,12 +73,12 @@ class _TimeInputState extends State<TimeInput> {
             child: child!,
           ),
         );
-      }
+      },
     );
 
-    if(picked != null) {
+    if (picked != null) {
       _setTime(picked);
-      if(widget.onChange != null) {
+      if (widget.onChange != null) {
         widget.onChange!(picked);
       }
     }

@@ -29,18 +29,18 @@ class ApprovalModel {
 
   factory ApprovalModel.fromJson(Map<String, dynamic> data) {
     List<ApproverModel> approvers = [];
-    if(data['approvals'] != null) {
-      if(data['approvals'].length > 0) {
-        for(var x in data['approvals']) {
+    if (data['approvals'] != null) {
+      if (data['approvals'].length > 0) {
+        for (var x in data['approvals']) {
           approvers.add(ApproverModel.fromJson(x));
         }
       }
     }
 
     List<AttachmentModel> attachments = [];
-    if(data['attachments'] != null) {
-      if(data['attachments'].length > 0) {
-        for(var x in data['attachments']) {
+    if (data['attachments'] != null) {
+      if (data['attachments'].length > 0) {
+        for (var x in data['attachments']) {
           attachments.add(AttachmentModel.fromJson(x));
         }
       }
@@ -55,8 +55,8 @@ class ApprovalModel {
       status: data['status'],
       isApproved: data['is_approved'],
       employee: data['employee'] != null
-        ? EmployeeModel.fromJson(data['employee'])
-        : null,
+          ? EmployeeModel.fromJson(data['employee'])
+          : null,
       attachments: attachments,
     );
   }

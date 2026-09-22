@@ -7,16 +7,16 @@ requestLocationPermission() async {
   var location = Location();
 
   var serviceEnabled = await location.serviceEnabled();
-  if(!serviceEnabled) {
+  if (!serviceEnabled) {
     serviceEnabled = await location.requestService();
-    if(!serviceEnabled) {
+    if (!serviceEnabled) {
       exit(1);
     }
   }
 
   var locationPermission = Permission.location;
-  if(await locationPermission.status.isDenied) {
-    if(await locationPermission.request().isDenied) {
+  if (await locationPermission.status.isDenied) {
+    if (await locationPermission.request().isDenied) {
       exit(1);
     }
   }
@@ -24,9 +24,9 @@ requestLocationPermission() async {
 
 requestCameraPermission() async {
   var camera = Permission.camera;
-  if(await camera.status.isDenied) {
+  if (await camera.status.isDenied) {
     var requestCamera = await camera.request();
-    if(requestCamera.isDenied) {
+    if (requestCamera.isDenied) {
       exit(1);
     }
   }
@@ -34,9 +34,9 @@ requestCameraPermission() async {
 
 requestStoragePermission() async {
   var storage = Permission.storage;
-  if(await storage.status.isDenied) {
+  if (await storage.status.isDenied) {
     var requestStorage = await storage.request();
-    if(requestStorage.isDenied) {
+    if (requestStorage.isDenied) {
       exit(1);
     }
   }

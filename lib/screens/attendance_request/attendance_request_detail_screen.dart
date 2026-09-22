@@ -18,10 +18,12 @@ class AttendanceRequestDetailScreen extends StatefulWidget {
   });
 
   @override
-  State<AttendanceRequestDetailScreen> createState() => _AttendanceRequestDetailScreenState();
+  State<AttendanceRequestDetailScreen> createState() =>
+      _AttendanceRequestDetailScreenState();
 }
 
-class _AttendanceRequestDetailScreenState extends State<AttendanceRequestDetailScreen> {
+class _AttendanceRequestDetailScreenState
+    extends State<AttendanceRequestDetailScreen> {
   late AttendanceRequestProvider _attendanceRequestProvider;
   bool _isLoading = false;
 
@@ -33,19 +35,23 @@ class _AttendanceRequestDetailScreenState extends State<AttendanceRequestDetailS
 
   @override
   @protected
-  @mustCallSuper 
+  @mustCallSuper
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _attendanceRequestProvider = Provider.of<AttendanceRequestProvider>(context);
+    _attendanceRequestProvider = Provider.of<AttendanceRequestProvider>(
+      context,
+    );
   }
 
   Future _onRefresh() {
     setState(() {
       _isLoading = true;
     });
-    
+
     return Future.delayed(const Duration(seconds: 1), () async {
-      await _attendanceRequestProvider.findAttendanceRequestById(id: widget.attendanceRequest.id);
+      await _attendanceRequestProvider.findAttendanceRequestById(
+        id: widget.attendanceRequest.id,
+      );
 
       setState(() {
         _isLoading = false;
@@ -58,9 +64,7 @@ class _AttendanceRequestDetailScreenState extends State<AttendanceRequestDetailS
     return Layout(
       isLoading: _isLoading,
       onRefresh: _onRefresh,
-      appBar: const LayoutAppBar(
-        title: 'Detail Pengajuan Absensi',
-      ),
+      appBar: const LayoutAppBar(title: 'Detail Pengajuan Absensi'),
       padding: const EdgeInsets.all(20),
       child: _body(),
     );
@@ -68,17 +72,19 @@ class _AttendanceRequestDetailScreenState extends State<AttendanceRequestDetailS
 
   Widget _body() {
     Widget body;
-    if(_attendanceRequestProvider.attendanceRequest != null) {
+    if (_attendanceRequestProvider.attendanceRequest != null) {
       body = Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _text(
             title: 'Nama Karyawan',
-            value: widget.attendanceRequest.employee!.name
+            value: widget.attendanceRequest.employee!.name,
           ),
           _text(
             title: 'Tanggal Absensi',
-            value: widget.attendanceRequest.date.toLocalId('dd MMM yyyy').toString(),
+            value: widget.attendanceRequest.date
+                .toLocalId('dd MMM yyyy')
+                .toString(),
           ),
           _text(
             title: 'Jam Masuk',
@@ -88,22 +94,20 @@ class _AttendanceRequestDetailScreenState extends State<AttendanceRequestDetailS
             title: 'Jam Pulang',
             value: _attendanceRequestProvider.attendanceRequest!.timeOut,
           ),
-          _text(
-            title: 'Alasan',
-            value: widget.attendanceRequest.note,
-          ),
-          _text(
-            title: 'Status',
-            value: widget.attendanceRequest.status.name,
-          ),
+          _text(title: 'Alasan', value: widget.attendanceRequest.note),
+          _text(title: 'Status', value: widget.attendanceRequest.status.name),
 
           _title('Lampiran'),
-          _attachmentList(_attendanceRequestProvider.attendanceRequest!.attachments),
+          _attachmentList(
+            _attendanceRequestProvider.attendanceRequest!.attachments,
+          ),
 
           const SizedBox(height: 20),
 
           _title('Pemberi Persetujuan'),
-          _approvalList(_attendanceRequestProvider.attendanceRequest!.approvers),
+          _approvalList(
+            _attendanceRequestProvider.attendanceRequest!.approvers,
+          ),
         ],
       );
     } else {
@@ -116,32 +120,20 @@ class _AttendanceRequestDetailScreenState extends State<AttendanceRequestDetailS
   Widget _title(String title) {
     return Text(
       title,
-      style: const TextStyle(
-        color: LayoutColor.textSecondary
-      ),
+      style: const TextStyle(color: LayoutColor.textSecondary),
     );
   }
 
-  Widget _text({
-    required String title,
-    String? value,
-  }) {
+  Widget _text({required String title, String? value}) {
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: const TextStyle(
-              color: LayoutColor.textSecondary
-            ),
-          ),
+          Text(title, style: const TextStyle(color: LayoutColor.textSecondary)),
           Text(
             value ?? '-',
-            style: const TextStyle(
-              fontWeight: FontWeight.bold
-            ),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ],
       ),
@@ -150,8 +142,8 @@ class _AttendanceRequestDetailScreenState extends State<AttendanceRequestDetailS
 
   Widget _attachmentList(List<AttachmentModel>? attachments) {
     Widget attahcmentList = const Text('Tidak ada lampiran.');
-    if(attachments != null) {
-      if(attachments.isNotEmpty) {
+    if (attachments != null) {
+      if (attachments.isNotEmpty) {
         attahcmentList = Container(
           margin: const EdgeInsets.only(top: 10),
           child: ListView.builder(
@@ -168,11 +160,8 @@ class _AttendanceRequestDetailScreenState extends State<AttendanceRequestDetailS
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
                   boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 1
-                    )
-                  ]
+                    BoxShadow(color: Colors.black12, blurRadius: 1),
+                  ],
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -181,9 +170,7 @@ class _AttendanceRequestDetailScreenState extends State<AttendanceRequestDetailS
                     Flexible(
                       child: Text(
                         attachments[i].name,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold
-                        ),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
                     const SizedBox(width: 30),
@@ -194,8 +181,8 @@ class _AttendanceRequestDetailScreenState extends State<AttendanceRequestDetailS
                   ],
                 ),
               );
-            }
-          )
+            },
+          ),
         );
       }
     }
@@ -205,8 +192,8 @@ class _AttendanceRequestDetailScreenState extends State<AttendanceRequestDetailS
 
   Widget _approvalList(List<ApproverModel>? approvers) {
     Widget approvalList = const Text('Tidak ada pemberi persetujuan.');
-    if(approvers != null) {
-      if(approvers.isNotEmpty) {
+    if (approvers != null) {
+      if (approvers.isNotEmpty) {
         approvalList = Container(
           margin: const EdgeInsets.only(top: 10),
           child: ListView.builder(
@@ -215,23 +202,17 @@ class _AttendanceRequestDetailScreenState extends State<AttendanceRequestDetailS
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (ctx, i) {
               Widget status;
-              if(approvers[i].isApproved != null) {
-                if(approvers[i].isApproved == true) {
-                  status = badge(
-                    'Disetujui', 
-                    color: LayoutColor.success,
-                  );
+              if (approvers[i].isApproved != null) {
+                if (approvers[i].isApproved == true) {
+                  status = badge('Disetujui', color: LayoutColor.success);
                 } else {
-                  status = badge(
-                    'Ditolak', 
-                    color: LayoutColor.danger,
-                  );
+                  status = badge('Ditolak', color: LayoutColor.danger);
                 }
               } else {
                 status = badge(
-                  'Diproses', 
+                  'Diproses',
                   color: LayoutColor.disabled,
-                  textColor: LayoutColor.textPrimary
+                  textColor: LayoutColor.textPrimary,
                 );
               }
 
@@ -244,11 +225,8 @@ class _AttendanceRequestDetailScreenState extends State<AttendanceRequestDetailS
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
                   boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 1
-                    )
-                  ]
+                    BoxShadow(color: Colors.black12, blurRadius: 1),
+                  ],
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -257,9 +235,7 @@ class _AttendanceRequestDetailScreenState extends State<AttendanceRequestDetailS
                     Flexible(
                       child: Text(
                         approvers[i].name,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold
-                        ),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
                     const SizedBox(width: 30),
@@ -267,8 +243,8 @@ class _AttendanceRequestDetailScreenState extends State<AttendanceRequestDetailS
                   ],
                 ),
               );
-            }
-          )
+            },
+          ),
         );
       }
     }
@@ -276,13 +252,7 @@ class _AttendanceRequestDetailScreenState extends State<AttendanceRequestDetailS
     return approvalList;
   }
 
-  Widget badge(
-    String label,
-    {
-      Color? color,
-      Color? textColor,
-    }
-  ) {
+  Widget badge(String label, {Color? color, Color? textColor}) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
       decoration: BoxDecoration(
@@ -291,11 +261,8 @@ class _AttendanceRequestDetailScreenState extends State<AttendanceRequestDetailS
       ),
       child: Text(
         label,
-        style: TextStyle(
-          color: textColor ?? Colors.white,
-          fontSize: 12,
-        ),
-      )
+        style: TextStyle(color: textColor ?? Colors.white, fontSize: 12),
+      ),
     );
   }
 }

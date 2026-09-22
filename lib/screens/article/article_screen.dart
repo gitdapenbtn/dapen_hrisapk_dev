@@ -50,14 +50,8 @@ class _ArticleScreenState extends State<ArticleScreen> {
     return Layout(
       onRefresh: _onRefresh,
       isLoading: _isLoading,
-      appBar: const LayoutAppBar(
-        title: 'Berita',
-      ),
-      child: Column(
-        children: [
-          _listView(_articleProvider.articles),
-        ],
-      ),
+      appBar: const LayoutAppBar(title: 'Berita'),
+      child: Column(children: [_listView(_articleProvider.articles)]),
     );
   }
 
@@ -121,9 +115,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
                         article.title,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 8),
                       Text(

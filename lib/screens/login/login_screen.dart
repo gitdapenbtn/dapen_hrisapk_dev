@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:unicons/unicons.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({ super.key });
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -51,9 +51,9 @@ class _LoginScreenState extends State<LoginScreen> {
               BoxShadow(
                 color: Colors.black12,
                 offset: Offset(0, -2),
-                blurRadius: 10
-              )
-            ]
+                blurRadius: 10,
+              ),
+            ],
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -61,21 +61,27 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                 alignment: Alignment.center,
                 width: double.infinity,
-                child: const Text('Selamat Datang', style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                  color: Colors.black87
-                )),
+                child: const Text(
+                  'Selamat Datang',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: Colors.black87,
+                  ),
+                ),
               ),
 
               Container(
                 alignment: Alignment.center,
                 width: double.infinity,
-                child: const Text('Masuk Untuk Melanjutkan', style: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 15,
-                  color: Colors.black54
-                )),
+                child: const Text(
+                  'Masuk Untuk Melanjutkan',
+                  style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 15,
+                    color: Colors.black54,
+                  ),
+                ),
               ),
 
               Container(
@@ -94,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
               ),
-                    
+
               Container(
                 margin: const EdgeInsets.only(top: 20),
                 width: double.infinity,
@@ -120,9 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   title: const Text(
                     'Lanjutan',
                     textAlign: TextAlign.right,
-                    style: TextStyle(
-                      fontSize: 12,
-                    ),
+                    style: TextStyle(fontSize: 12),
                   ),
                   initiallyExpanded: false,
                   children: [
@@ -146,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   type: AlertMessageType.danger,
                 ),
               ),
-              
+
               Container(
                 margin: const EdgeInsets.only(top: 20),
                 alignment: Alignment.center,
@@ -163,17 +167,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const ForgotPasswordScreen()
-                      )
+                        builder: (context) => const ForgotPasswordScreen(),
+                      ),
                     );
                   },
                   child: const Text(
                     'Lupa Password ?',
-                    style: TextStyle(
-                      color: LayoutColor.info
-                    ),
+                    style: TextStyle(color: LayoutColor.info),
                   ),
-                )
+                ),
               ),
             ],
           ),
@@ -181,7 +183,7 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: LayoutColor.primary,
         body: Container(
           alignment: Alignment.topCenter,
-          child: SvgPicture.asset('assets/svg/attendance2.svg')
+          child: SvgPicture.asset('assets/svg/attendance2.svg'),
         ),
       ),
     );
@@ -195,9 +197,9 @@ class _LoginScreenState extends State<LoginScreen> {
       });
 
       await _authProvider.login(
-          email: _emailController.text,
-          password: _passwordController.text,
-          server: _serverController.text,
+        email: _emailController.text,
+        password: _passwordController.text,
+        server: _serverController.text,
       );
 
       // ignore: use_build_context_synchronously
@@ -206,8 +208,7 @@ class _LoginScreenState extends State<LoginScreen> {
         MaterialPageRoute(builder: (context) => const MainScreen()),
         (route) => false,
       );
-    }
-    catch(err) {
+    } catch (err) {
       setState(() {
         _errorMessage = err.toString();
         _isLoading = false;

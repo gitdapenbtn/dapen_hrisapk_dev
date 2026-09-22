@@ -10,7 +10,7 @@ import 'package:path/path.dart';
 
 class LeaveProvider with ChangeNotifier {
   final Http http = Http();
-  
+
   LeaveModel? _leave;
   LeaveModel? get leave => _leave;
 
@@ -19,21 +19,20 @@ class LeaveProvider with ChangeNotifier {
 
   List<LeaveTypeModel> _types = [];
   List<LeaveTypeModel> get types => _types;
-  
-  Future<HttpModel> getLeaves({ Map<String, dynamic>? params }) async {
+
+  Future<HttpModel> getLeaves({Map<String, dynamic>? params}) async {
     try {
       HttpModel response = await http.get('leaves', params);
 
       List<LeaveModel> newLeaves = [];
-      for(var x in response.data) {
+      for (var x in response.data) {
         newLeaves.add(LeaveModel.fromJson(x));
       }
       _leaves = newLeaves;
-      
+
       notifyListeners();
       return response;
-    }
-    catch(err) {
+    } catch (err) {
       _leaves = [];
 
       notifyListeners();
@@ -57,7 +56,7 @@ class LeaveProvider with ChangeNotifier {
     String? address,
     List<File>? attachments,
   }) async {
-    Map<String, String> params= {
+    Map<String, String> params = {
       "leave_type_id": type.id.toString(),
       "start_date": DateFormat("yyyy-MM-dd").format(startDate).toString(),
       "end_date": DateFormat("yyyy-MM-dd").format(endDate).toString(),
@@ -66,18 +65,22 @@ class LeaveProvider with ChangeNotifier {
     };
 
     List<MultipartFile> files = [];
-    if(attachments != null) {
+    if (attachments != null) {
       files = attachments.map((attachment) {
         return http.multipartFile(
           'attachments[]',
-          attachment.readAsBytes().asStream(), 
+          attachment.readAsBytes().asStream(),
           attachment.lengthSync(),
-          basename(attachment.path)
+          basename(attachment.path),
         );
       }).toList();
     }
 
-    HttpModel response = await http.postMultipartRequest('leaves', params: params, files: files);    
+    HttpModel response = await http.postMultipartRequest(
+      'leaves',
+      params: params,
+      files: files,
+    );
 
     notifyListeners();
     return response;
@@ -89,15 +92,14 @@ class LeaveProvider with ChangeNotifier {
       HttpModel response = await http.get('leave_types');
 
       List<LeaveTypeModel> newTypes = [];
-      for(var x in response.data) {
+      for (var x in response.data) {
         newTypes.add(LeaveTypeModel.fromJson(x));
       }
       _types = newTypes;
-      
+
       notifyListeners();
       return response;
-    }
-    catch(err) {
+    } catch (err) {
       _types = [];
 
       notifyListeners();

@@ -18,13 +18,13 @@ class PrimaryButton extends TextButton {
     super.statesController,
     super.key,
   }) : super(
-    style: TextButton.styleFrom(
-      backgroundColor: LayoutColor.primary,
-      foregroundColor: LayoutColor.textPrimary,
-      disabledBackgroundColor: LayoutColor.primary,
-      disabledForegroundColor: LayoutColor.textSecondary,
-      minimumSize: const Size.fromHeight(50),
-    ),
-    child: child
-  );
+         style: TextButton.styleFrom(
+           backgroundColor: LayoutColor.primary,
+           foregroundColor: LayoutColor.textPrimary,
+           disabledBackgroundColor: LayoutColor.primary,
+           disabledForegroundColor: LayoutColor.textSecondary,
+           minimumSize: const Size.fromHeight(50),
+         ),
+         child: child,
+       );
 }

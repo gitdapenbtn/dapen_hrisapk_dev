@@ -13,11 +13,13 @@ class AuthProvider with ChangeNotifier {
     required String password,
     String? server,
   }) async {
-    String? fcmRegistrationId = await _secureStorage.read(key: 'fcm_registration_id');
-    
+    String? fcmRegistrationId = await _secureStorage.read(
+      key: 'fcm_registration_id',
+    );
+
     await http.resetBaseUrl();
-    if(server != null) {
-      if(server != '') {
+    if (server != null) {
+      if (server != '') {
         await http.setBaseUrl(server);
       }
     }
@@ -36,9 +38,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<HttpModel> forgotPassword(String email) async {
-    Map<String, dynamic> params = {
-      'email': email,
-    };
+    Map<String, dynamic> params = {'email': email};
 
     HttpModel response = await http.post('auth/forgot_password', params);
     return response;
@@ -54,7 +54,7 @@ class AuthProvider with ChangeNotifier {
       'email': email,
       'new_password': newPassword,
       'new_password_confirmation': newPasswordConfirmation,
-      'verification_code': verificationCode
+      'verification_code': verificationCode,
     };
 
     HttpModel response = await http.post('auth/reset_password', params);

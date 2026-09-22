@@ -6,22 +6,16 @@ class AlertMessage extends StatelessWidget {
   final EdgeInsets? margin;
   final AlertMessageType? type;
 
-  const AlertMessage({
-    super.key,
-    this.message,
-    this.margin,
-    this.type,
-  });
-  
+  const AlertMessage({super.key, this.message, this.margin, this.type});
+
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: margin,
-      padding: const EdgeInsets.symmetric(
-        horizontal: 10,
-        vertical: 10,
-      ),
-      decoration: type != null ? type!.decoration : AlertMessageType.def.decoration,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      decoration: type != null
+          ? type!.decoration
+          : AlertMessageType.def.decoration,
       width: MediaQuery.of(context).size.width,
       child: Text(
         '$message',
@@ -35,22 +29,17 @@ class AlertMessageType {
   final BoxDecoration decoration;
   final TextStyle textStyle;
 
-  const AlertMessageType({
-    required this.decoration,
-    required this.textStyle,
-  });
+  const AlertMessageType({required this.decoration, required this.textStyle});
 
   static final BorderRadius _borderRadius = BorderRadius.circular(10);
   static const Color _color = Colors.white;
-  
+
   static AlertMessageType def = AlertMessageType(
     decoration: BoxDecoration(
       color: LayoutColor.secondary,
       borderRadius: _borderRadius,
     ),
-    textStyle: const TextStyle(
-      color: _color
-    )
+    textStyle: const TextStyle(color: _color),
   );
 
   static AlertMessageType success = AlertMessageType(
@@ -58,19 +47,15 @@ class AlertMessageType {
       color: LayoutColor.success,
       borderRadius: _borderRadius,
     ),
-    textStyle: const TextStyle(
-      color: _color,
-    )
+    textStyle: const TextStyle(color: _color),
   );
-  
+
   static AlertMessageType primary = AlertMessageType(
     decoration: BoxDecoration(
       color: LayoutColor.primary,
       borderRadius: _borderRadius,
     ),
-    textStyle: const TextStyle(
-      color: LayoutColor.textPrimary,
-    )
+    textStyle: const TextStyle(color: LayoutColor.textPrimary),
   );
 
   static AlertMessageType info = AlertMessageType(
@@ -78,29 +63,22 @@ class AlertMessageType {
       color: LayoutColor.info,
       borderRadius: _borderRadius,
     ),
-    textStyle: const TextStyle(
-      color: _color,
-    )
+    textStyle: const TextStyle(color: _color),
   );
-  
+
   static AlertMessageType warning = AlertMessageType(
     decoration: BoxDecoration(
       color: LayoutColor.warning,
       borderRadius: _borderRadius,
     ),
-    textStyle: const TextStyle(
-      color: _color,
-    )
+    textStyle: const TextStyle(color: _color),
   );
-
 
   static AlertMessageType danger = AlertMessageType(
     decoration: BoxDecoration(
       color: LayoutColor.danger,
       borderRadius: _borderRadius,
     ),
-    textStyle: const TextStyle(
-      color: _color,
-    )
+    textStyle: const TextStyle(color: _color),
   );
 }

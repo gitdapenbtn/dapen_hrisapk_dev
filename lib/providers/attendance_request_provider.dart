@@ -9,27 +9,28 @@ import 'package:path/path.dart';
 
 class AttendanceRequestProvider with ChangeNotifier {
   final Http http = Http();
-  
+
   AttendanceRequestModel? _attendanceRequest;
   AttendanceRequestModel? get attendanceRequest => _attendanceRequest;
 
   List<AttendanceRequestModel> _attendanceRequests = [];
   List<AttendanceRequestModel> get attendanceRequests => _attendanceRequests;
-  
-  Future<HttpModel> getAttendanceRequests({ Map<String, dynamic>? params }) async {
+
+  Future<HttpModel> getAttendanceRequests({
+    Map<String, dynamic>? params,
+  }) async {
     try {
       HttpModel response = await http.get('attendance_requests', params);
 
       List<AttendanceRequestModel> newAttendanceRequests = [];
-      for(var x in response.data) {
+      for (var x in response.data) {
         newAttendanceRequests.add(AttendanceRequestModel.fromJson(x));
       }
       _attendanceRequests = newAttendanceRequests;
 
       notifyListeners();
       return response;
-    }
-    catch(err) {
+    } catch (err) {
       _attendanceRequests = [];
 
       notifyListeners();
@@ -53,7 +54,7 @@ class AttendanceRequestProvider with ChangeNotifier {
     List<File>? attachments,
   }) async {
     formatTime(TimeOfDay? time) {
-      if(time != null) {
+      if (time != null) {
         final valString = time.toString();
         return valString.replaceAll('TimeOfDay(', '').replaceAll(')', '');
       }
@@ -61,7 +62,7 @@ class AttendanceRequestProvider with ChangeNotifier {
       return null;
     }
 
-    Map<String, String> params= {
+    Map<String, String> params = {
       "attendance_date": DateFormat("yyyy-MM-dd").format(date).toString(),
       "time_in": formatTime(timeIn) ?? '',
       "time_out": formatTime(timeOut) ?? '',
@@ -69,19 +70,23 @@ class AttendanceRequestProvider with ChangeNotifier {
     };
 
     List<MultipartFile> files = [];
-    if(attachments != null) {
+    if (attachments != null) {
       files = attachments.map((attachment) {
         return http.multipartFile(
           'attachments[]',
-          attachment.readAsBytes().asStream(), 
+          attachment.readAsBytes().asStream(),
           attachment.lengthSync(),
-          basename(attachment.path)
+          basename(attachment.path),
         );
       }).toList();
     }
 
-    HttpModel response = await http.postMultipartRequest('attendance_requests', params: params, files: files);    
-    
+    HttpModel response = await http.postMultipartRequest(
+      'attendance_requests',
+      params: params,
+      files: files,
+    );
+
     notifyListeners();
     return response;
   }

@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyA7upeSWz1XxpSCGHgaZ617kVnYvE5q_jo</string>
+	<string>AIzaSyDlvXL_tKL1gYqBEc14lxTzM44XpLAqsUc</string>
 	<key>GCM_SENDER_ID</key>
-	<string>855076620556</string>
+	<string>365194377447</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>id.dpbtn.absen</string>
+	<string>id.dpbtn.absen.mobile</string>
 	<key>PROJECT_ID</key>
-	<string>dpbtn-absen</string>
+	<string>dapenbtn-hris</string>
 	<key>STORAGE_BUCKET</key>
-	<string>dpbtn-absen.firebasestorage.app</string>
+	<string>dapenbtn-hris.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:855076620556:ios:690fc8576b98aa83226129</string>
+	<string>1:365194377447:ios:55d7ce09432e68ae9d4a42</string>
 </dict>
 </plist>

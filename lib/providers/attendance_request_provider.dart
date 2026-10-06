@@ -10,6 +10,15 @@ import 'package:path/path.dart';
 class AttendanceRequestProvider with ChangeNotifier {
   final Http http = Http();
 
+  static String? formatTime(TimeOfDay? time) {
+    if (time == null) return null;
+
+    // Serialize the values explicitly; toString() is an object representation.
+    final hour = time.hour.toString().padLeft(2, '0');
+    final minute = time.minute.toString().padLeft(2, '0');
+    return '$hour:$minute:00';
+  }
+
   AttendanceRequestModel? _attendanceRequest;
   AttendanceRequestModel? get attendanceRequest => _attendanceRequest;
 
@@ -53,21 +62,14 @@ class AttendanceRequestProvider with ChangeNotifier {
     String? note,
     List<File>? attachments,
   }) async {
-    formatTime(TimeOfDay? time) {
-      if (time != null) {
-        final valString = time.toString();
-        return valString.replaceAll('TimeOfDay(', '').replaceAll(')', '');
-      }
-
-      return null;
-    }
-
     Map<String, String> params = {
       "attendance_date": DateFormat("yyyy-MM-dd").format(date).toString(),
       "time_in": formatTime(timeIn) ?? '',
       "time_out": formatTime(timeOut) ?? '',
       "note": note ?? '',
     };
+
+print('ATTENDANCE REQUEST PARAMS: $params');
 
     List<MultipartFile> files = [];
     if (attachments != null) {

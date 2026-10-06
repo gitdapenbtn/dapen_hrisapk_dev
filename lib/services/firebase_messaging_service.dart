@@ -7,35 +7,53 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:dpbtn_absen/services/notification_service.dart';
 
 class FirebaseMessagingService {
-  final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
+  final FlutterSecureStorage _secureStorage =
+      const FlutterSecureStorage();
 
   Future<void> init(NotificationService notificationService) async {
     await Firebase.initializeApp();
+
     await FirebaseMessaging.instance
         .setForegroundNotificationPresentationOptions(
-          alert: true,
-          badge: true,
-          sound: true,
-        );
+      alert: true,
+      badge: true,
+      sound: true,
+    );
 
     if (Platform.isIOS) {
-      String? apnsToken;
-      while (apnsToken == null) {
-        apnsToken = await FirebaseMessaging.instance.getAPNSToken();
-        if (apnsToken != null) {
-          if (kDebugMode) {
-            print("APNS_TOKEN: $apnsToken");
-          }
-        }
+      final apnsToken = await FirebaseMessaging.instance
+          .getAPNSToken()
+          .timeout(
+            const Duration(seconds: 5),
+            onTimeout: () => null,
+          );
+
+      if (kDebugMode) {
+        print("APNS_TOKEN: $apnsToken");
       }
     }
 
-    String? token = await FirebaseMessaging.instance.getToken();
-    await _secureStorage.write(key: 'fcm_registration_id', value: token);
+    String? token;
+
+    try {
+      token = await FirebaseMessaging.instance.getToken();
+    } catch (e) {
+      if (kDebugMode) {
+        print("FCM_TOKEN_ERROR: $e");
+      }
+    }
+
+    if (token != null) {
+      await _secureStorage.write(
+        key: 'fcm_registration_id',
+        value: token,
+      );
+    }
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
+
       if (notification != null && android != null) {
         notificationService.show(
           notification.hashCode,

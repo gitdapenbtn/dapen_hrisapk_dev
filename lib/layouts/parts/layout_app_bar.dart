@@ -50,7 +50,8 @@ class LayoutAppBar extends StatelessWidget implements PreferredSizeWidget {
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
-                          color: LayoutColor.textPrimary,
+//                           color: LayoutColor.textPrimary,
+                           color: Colors.white,
                         ),
                       ),
                     ],

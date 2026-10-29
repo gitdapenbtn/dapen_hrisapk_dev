@@ -20,7 +20,7 @@ class PrimaryButton extends TextButton {
   }) : super(
          style: TextButton.styleFrom(
            backgroundColor: LayoutColor.primary,
-           foregroundColor: LayoutColor.textPrimary,
+           foregroundColor: Colors.white,
            disabledBackgroundColor: LayoutColor.primary,
            disabledForegroundColor: LayoutColor.textSecondary,
            minimumSize: const Size.fromHeight(50),

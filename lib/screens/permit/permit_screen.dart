@@ -89,10 +89,10 @@ class _PermitScreenState extends State<PermitScreen> {
           );
         },
         label: const Text('Buat'),
-        icon: const Icon(UniconsLine.plus),
-        backgroundColor: LayoutColor.primary,
-        foregroundColor: LayoutColor.textPrimary,
-      ),
+          icon: const Icon(UniconsLine.plus),
+          backgroundColor: LayoutColor.primary,
+          foregroundColor: Colors.white,
+        ),
       child: _listView(_permitProvider.permits),
     );
   }

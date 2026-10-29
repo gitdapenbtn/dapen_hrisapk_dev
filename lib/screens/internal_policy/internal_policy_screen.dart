@@ -133,49 +133,80 @@ class InternalPolicyScreen extends StatelessWidget {
               ),
             ],
           ),
-          child: Row(
-            children: [
-              Container(
-                height: 45,
-                width: 45,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        Colors.yellow.withOpacity(.6),
-                        Colors.yellow.withOpacity(.3),
-                      ],
-                    ),
-                  ),
-                  child: Icon(
-                    icon,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 15),
-              Expanded(
-                child: Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-              const Icon(
-                Icons.chevron_right,
-                color: Colors.grey,
-              ),
-            ],
-          ),
+//           child: Row(
+//             children: [
+//               Container(
+//                 height: 45,
+//                 width: 45,
+//                 decoration: BoxDecoration(
+//                   color: Colors.white,
+//                   borderRadius: BorderRadius.circular(10),
+//                 ),
+//                 child: Container(
+//                   decoration: BoxDecoration(
+//                     borderRadius: BorderRadius.circular(10),
+//                     gradient: LinearGradient(
+//                       begin: Alignment.topLeft,
+//                       end: Alignment.bottomRight,
+//                       colors: [
+//                         Colors.yellow.withOpacity(.6),
+//                         Colors.yellow.withOpacity(.3),
+//                       ],
+//                     ),
+//                   ),
+//                   child: Icon(
+//                     icon,
+//                     color: Colors.black,
+//                   ),
+//                 ),
+//               ),
+//               const SizedBox(width: 15),
+//               Expanded(
+//                 child: Text(
+//                   title,
+//                   style: const TextStyle(
+//                     fontSize: 14,
+//                     fontWeight: FontWeight.w500,
+//                   ),
+//                 ),
+//               ),
+//               const Icon(
+//                 Icons.chevron_right,
+//                 color: Colors.grey,
+//               ),
+//             ],
+//           ),
+child: Row(
+  children: [
+    Container(
+      height: 45,
+      width: 45,
+      decoration: BoxDecoration(
+        color: const Color(0xFFE8F0FF),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Icon(
+        icon,
+        color: const Color(0xFF125EFA),
+        size: 24,
+      ),
+    ),
+    const SizedBox(width: 15),
+    Expanded(
+      child: Text(
+        title,
+        style: const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+    ),
+    const Icon(
+      Icons.chevron_right,
+      color: Colors.grey,
+    ),
+  ],
+),
         ),
       ),
     );

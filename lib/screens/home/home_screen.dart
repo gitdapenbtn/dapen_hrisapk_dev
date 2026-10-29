@@ -155,14 +155,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           const Text(
                             'Hello',
                             style: TextStyle(
-                              color: LayoutColor.textSecondary,
+//                               color: LayoutColor.textSecondary,
+                              color: Colors.white,
                               fontSize: 14,
                             ),
                           ),
                           Text(
                             _profileProvider.profile?.name ?? '',
                             style: const TextStyle(
-                              color: LayoutColor.textPrimary,
+//                               color: LayoutColor.textPrimary,
+color: Colors.white,
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
                               height: 1.2,

@@ -92,9 +92,13 @@ class _PermitFormScreenState extends State<PermitFormScreen> {
         ),
       ),
       children: [
-        DropdownSearch<PermitTypeModel>(
-          items: (filter, infiniteScrollProps) => _permitProvider.types,
-          itemAsString: (item) => item.name,
+//         DropdownSearch<PermitTypeModel>(
+//           items: (filter, infiniteScrollProps) => _permitProvider.types,
+//           itemAsString: (item) => item.name,
+DropdownSearch<PermitTypeModel>(
+  items: (filter, infiniteScrollProps) => _permitProvider.types,
+  itemAsString: (item) => item.name,
+  compareFn: (item1, item2) => item1.id == item2.id,
           popupProps: const PopupProps.dialog(
             fit: FlexFit.loose,
             title: Padding(

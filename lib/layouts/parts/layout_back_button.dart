@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 class LayoutBackButton extends StatelessWidget {
@@ -15,7 +16,10 @@ class LayoutBackButton extends StatelessWidget {
           onTap: () {
             Navigator.pop(context);
           },
-          child: const Icon(Icons.arrow_back),
+          child: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
         ),
       ),
     );

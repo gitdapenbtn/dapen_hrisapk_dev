@@ -43,3 +43,18 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Android signing
+/android/key.properties
+*.jks
+*.keystore
+# Android build artifacts
+/android/build/
+
+# Local backup files
+*.backup
+
+# Xcode local generated data
+/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/
+/ios/Runner.xcodeproj/xcshareddata/xcodecloud/
+/ios/Runner.xcworkspace/xcshareddata/swiftpm/
